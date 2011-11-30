@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sin t&iacute;tulo</title>
+
+
+
+  <script type="text/javascript" src="../javascripts/prototype.js"> </script> 
+  	<script type="text/javascript" src="../javascripts/effects.js"> </script>
+  	<script type="text/javascript" src="../javascripts/window.js"> </script>
+  	<script type="text/javascript">
+    	
+		function ejemplo()
+		{
+			var timeout;
+			function openInfoDialog() 
+			{
+			  Dialog.info("Mensaje de prueba....<a href='javascript:Dialog.closeInfo()'>cerrar</a>",{width:250, height:100, showProgress: true});
+			  //timeout=3;
+			  //setTimeout(infoTimeout, 1000)
+			}
+			
+			function infoTimeout() {
+			  timeout--;
+			  if (timeout >0) {
+				Dialog.setInfoMessage("Test of info panel, it will close <br>in " + timeout + "s ...")
+				setTimeout(infoTimeout, 1000)
+			 }
+			 else
+			  Dialog.closeInfo()
+			}
+			openInfoDialog();	
+			
+		}
+    
+    
+    
+    
+    </script>
+    
+    
+    
+    
+  	<link href="../themes/default.css" rel="stylesheet" type="text/css" >	 </link>
+  	<link href="../themes/alert.css" rel="stylesheet" type="text/css" >	 </link>
+  	
+
+
+
+
+</head>
+
+<body>
+<a href="javascript:ejemplo()">ejemplo</a>
+
+<div id="login" style="display:none">
+  <p><span id='login_error_msg' class="login_error" style="display:none">&nbsp;</span></p>
+  <div style="clear:both"></div>
+  <p><span class="login_label">login</span> <span class="login_input"><input type="text"/></span></p>
+  <div style="clear:both"></div>
+  <p><span class="login_label">password</span> <span class="login_input"><input type="password"/></span></p>
+  <div style="clear:both"></div>
+</div>
+</body>
+</html>

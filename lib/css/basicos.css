@@ -1,0 +1,87 @@
+body {
+	margin-top: 6px;
+	background-color: #FFFFFF;
+	background-image: url();
+}
+
+
+
+a.barraPrincipal {font-family: Arial, Helvetica, sans-serif; color:#585247; font-size:13px; text-decoration:none}
+a.barraPrincipal:hover {font-family: Arial, Helvetica, sans-serif; color:#0066FF; font-size:13px; text-decoration:none}
+
+.linkCategoriaPrincipal {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#003399; text-decoration:none}
+a.linkCategoriaPrincipal:hover {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#003399; text-decoration:underline}
+.linkCategoriaPrincipal13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:none}
+a.linkCategoriaPrincipal13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:underline}
+
+
+
+
+.LinkEntrarRegistrar {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#000099; text-decoration:underline}
+
+.logueoUsuario {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#000000; text-decoration:none}
+
+
+.arial11Rojo {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#FF0000; text-decoration:none}
+.arial11Negro {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#000000; text-decoration:none}
+.arial11Gris {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#666666; text-decoration:none}
+.arial11Verde {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#006400; text-decoration:none}
+
+
+.arial12Negro {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#000000; text-decoration:none}
+.arial12Gris {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#666666; text-decoration:none}
+
+
+
+
+.arial13Rojo {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:none}
+.arial13Negro {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#000000; text-decoration:none}
+.arial13Gris {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#666666; text-decoration:none}
+.arial13Mostaza {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:none}
+.arial13Verde {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#006400; text-decoration:none;}
+.arial13Blanco {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:none;}
+
+
+
+
+
+.arial15Negro {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#000000; text-decoration:none}
+.arial17Negro {font-family: Arial, Helvetica, sans-serif; font-size:19px; color:#000000; text-decoration:none}
+
+.arial25Negro {font-family: Arial, Helvetica, sans-serif; font-size:25px; color:#000000; text-decoration:none}
+.arial25Mostaza {font-family: Arial, Helvetica, sans-serif; font-size:25px; color:#77773C; text-decoration:none}
+
+
+option 
+{ 
+	font-family:Arial, Helvetica, sans-serif;
+    font-size: 11px;     
+}
+
+option.cat_todas {color:#000000; background-color:#FF6600}
+option.cat_principal {color:#000000; background-color:#FFCC66}
+
+.LinkFuncionalidad {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#0000FF; text-decoration:none}
+a.LinkFuncionalidad:hover {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#FF6600;}
+
+
+.LinkFuncionalidad13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#0000FF; text-decoration:none}
+a.LinkFuncionalidad13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF6600;}
+
+.LinkFuncionalidad15 {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#0000FF; text-decoration:none}
+a.LinkFuncionalidad15:hover {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#FF6600;}
+
+
+.LinkFuncionalidad12 {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#0000FF; text-decoration:none}
+a.LinkFuncionalidad12:hover {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#FF6600;}
+
+
+.LinkArticulo {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#003399; text-decoration:none}
+a.LinkArticulo:hover {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#003399; text-decoration:underline}
+
+
+.LinkRojo11 {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#FF0000; text-decoration:none}
+a.LinkRojo11:hover {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#FF0000; text-decoration:underline}
+
+.LinkRojo13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:none}
+a.LinkRojo13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:underline}
