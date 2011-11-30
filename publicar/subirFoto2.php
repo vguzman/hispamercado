@@ -7,7 +7,13 @@
 	$nombre=$HTTP_POST_FILES['ruta']['name'];
 	$tipo=$HTTP_POST_FILES['ruta']['type'];
 	$temp=$HTTP_POST_FILES['ruta']['tmp_name'];
-		
+
+
+
+        echo "<SCRIPT LANGUAGE='JavaScript'>
+			window.alert('".$tipo."');
+		</SCRIPT>";
+
 	
 	if (($tipo=="image/x-png")||($tipo=="image/gif")||($tipo=="image/pjpeg")||($tipo=="image/jpeg"))
 	{       
@@ -58,7 +64,7 @@
 			$status = "Error al subir la imagen";        	
 	} 
 	else
-		$status = "El formato de la imagen no es válido";	
+		$status = "El formato de la imagen no es vï¿½lido";	
 	
 	if ($status=="Archivo subido")
 	{		

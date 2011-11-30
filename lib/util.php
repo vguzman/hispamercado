@@ -2,7 +2,7 @@
 
 function operacionSQL($aux)
 {
-	$link=mysql_connect ("localhost","hispamercado","21381665") or die ('I cannot connect to the database because: ' . mysql_error());
+	$link=mysql_connect ("localhost","hispamercado","h1sp@merc@do") or die ('I cannot connect to the database because: ' . mysql_error());
 	mysql_select_db ("hispamercado"); 
 	
 	$query=mysql_query($aux,$link);
