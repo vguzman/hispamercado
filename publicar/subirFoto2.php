@@ -8,12 +8,6 @@
 	$tipo=$_FILES['ruta']['type'];
 	$temp=$_FILES['ruta']['tmp_name'];
 
-
-
-        echo "<SCRIPT LANGUAGE='JavaScript'>
-			window.alert('".$tipo." - ".$size." - ".$temp."');
-		</SCRIPT>";
-
 	
 	if (($tipo=="image/x-png")||($tipo=="image/gif")||($tipo=="image/pjpeg")||($tipo=="image/jpeg"))
 	{       
