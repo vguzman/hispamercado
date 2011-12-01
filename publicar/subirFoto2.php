@@ -3,10 +3,10 @@
 <?
 	
 	$foto=$_POST['foto'];	
-	$size=$HTTP_POST_FILES['ruta']['size'];
-	$nombre=$HTTP_POST_FILES['ruta']['name'];
-	$tipo=$HTTP_POST_FILES['ruta']['type'];
-	$temp=$HTTP_POST_FILES['ruta']['tmp_name'];
+	$size=$_FILES['ruta']['size'];
+	$nombre=$_FILES['ruta']['name'];
+	$tipo=$_FILES['ruta']['type'];
+	$temp=$_FILES['ruta']['tmp_name'];
 
 
 
