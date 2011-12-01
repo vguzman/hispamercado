@@ -3,10 +3,10 @@
 <?
 	
 	$foto=$_POST['foto'];	
-	$size=$HTTP_POST_FILES['ruta']['size'];
-	$nombre=$HTTP_POST_FILES['ruta']['name'];
-	$tipo=$HTTP_POST_FILES['ruta']['type'];
-	$temp=$HTTP_POST_FILES['ruta']['tmp_name'];
+	$size=$_FILES['ruta']['size'];
+	$nombre=$_FILES['ruta']['name'];
+	$tipo=$_FILES['ruta']['type'];
+	$temp=$_FILES['ruta']['tmp_name'];
 	
 	$temp_id=$_POST['temp_id'];
 	
@@ -59,7 +59,7 @@
 			$status = "Error al subir la imagen";        	
 	} 
 	else
-		$status = "El formato de la imagen no es válido";	
+		$status = "El formato de la imagen no es vï¿½lido";	
 	
 	if ($status=="Archivo subido")
 	{		
