@@ -11,7 +11,7 @@
 
 
         echo "<SCRIPT LANGUAGE='JavaScript'>
-			window.alert('".$tipo."');
+			window.alert('".$tipo." - ".$size." - ".$temp."');
 		</SCRIPT>";
 
 	
@@ -64,7 +64,7 @@
 			$status = "Error al subir la imagen";        	
 	} 
 	else
-		$status = "El formato de la imagen no es v�lido";	
+		$status = "El formato de la imagen no es válido";
 	
 	if ($status=="Archivo subido")
 	{		
