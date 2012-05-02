@@ -143,7 +143,18 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<base href="http://www.hispamercado.com.ve/anuncio/" />
+
+<? 
+	if (substr_count($_SERVER['HTTP_HOST'],"testhispamercado")==0)
+		echo '<base href="http://www.hispamercado.com.ve/anuncio/" />';
+	else
+		echo '<base href="http://www.testhispamercado.com/anuncio/" />';
+?>
+
+
+
+
+
 <title><? echo $anuncio->titulo." - ".$anuncio->ciudad ?></title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -174,7 +185,7 @@ function verFoto(foto,anuncio)
 	if (foto=="adelante")
 	{
 		foto=fotoActual+1;
-		document.getElementById("foto").innerHTML="<a href='../lib/img.php?tipo=real&anuncio="+anuncio+"&foto="+foto+"' target='_blank'><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
+		document.getElementById("foto").innerHTML="<a href='javascript:verFotoGrande("+anuncio+","+foto+","+document.getElementById("foto_"+foto+"_w").value+","+document.getElementById("foto_"+foto+"_h").value+")' ><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
 		document.getElementById("foto"+foto).innerHTML="<b>"+foto+"</b>";
 		document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+anuncio+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
 		fotoActual=foto
@@ -183,14 +194,14 @@ function verFoto(foto,anuncio)
 		if (foto=="atras")
 		{
 			foto=fotoActual-1;
-			document.getElementById("foto").innerHTML="<a href='../lib/img.php?tipo=real&anuncio="+anuncio+"&foto="+foto+"' target='_blank'><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
+			document.getElementById("foto").innerHTML="<a href='javascript:verFotoGrande("+anuncio+","+foto+","+document.getElementById("foto_"+foto+"_w").value+","+document.getElementById("foto_"+foto+"_h").value+")' ><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
 			document.getElementById("foto"+foto).innerHTML="<b>"+foto+"</b>";
 			document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+anuncio+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
 			fotoActual=foto
 		}
 		else
 		{
-			document.getElementById("foto").innerHTML="<a href='../lib/img.php?tipo=real&anuncio="+anuncio+"&foto="+foto+"' target='_blank'><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
+			document.getElementById("foto").innerHTML="<a href='javascript:verFotoGrande("+anuncio+","+foto+","+document.getElementById("foto_"+foto+"_w").value+","+document.getElementById("foto_"+foto+"_h").value+")' ><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
 			document.getElementById("foto"+foto).innerHTML="<b>"+foto+"</b>";
 			document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+anuncio+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
 			fotoActual=foto;
@@ -297,8 +308,8 @@ function dejarComentario(id)
 
 function recomendarAmigo(id)
 {
-	posicion=posicionElemento("recomendar");
-	INNERDIV.newInnerDiv('recomendar_amigo',500,posicion['top']-10,400,130,'recomendarAmigo.php?id_anuncio='+id+"&edada=",'Recomendar anuncio a un amigo');
+	fecha = now();
+	dialog(400,190,"recomendarAmigo.php?id_anuncio="+id+"&hora="+fecha);
 }
 
 function contactarAnunciante(id)
@@ -306,17 +317,20 @@ function contactarAnunciante(id)
 	fecha = now();
 	dialog(400,450,"contactarAnunciante.php?id_anuncio="+id+"&hora="+fecha);
 	
-	//posicion=posicionElemento("recomendar");
-	//INNERDIV.newInnerDiv('contactarAnunciante',500,posicion['top']-10,400,250,'contactarAnunciante.php?id_anuncio='+id+"&adsad=",'Contactar al anunciante');
+}
+
+function verFotoGrande(anuncio,foto,w,h)
+{
+	fecha = now();
+	dialog(w+80,h+80,"verFoto.php?anuncio="+anuncio+"&foto="+foto+"&hora="+fecha);
+	
 }
 
 
 function verVideo(id)
 {
-	if (document.Forma.num_fotos.value>0)
-		document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+document.Forma.id_anuncio.value+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
-	
-	document.getElementById("foto").innerHTML="<object width='480' height='385'><param name='movie' value='http://www.youtube.com/v/"+id+"&hl=en&fs=1&rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/"+id+"&hl=en&fs=1&rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='480' height='385'></embed></object>";	
+	fecha = now();
+	dialog(600,500,"verVideo.php?id_video="+id+"&hora="+fecha);
 }
 
 function validarContacto()
@@ -362,23 +376,32 @@ function validarContacto()
     <td width="225" align="right" valign="top" class="arial11Negro"><a href="javascript:window.alert('Sección en construcción')" class="LinkFuncionalidad">T&eacute;rminos</a> | <a href="../sugerencias.php" class="LinkFuncionalidad">Sugerencias</a></td>
   </tr>
 </table>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="6" bgcolor="#FFFFFF">
-  <tr>
-    <td width="10">&nbsp;</td>
-    <td width="777" align="right" class="Arial11Negro1">&nbsp;</td>
-    <td width="13">&nbsp;</td>
-  </tr>
-</table>
-<? echo $barra; ?>
-<table width="300" border="0" align="center" cellpadding="0" cellspacing="5" bgcolor="#FFFFFF">
-  <tr>
-    <td><? echo $barra_gestion ?></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
+<div style="margin:0 auto 0 auto; width:800px; margin-top:30px;">
+	<? echo $barra; ?>
+</div>
+
+<div style="margin:0 auto 0 auto; width:800px;">
+	<input type="hidden" name="foto_1_w" id="foto_1_w" value="<? if ($anuncio->foto1=="SI") $medidas=$anuncio->tamanoFoto("1"); echo $medidas["w"];  ?>">
+          <input type="hidden" name="foto_1_h" id="foto_1_h" value="<? if ($anuncio->foto1=="SI") $medidas=$anuncio->tamanoFoto("1"); echo $medidas["h"];  ?>">
+          <input type="hidden" name="foto_2_w" id="foto_2_w" value="<? if ($anuncio->foto2=="SI") $medidas=$anuncio->tamanoFoto("2"); echo $medidas["w"];  ?>">
+          <input type="hidden" name="foto_2_h" id="foto_2_h" value="<? if ($anuncio->foto2=="SI") $medidas=$anuncio->tamanoFoto("2"); echo $medidas["h"];  ?>">
+          <input type="hidden" name="foto_3_w" id="foto_3_w" value="<? if ($anuncio->foto3=="SI") $medidas=$anuncio->tamanoFoto("3"); echo $medidas["w"];  ?>">
+          <input type="hidden" name="foto_3_h" id="foto_3_h" value="<? if ($anuncio->foto3=="SI") $medidas=$anuncio->tamanoFoto("3"); echo $medidas["h"];  ?>">
+          <input type="hidden" name="foto_4_w" id="foto_4_w" value="<? if ($anuncio->foto4=="SI") $medidas=$anuncio->tamanoFoto("4"); echo $medidas["w"];  ?>">
+          <input type="hidden" name="foto_4_h" id="foto_4_h" value="<? if ($anuncio->foto4=="SI") $medidas=$anuncio->tamanoFoto("4"); echo $medidas["h"];  ?>">
+          <input type="hidden" name="foto_5_w" id="foto_5_w" value="<? if ($anuncio->foto5=="SI") $medidas=$anuncio->tamanoFoto("5"); echo $medidas["w"];  ?>">
+          <input type="hidden" name="foto_5_h" id="foto_5_h" value="<? if ($anuncio->foto5=="SI") $medidas=$anuncio->tamanoFoto("5"); echo $medidas["h"];  ?>">
+          <input type="hidden" name="foto_6_w" id="foto_6_w" value="<? if ($anuncio->foto6=="SI") $medidas=$anuncio->tamanoFoto("6"); echo $medidas["w"];  ?>">
+          <input type="hidden" name="foto_6_h" id="foto_6_h" value="<? if ($anuncio->foto6=="SI") $medidas=$anuncio->tamanoFoto("6"); echo $medidas["h"];  ?>">
+          
+          <input type="hidden" name="id_anuncio" id="id_anuncio" value="<? echo $_GET['id'] ?>">
+          <input name="num_fotos" type="hidden" id="num_fotos" value="<? echo $anuncio->numeroFotos() ?>">
+</div>
+
+<div style="margin:0 auto 0 auto; width:800px;">
+	<? echo $barra_gestion ?>
+</div>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin-top:40px; ">
     <tr>
       <td width="537" align="left" valign="bottom" class="arial13Negro"><a href="../" class="LinkFuncionalidad13"><b>Inicio</b></a> &raquo; <?
 	 $arbol=$categoria->arbolDeHoja();
@@ -389,7 +412,7 @@ function validarContacto()
 	 }
 	 echo "<b>".$anuncio->tipo_categoria."</b>";
 	  ?></td>
-      <td width="263" align="right" valign="bottom" class="arial11Negro">Fecha de publicación: <? echo aaaammdd_ddmmaaaa($anuncio->fecha) ?></td>
+      <td width="263" align="right" valign="bottom" class="arial11Negro">&nbsp;</td>
     </tr>
 </table>
   <table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor="#C8C8C8">
@@ -397,43 +420,37 @@ function validarContacto()
     <td height="1"></td>
   </tr>
 </table>
-
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-      <td align="">&nbsp;</td>
-    </tr>
-  </table>
   <form name="Forma" method="post" action="">
-    <table width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:7px">
+    <table width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:0px; margin-top:40px;">
       <tr>
-        <td><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+        <td width="631"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
     <div style="float:left;"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div></td>
+    <td width="169" valign="bottom" align="right"><span class="arial13Negro"><em>Publicado hace <? echo $anuncio->tiempoHace(); ?></em></span></td>
       </tr>
     </table>
     <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style="border-collapse:collapse ">
   <tr>
-    <td align="center" class="arial17Negro"><b><? echo $anuncio->titulo ?></b></td>
+    <td>
+      <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:10px;">
+      <tr>
+          <td width="70%" class="arial17Negro" align="center" ><b><? echo $anuncio->titulo ?></b></td>
+          </tr>
+    </table></td>
   </tr>
   <tr>
     <td align="center" class="arial17Negro">&nbsp;</td>
   </tr>
 </table>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
+    <table width="800" height="400" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
   <tr>
-    <td><table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td align="right" class="arial13Negro">
-          <input type="hidden" name="id_anuncio" id="id_anuncio" value="<? echo $_GET['id'] ?>">
-          <input name="num_fotos" type="hidden" id="num_fotos" value="<? echo $anuncio->numeroFotos() ?>">
-</td>
-      </tr>
-    </table>
-    <table width="300" border="0" align="center" cellpadding="0" cellspacing="5">
-      <tr>
-        <td height="200" align="center" id="foto"><a href="../lib/img.php?tipo=real&anuncio=<? echo $id_anuncio; ?>&foto=1" target="_blank"><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=1" border="0"></a></td>
-      </tr>
-      <tr>
-        <td align="center" class="arial13Negro"><?	
+    <td width="400" valign="center">
+    
+    	<div id="foto" align="center">
+        	<a href="javascript:verFotoGrande(<? echo $id_anuncio; ?>,1,<? $medidas=$anuncio->tamanoFoto("1"); echo $medidas['w']; ?>,<? echo $medidas['h'] ?>)" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=1" border="0"></a>
+        </div>
+        
+        <div align="center" style="margin-top:5px;">
+        	<?	
 			$num_fotos=0;
 			if (($anuncio->foto1=="SI")&&($anuncio->foto2=="SI"))
 				echo "<var id='atras'><<</var>&nbsp;&nbsp;&nbsp;";
@@ -451,6 +468,7 @@ function validarContacto()
 						echo "&nbsp; <b>|</b> &nbsp;<var id='foto3'><a href='javascript:verFoto(3,".$id_anuncio.")' class='LinkFuncionalidad13'>3</a></var>";
 						if ($anuncio->foto4=="SI")
 						{
+							$medidas=$anuncio->tamanoFoto("4");
 							$num_fotos++;
 							echo "&nbsp; <b>|</b> &nbsp;<var id='foto4'><a href='javascript:verFoto(4,".$id_anuncio.")' class='LinkFuncionalidad13'>4</a></var>";
 							if ($anuncio->foto5=="SI")
@@ -479,134 +497,144 @@ function validarContacto()
 			
 			if (($anuncio->foto1=="SI")&&($anuncio->foto2=="SI"))
 				echo "&nbsp;&nbsp;&nbsp;<var id='adelante'><a href='javascript:verFoto(".chr(34)."adelante".chr(34).",".$id_anuncio.")' class='LinkFuncionalidad13'>>></a></var>";
-		?></td>
-      </tr>
-    </table>
-    <table width="100" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td>&nbsp;</td>
-      </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td><? echo $anuncio->descripcion ?></td>
-  </tr>
-    </table>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
-      <tr>
-        <td width="561" align="left" >&nbsp;</td>
-        <td width="230" align="left" class="arial13Negro"><!-- AddThis Button BEGIN --><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=hispamercado"></script>
-          <script type="text/javascript">var addthis_config = {     ui_language: "es"}</script>
-          <!-- AddThis Button END --></td>
-      </tr>
-    </table>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td>&nbsp;</td>
-      </tr>
-</table>
-    <?
+		?>
+        </div>
+    
+    
+    
+    </td>
+    
+    <td width="400" valign="top">
+    
+   <div class="arial15RojoPrecio" style=" margin-top:10px; width:94%; float:right;"><strong><? if ((trim($anuncio->precio)!="")&&($anuncio->precio>0)) echo "Bs ".number_format($anuncio->precio,2,',','.') ?></strong></div>
+        <?
 	$arreglo=$anuncio->detalles();
 	$id_cat=$anuncio->id_categoria;
 	
 	if (($id_cat==4)||($id_cat==3))
-		echo "<table width='800' border='0' align='center' cellpadding='0' cellspacing='4' bgcolor='#F4F9E8'>
+		echo "<table width='95%' border='0' align='right' cellpadding='0' cellspacing='4' style='margin-top:10px; clear:both;'>
 				  <tr>
-					<td width='81' align='left' class='arial13Negro'><strong>Superficie:</strong></td>
-					<td width='288' align='left' class='arial13Negro'>".$arreglo['m2']." m2</td>
-					<td width='86' align='left' class='arial13Negro'><strong>Urbanizaci&oacute;n:</strong></td>
-					<td width='325' align='left' class='arial13Negro'>".$arreglo['urbanizacion']."</td>					
+				  	<td align='left' class='arial13Negro'><em>Urbanizaci&oacute;n</em></td>
+					<td align='left' class='arial13Negro'>".$arreglo['urbanizacion']."</td>	
+				  </tr>
+				  <tr>
+					<td width='25%' align='left' class='arial13Negro'><em>Superficie</em></td>
+					<td width='75%' align='left' class='arial13Negro'>".$arreglo['m2']." m2</td>
 				  </tr>
 				   <tr>
-					<td width='81' align='left' class='arial13Negro'><strong>Habitaciones:</strong></td>
-					<td width='288' align='left' class='arial13Negro'>".$arreglo['habitaciones']."</td>
-					<td width='86' align='left' class='arial13Negro'></td>
-					<td width='325' align='left' class='arial13Negro'></td>					
+					<td align='left' class='arial13Negro'><em>Habitaciones</em></td>
+					<td align='left' class='arial13Negro'>".$arreglo['habitaciones']."</td>
 				  </tr>
 				</table>";
 	
 	
 	if (($id_cat==5)||($id_cat==6)||($id_cat==7)||($id_cat==8)||($id_cat==9)||($id_cat==10)||($id_cat==3707))
-		echo "<table width='800' border='0' align='center' cellpadding='0' cellspacing='4' bgcolor='#F4F9E8'>
+		echo "<table width='95%' border='0' align='right' cellpadding='0' cellspacing='4' style='margin-top:10px; clear:both;'>
 			  <tr>
-				<td width='81' align='left' class='arial13Negro'><strong>Superficie:</strong></td>
-				<td width='288' align='left' class='arial13Negro'>".$arreglo['m2']." m2</td>
-				<td width='86' align='left' class='arial13Negro'><strong>Urbanización:</strong></td>
-				<td width='325' align='left' class='arial13Negro'>".$arreglo['urbanizacion']."</td>
+				<td width='25%' align='left' class='arial13Negro'><em>Urbanización</em></td>
+				<td width='75%' align='left' class='arial13Negro'>".$arreglo['urbanizacion']."</td>
+			  </tr>
+			  <tr>
+				<td align='left' class='arial13Negro'><em>Superficie</em></td>
+				<td align='left' class='arial13Negro'>".$arreglo['m2']." m2</td>
 			  </tr>
 			</table>";
 	
 	
 	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
-		echo "<table width='800' border='0' align='center' cellpadding='0' cellspacing='4' bgcolor='#F4F9E8'>
+		echo "<table width='95%' border='0' align='right' cellpadding='0' cellspacing='4' style='margin-top:10px; clear:both;'>
 			  <tr>
-				<td width='81' align='left' class='arial13Negro'><strong>Marca:</strong></td>
-				<td width='288' align='left' class='arial13Negro'>".$arreglo['marca']."</td>
-				<td width='86' align='left' class='arial13Negro'><strong>Modelo:</strong></td>
-				<td width='325' align='left' class='arial13Negro'>".$arreglo['modelo']."</td>				
+				<td width='25%' align='left' class='arial13Negro'><em>Marca</em></td>
+				<td width='75%' align='left' class='arial13Negro'>".$arreglo['marca']."</td>
 			  </tr>
 			   <tr>			
-				<td width='81' align='left' class='arial13Negro'><strong>A&ntilde;o</strong>:</td>
-				<td width='288' align='left' class='arial13Negro'>".$arreglo['anio']."</td>
-				<td width='86' align='left' class='arial13Negro'><strong>Kilometraje:</strong></td>
-				<td width='325' align='left' class='arial13Negro'>".$arreglo['kms']."</td>
+				<td align='left' class='arial13Negro'><em>Modelo</em></td>
+				<td align='left' class='arial13Negro'>".$arreglo['modelo']."</td>				
+			  </tr>
+			   <tr>			
+				<td align='left' class='arial13Negro'><em>A&ntilde;o</em></td>
+				<td align='left' class='arial13Negro'>".$arreglo['anio']."</td>
+			  </tr>
+			   <tr>			
+				<td align='left' class='arial13Negro'><em>Kilometraje</em></td>
+				<td align='left' class='arial13Negro'>".$arreglo['kms']."</td>
 			  </tr>
 			</table>";
 	
 ?>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8">
+    
+    
+    <table width="95%" border="0" cellspacing="4" cellpadding="0" align="right" style="margin-top:10px; clear:both;">
+      <tr>
+        <td width="25%" class="arial13Negro"><em>Anunciante</em></td>
+        <td width="75%" class="arial13Negro"><span class="arial13Negro"><? echo $nombre; ?></span></td>
+      </tr>
+      <tr>
+        <td class="arial13Negro"><em>Ubicaci&oacute;n</em></td>
+        <td><span class="arial13Negro"><? echo $anuncio->ciudad.", ".$provincia ?></span></td>
+      </tr>
+      <tr>
+        <td class="arial13Negro"><em>Tel&eacute;fonos</em></td>
+        <td class="arial13Negro"><? if (trim($anuncio->anunciante_telefonos)!="") echo $anuncio->anunciante_telefonos; else echo "no indicado"; ?></td>
+      </tr>
+    </table>
+    
+    <table width="95%" border="0" cellspacing="0" cellpadding="0" align="right" style="clear:left;">
   <tr>
-    <td width="81" align="left" class="arial13Negro"><strong>Fecha:</strong></td>
-    <td width="288" align="left" class="arial13Negro"><? echo aaaammdd_ddmmaaaa($anuncio->fecha) ?></td>
-    <td width="86" align="left" class="arial13Negro"><strong>Anunciante:</strong></td>
-    <td width="325" align="left" class="arial13Negro"><? echo $nombre; ?></td>
-  </tr>
-  <tr>
-    <td align="left" class="arial13Negro"><strong>Ubicaci&oacute;n:</strong></td>
-    <td align="left" class="arial13Negro"><? echo $anuncio->ciudad.", ".$provincia ?></td>
-    <td align="left" class="arial13Negro"><strong>Tel&eacute;fonos:</strong></td>
-    <td align="left" class="arial13Negro"><? echo $telefonos ?></td>
-  </tr>
-  <tr>
-    <td align="left" class="arial13Negro"><strong>Precio:</strong></td>
-    <td align="left" class="arial13Negro"><? echo $precio ?></td>
-    <td align="left" class="arial13Negro">&nbsp;</td>
-    <td align="left" class="arial13Negro">&nbsp;</td>
+    <td><div style="margin:0 auto 0 auto; width:100%; border-bottom:#D2D2D2 dashed 2px; margin-bottom:5px; margin-top:15px;"></div></td>
   </tr>
 </table>
-<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
+    
+    <table width="95%" border="0" cellspacing="0" cellpadding="0" align="right" style="clear:both;">
+      <tr>
+        <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13"><img src="../img/Mail_32x32.png" alt="" width="32" height="30" border="0"></a></td>
+        <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
+        <td align="left" id="favorito_<? echo $anuncio->id ?>"><a href='javascript:aFavoritos(<? echo $anuncio->id ?>,"../")'><img src='../img/favorito0.gif' title='A&ntilde;adir a favoritos' width='26' height='25' border='0'></a></td>
+        <td align="left" class="arial13Negro">Favoritos</td>
+      </tr>
+      <tr>
+        <td width="10%" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)"><img src="../img/amigo.jpg" alt="" width="30" height="23" border="0"></a></td>
+        <td width="45%" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="recomendar2">Recomendar a un amigo</a></td>
+        <td width="8%" align="left">&nbsp;</td>
+        <td width="27%" align="left">&nbsp;</td>
+      </tr>
+    </table>
+    
+    </td>
+  </tr>
+    </table>
+    <table width="800" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
+      <tr>
+        <td>&nbsp;<? echo $anuncio->descripcion ?></td>
+      </tr>
+    </table>
+    <div style="margin:0 auto 0 auto; width:800px; margin-top:15px;">
+      <script type="text/javascript"><!--
+		google_ad_client = "ca-pub-8563690485788309";
+		/* Hispamercado__Anuncio */
+		google_ad_slot = "8673209427";
+		google_ad_width = 800;
+		google_ad_height = 90;
+		//-->
+		</script>
+	  <script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>&nbsp;
+	</div>
+    <table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
     <td><hr width="800"></td>
   </tr>
 </table>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="209" valign="top">
-	<table width="195" border="0" cellspacing="3" cellpadding="0">
-      <tr>
-        <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13"><img src="../img/Mail_32x32.png" width="32" height="30" border="0"></a></td>
-        <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
-      </tr>
-      <tr>
-        <td width="35" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)"><img src="../img/amigo.jpg" width="30" height="23" border="0"></a></td>
-        <td width="151" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="recomendar">Recomendar a un amigo</a></td>
-      </tr>
-    </table>
-	<table width="195" border="0" cellspacing="0" cellpadding="0">
-	  <tr>
-	    <td align="left" class="arial13Negro"></td>
-	    </tr>
-	  </table></td>
-    <td width="591" valign="top" id="ejecuta_accion"><table width="95%" border="0" align="right" cellpadding="0" cellspacing="0" bordercolor="#F4F9E8">
+
+<table width="800px" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#F4F9E8">
       <tr bgcolor="#F4F9E8">
         <td align="left" class="arial13Negro" height="40"><strong>Comentarios recibidos</strong></td>
-      </tr>
+    </tr>
       <tr>
-        <td valign="top"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#xfbml=1"></script><fb:comments href="<? echo $url_completa ?>" num_posts="5" width="591"></fb:comments></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>  
+        <td valign="top"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#xfbml=1"></script><fb:comments href="<? echo $url_completa ?>" num_posts="5" width="800"></fb:comments></td>
+    </tr>
+    </table> 
 </form>  
   <table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
@@ -619,11 +647,6 @@ function validarContacto()
     <td>&nbsp;</td>
   </tr>
 </table>
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#FFFFFF">
-    <tr>
-      <td align="center" class="arial13Negro"><? echo $barraPaises ?> </td>
-    </tr>
-  </table>
 </body>
 </html>
 <script type="text/javascript">

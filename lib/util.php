@@ -57,7 +57,7 @@ function bloquearEmail($email)
 
 function verificaPais()
 {
-	if (substr_count($_SERVER['HTTP_HOST'],"hispamercado.com.ve")>0)
+	if ((substr_count($_SERVER['HTTP_HOST'],"hispamercado.com.ve")>0)||(substr_count($_SERVER['HTTP_HOST'],"testhispamercado")>0))
 		return "venezuela";	
 	else
 		echo "<SCRIPT LANGUAGE='JavaScript'>
@@ -492,42 +492,33 @@ function fechaBD()
 
 function email($de_nombre,$de_mail,$para_nombre,$para_mail,$asunto,$contenido)
 {
+	require_once('phpmailer/class.phpmailer.php');
 	
-	include_once('phpmailer/class.phpmailer.php');
-	include("phpmailer/class.smtp.php");
+	
+	$mail = new phpmailer;
+	$mail-> IsAmazonSES();
+	 
+	$mail-> AddAmazonSESKey("AKIAIKJEDZCR36P7J6VQ", "XBjhARZ9sLz9Z+1vTMrfvuizt+/ECDY+/rVaZmXk");
+	 
+	$mail-> From = "info@hispamercado.com.ve";
+	$mail-> FromName = "Hispamercado";
+	 
+	$mail-> AddAddress($para_mail, utf8_encode($para_nombre));
+	$mail-> Subject = utf8_encode($asunto);
+	$mail-> Body = utf8_encode($contenido);
+	
+	$mail->IsHTML(true);
+	$mail->SetLanguage('es','phpmailer/language/');
+	$mail->CharSet = "UTF-8";
 
-	$mail = new PHPMailer();
 	
-	$mail->IsSMTP();
-	$mail->SMTPAuth   = true;                  // enable SMTP authentication
-	$mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
-	$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-	$mail->Port       = 465;                   // set the SMTP port 
-	
-	$mail->Username   = "info@hispamercado.com.ve";  // GMAIL username
-	$mail->Password   = "21381665";            // GMAIL password
-	
-
-	$mail->From=$de_mail;
-	$mail->FromName=$de_nombre;
-	$mail->Subject=$asunto;
-	$mail->Body=$contenido;                      //HTML Body
-	$mail->AltBody=$contenido;
-	
-	$mail->WordWrap   = 50; // set word wrap
-	
-	$mail->AddAddress($para_mail,$para_nombre);
-	$mail->AddReplyTo($de_mail,$de_nombre);
-	//$mail->AddAttachment("/path/to/file.zip");             // attachment
-	//$mail->AddAttachment("/path/to/image.jpg", "new.jpg"); // attachment
-	
-	$mail->IsHTML(true); // send as HTML
-	
+		
 	if(!$mail->Send()) 
 		return 0;
 	else 
 		return 1;
-	
+
+		
 }
 
 

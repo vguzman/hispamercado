@@ -68,6 +68,217 @@ class Anuncio
 		//echo $this->id."<br>";
 	}
 	
+	function tiempoHace()
+	{
+		$query=operacionSQL("SELECT TIMEDIFF(NOW(),'".$this->fecha."')");
+		$horas=substr(mysql_result($query,0,0),0,2);
+		
+		if ($horas<24)
+			return $horas." horas";
+		else
+		{
+			$query=operacionSQL("SELECT DATEDIFF(NOW(),'".$this->fecha."')");
+			$dias=mysql_result($query,0,0);
+			return $dias." dias";
+		}
+	}
+	
+	function tamanoFoto($foto)
+	{
+		$destino="../img/img_bank/".$this->id."_".$foto;
+		error_reporting(0);
+		$info = getimagesize($destino);
+		
+		if ($info==NULL)
+		{
+			return "no";
+		}
+		else
+		{
+			switch ($info[2]) 
+			{
+				case 1:
+					$original = imagecreatefromgif($destino); break;
+				case 2:
+					$original = imagecreatefromjpeg($destino); break;
+				case 3:
+					$original = imagecreatefrompng($destino); break;				
+			}
+			
+			$original_w = imagesx($original);
+			$original_h = imagesy($original);
+			
+			if (($original_w<=800)&&($original_h<=500))
+			{
+				$muestra_h=$original_h;
+				$muestra_w=$original_w;
+			}
+			else
+			{
+				if($original_w<$original_h) 
+				{
+						$muestra_w = intval(($original_w/$original_h)*500);
+						$muestra_h=500;
+						
+						if ($muestra_w>800)
+						{
+							$muestra_w=800;
+							$muestra_h=intval(($original_h/$original_w)*800);
+						}
+				}
+				if($original_w>$original_h) 
+				{
+						$muestra_w=800;
+						$muestra_h=intval(($original_h/$original_w)*800);
+						
+						if ($muestra_h>500)
+						{
+							$muestra_w = intval(($original_w/$original_h)*500);
+							$muestra_h=500;	
+						}
+				}
+				if($original_w==$original_h) 
+				{
+						$muestra_w=500;
+						$muestra_h=500;
+				}
+				
+								
+			}
+		}
+		
+		$resul['w']=$muestra_w;
+		$resul['h']=$muestra_h;
+		
+		return $resul;
+		
+	}
+	
+	
+	
+	function tamanoFotoLista()
+	{
+		$foto="1";
+		$destino="img/img_bank/".$this->id."_1";
+		error_reporting(0);
+		$info = getimagesize($destino);
+		
+		if ($info==NULL)
+			return "no";
+		else
+		{		
+			switch ($info[2]) 
+			{
+				case 1:
+					$original = imagecreatefromgif($destino); break;
+				case 2:
+					$original = imagecreatefromjpeg($destino); break;
+				case 3:
+					$original = imagecreatefrompng($destino); break;				
+			}
+			
+			$original_w = imagesx($original);
+			$original_h = imagesy($original);
+			
+			
+			if (($original_w<=145)&&($original_h<=135))
+			{
+				$muestra_h=$original_h;
+				$muestra_w=$original_w;
+			}
+			else
+			{
+				if($original_w<$original_h) 
+				{
+						$muestra_w = intval(($original_w/$original_h)*135);
+						$muestra_h=135;
+						
+						if ($muestra_w>145)
+						{
+							$muestra_w=145;
+							$muestra_h=intval(($original_h/$original_w)*145);
+						}
+				}
+				if($original_w>$original_h) 
+				{
+						$muestra_w=145;
+						$muestra_h=intval(($original_h/$original_w)*145);
+						
+						if ($muestra_h>135)
+						{
+							$muestra_w = intval(($original_w/$original_h)*135);
+							$muestra_h=135;	
+						}
+				}
+				if($original_w==$original_h) 
+				{
+						$muestra_w=135;
+						$muestra_h=135;
+				}
+				
+								
+			}
+		}
+		
+		
+		$resul['w']=$muestra_w;
+		$resul['h']=$muestra_h;
+		
+		return $resul;
+	}
+	
+	
+	function descripcionLimpia()
+	{
+		$texto=$this->descripcion;
+		
+		
+		//QUITANDO STYLES AND SCRIPTS
+		$texto=quitarBloques($this->descripcion,"<style>","</style>");
+		$texto=quitarBloques($texto,"<xml>","</xml>");
+		$texto=quitarBloques($texto,"<script>","</script>");
+		
+		
+		$descripcion="";	
+		for ($i=0;$i<strlen($texto);$i++)
+		{
+			if ($texto[$i]!='<')
+			{
+				$descripcion.=$texto[$i];
+			}
+			else
+				while ($texto[$i]!='>')
+				{
+					$i++;
+					if ($i>=strlen($texto))
+						break;
+				}
+		}
+		
+		$descripcion=html_entity_decode($descripcion);
+		$descripcion=str_replace(chr(92),'',$descripcion);
+		$caracteres=' |-|'.chr(160).'|,|_|<|>|/|=|:|"|\?|\+|\.|\*|\(|\)|;|¿|¡|!|%|°|º|&|\$|´|`|@|®|²|\||¨|\[|\]|€|ø|'.chr(13).'|'.chr(10).'|'.chr(39);
+		
+		$z=0;
+		$contenido=split($caracteres,$descripcion);	
+		$descripcion2="";
+		for ($i=0;$i<count($contenido);$i++)
+		{
+			$palabra=trim($contenido[$i]);
+			$palabra=limpiar_acentos($palabra);
+			//$palabra=strtolower($palabra);
+			if (strlen($palabra)>0)
+			{
+				$descripcion2.=$palabra." ";;
+			}
+		}
+		
+		
+		
+		return $descripcion2;
+	}
+	
+	
 	
 	
 	function compruebaFavorito($codigo)
@@ -108,63 +319,84 @@ class Anuncio
 	
 	function armarAnuncio($color)
 	{
-		
 		if ($this->id_provincia=="")
 			$provincia="";
 		else
 		{	
 			$provincia=new Provincia($this->id_provincia);
-			$provincia=", ".$provincia->nombre;
+			$provincia=$provincia->nombre;
 		}
 		
-		//$provincia=new Provincia($this->id_provincia);		
-		
-		if ($this->compruebaFavorito($_COOKIE['hispamercado_favoritos'])==0)
-			$favoritos="<a href='javascript:aFavoritos(".$this->id.",".chr(34).chr(34).")'><img src='img/favorito0.gif' title='A&ntilde;adir a favoritos' width='26' height='25' border='0'></a>";
-		else	
-			$favoritos="<a href='javascript:quitaFavoritos(".$this->id.",".chr(34).chr(34).")'><img src='img/favorito1.gif' title='Quitar de favoritos' width='26' height='25' border='0'></a>";
-
-		
-		if (($this->precio=="")||($this->precio==0))
-			$precio="no indicado";
-		else
-			$precio=number_format($this->precio,2,",",".")." ".$this->moneda;
-			
-			
 		
 		//ARMANDO ENLADE
 		$enlace=$this->armarEnlace();
 		
-				
-		$anuncio="<table id='contenedor_principal' width='800' height='80' border='0' align='center' cellpadding='0' cellspacing='2' bgcolor='".$color."'>
-				  <tr>
-					<td id='anuncio_imagen' width='90' align='center'><a href='".$enlace."'><img border='0' src='lib/img.php?tipo=lista&anuncio=".$this->id."' alt='".$this->titulo."' title='".$this->titulo."'></a></td>
-					<td id='anuncio_contenido' width='682'><table width='670'  border='0' align='center' cellpadding='0' cellspacing='0'>
-						<tr>
-						  <td height='60' valign='top' align='left'><a href='".$enlace."' class='LinkArticulo'>".$this->titulo."</a></td>
-						</tr>
-						<tr>
-						  <td align='left' class='arial13Negro'><b>Fecha:</b> ".aaaammdd_ddmmaaaa($this->fecha)." | <b>Ubicaci&oacute;n:</b> ".$this->ciudad.$provincia." | <b>Precio:</b> ".$precio." | <b>Tipo:</b> ".$this->tipo_categoria."</td>
-						</tr>
-					</table></td>
-					<td width='28' align='center' id='anuncio_contenido'><table width='100%' height='71'  border='0' cellpadding='0' cellspacing='0'>
-						<tr>
-						  <td valign='top' id='favorito_".$this->id."'>".$favoritos."</td>
-						</tr>
-						<tr>
-						  <td height='37' valign='bottom' id='favorito_".$this->id."'></td>
-						</tr>
-					</table></td>
-				  </tr>
-				</table>";		
+		$medida=$this->tamanoFotoLista();
+		$h=$medida['h'];
+		
+		$precio="";
+		if ((trim($this->precio)!='')&&($this->precio>0)) 
+			$precio='Bs '.number_format($this->precio,2,',','.');
 			
-			return $anuncio.="<table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor='#C8C8C8'>
-							  <tr>
-								<td height='1'></td>
-							  </tr>
-							</table>";	
+			
+			
+		//DETALLES DE ANUNCIOS ESPECIFICOS
+		$arreglo=$this->detalles();
+		$id_cat=$this->id_categoria;
+		$detalles="";
+		if (($id_cat==4)||($id_cat==3))
+			$detalles="Urbanización ".$arreglo['urbanizacion']."&nbsp;&nbsp;&nbsp; "."Superficie ".$arreglo['m2']." m2&nbsp;&nbsp;&nbsp; "."Habitaciones ".$arreglo['habitaciones'];
+		
+		
+		if (($id_cat==5)||($id_cat==6)||($id_cat==7)||($id_cat==8)||($id_cat==9)||($id_cat==10)||($id_cat==3707))
+			$detalles="Urbanización ".$arreglo['urbanizacion']."&nbsp;&nbsp;&nbsp; "."Superficie ".$arreglo['m2']." m2";
+		
+		
+		if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
+			$detalles="Marca ".$arreglo['marca']."&nbsp;&nbsp;&nbsp; "."Modelo ".$arreglo['modelo']."&nbsp;&nbsp;&nbsp; "."Año ".$arreglo['anio'];
+			
+		
+		//Anuncio con video
+		$video="";
+		if (trim($this->video_youtube)!="")
+			$video="<div style='margin-bottom:2px;'>
+						 <span class='arial13Mostaza'><em>Anuncio con video</em></span> <img src='../img/youtube.png' width='16' height='16' />
+					</div>";
+			
+		
+		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:800px; height:150px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
 	
-	
+					<div style='width:150px; height:140px; margin-top:5px; float:left;' align='center'>
+						<a href='".$enlace."'><img src='lib/img.php?tipo=lista&anuncio=".$this->id."&foto=1' border='0' alt='".$this->titulo."' title='".$this->titulo."' style='margin-top:".intval((140-$h)/2)."px;' /></a>
+					</div>
+					
+					<div style='width:640px; margin-left:5px; margin-top:5px; margin-right:5px; float:left; display:table; '>
+						<a href='".$enlace."' class='tituloAnuncio'>".$this->titulo."</a>
+					</div>
+					
+					<div style='width:640px; margin-left:5px; margin-top:5px; margin-right:5px; float:left; display:table; '>
+						<span class='arial13Negro'><em>".$detalles."</em></span>
+					</div>
+					 
+					 <div style='width:640px; margin-left:5px; margin-top:8px; margin-right:5px; float:left; display:table;'>
+						<span class='arial13Negro'>".substr($this->descripcionLimpia(),0,150)."...</span>
+					</div>
+					
+					<div style='width:640px; position:absolute; bottom:10px; left:150px; margin-left:5px; margin-top:15px; margin-right:5px; float:left;'>
+						
+						".$video."
+						
+						<div>
+							<span class='arial15Negro' style='float:left;'><em>Publicado hace ".$this->tiempoHace()." en ".$this->ciudad.", ".$provincia."</em></span>
+							<span class='arial15RojoPrecio' style='float:right; padding-right:5px;'><strong>".$precio."</strong></span>
+						</div>
+					
+					</div>
+					
+				  
+				</div>";
+				
+		return $anuncio;
 	}
 
 
@@ -178,13 +410,6 @@ class Anuncio
 			$provincia=new Provincia($this->id_provincia);
 			$provincia=", ".$provincia->nombre;
 		}
-		
-		//$provincia=new Provincia($this->id_provincia);		
-		
-		/*if ($this->compruebaFavorito($_COOKIE['hispamercado_favoritos'])==0)
-			$favoritos="<a href='javascript:aFavoritos(".$this->id.",".chr(34).chr(34).")'><img src='img/favorito0.gif' title='A&ntilde;adir a favoritos' width='26' height='25' border='0'></a>";
-		else	
-			$favoritos="<a href='javascript:quitaFavoritos(".$this->id.",".chr(34).chr(34).")'><img src='img/favorito1.gif' title='Quitar de favoritos' width='26' height='25' border='0'></a>";*/
 
 		
 		if ($this->precio=="")

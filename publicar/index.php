@@ -559,13 +559,14 @@ theme_advanced_resizing : true,
       <td width="225" align="right" valign="top" class="arial11Negro"><a href="javascript:window.alert('Sección en construcción')" class="LinkFuncionalidad">T&eacute;rminos</a> | <a href="../sugerencias.php" class="LinkFuncionalidad">Sugerencias</a></td>
     </tr>
   </table>
-  <table width="800" border="0" cellspacing="0" cellpadding="0" align="center">
-  <tr>
-    <td><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
-    <div style="float:left;"><a href="http://twitter.com/share" class="twitter-share-button" data-text="Anuncios clasificados gratis en Venezuela - Inmuebles, Carros, Negocios, Servicios" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
-    </td>
-  </tr>
-</table>
+  <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td><div id="fb-root"></div>
+        <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script>
+        <fb:like href="http://www.hispamercado.com.ve/" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+        </div></td>
+    </tr>
+  </table>
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="6" bgcolor="#FFFFFF">
     <tr>
       <td width="10">&nbsp;</td>

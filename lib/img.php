@@ -6,9 +6,6 @@
 	if ($tipo=="lista")
 	{
 		$destino="../img/img_bank/".$_GET['anuncio']."_1";
-		//error_reporting(0);
-		//$info = getimagesize($destino);
-		//echo "sdasdas";
 		
 		if (file_exists($destino)) 
 		   $existe=true; 
@@ -36,20 +33,42 @@
 			$original_w = imagesx($original);
 			$original_h = imagesy($original);
 			
-			if (($original_w<=77)&&($original_h<=70))
+			if (($original_w<=145)&&($original_h<=135))
 				imagejpeg($original,"",100);	
 			else
 			{
-				if($original_w<$original_h) 
+				if ($original_w<$original_h) 
 				{
-						$muestra_w = intval(($original_w/$original_h)*70);
-						$muestra_h=70;				
+						$muestra_w = intval(($original_w/$original_h)*145);
+						$muestra_h=135;	
+						
+						if ($muestra_w>145)
+						{
+							$muestra_w=145;
+							$muestra_h=intval(($original_h/$original_w)*145);
+						}
+									
 				}
-				else
+				if ($original_w>$original_h)
 				{
-						$muestra_w=77;
-						$muestra_h=intval(($original_h/$original_w)*77);
+						$muestra_w=135;
+						$muestra_h=intval(($original_h/$original_w)*135);
+						
+						if ($muestra_h>135)
+						{
+							$muestra_w = intval(($original_w/$original_h)*135);
+							$muestra_h=135;	
+						}
+						
 				}
+				if($original_w==$original_h) 
+				{
+					$muestra_w=145;
+					$muestra_h=135;
+				}
+				
+				
+				
 				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
 					
 				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
@@ -89,19 +108,24 @@
 			$original_w = imagesx($original);
 			$original_h = imagesy($original);
 			
-			if (($original_w<=280)&&($original_h<=230))
+			if (($original_w<=380)&&($original_h<=350))
 				imagejpeg($original,"",100);	
 			else
 			{
 				if($original_w<$original_h) 
 				{
-						$muestra_w = intval(($original_w/$original_h)*230);
-						$muestra_h=230;				
+						$muestra_w = intval(($original_w/$original_h)*350);
+						$muestra_h=350;				
 				}
-				else
+				if($original_w>$original_h) 
 				{
-						$muestra_w=270;
-						$muestra_h=intval(($original_h/$original_w)*270);
+						$muestra_w=380;
+						$muestra_h=intval(($original_h/$original_w)*380);
+				}
+				if($original_w==$original_h) 
+				{
+						$muestra_w=350;
+						$muestra_h=350;
 				}
 				
 				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
@@ -116,6 +140,77 @@
 	
 	
 	if ($tipo=="real")
+	{
+		$foto=$_GET['foto'];
+		$destino="../img/img_bank/".$_GET['anuncio']."_".$foto;
+		error_reporting(0);
+		$info = getimagesize($destino);
+		
+		if ($info==NULL)
+		{
+			$original = imagecreatefromgif("../img/no_foto.gif");
+			imagegif($original);
+		}
+		else
+		{
+			switch ($info[2]) 
+			{
+				case 1:
+					$original = imagecreatefromgif($destino); break;
+				case 2:
+					$original = imagecreatefromjpeg($destino); break;
+				case 3:
+					$original = imagecreatefrompng($destino); break;				
+			}
+			
+			$original_w = imagesx($original);
+			$original_h = imagesy($original);
+			
+			if (($original_w<=800)&&($original_h<=500))
+				imagejpeg($original,"",100);	
+			else
+			{
+				if($original_w<$original_h) 
+				{
+						$muestra_w = intval(($original_w/$original_h)*500);
+						$muestra_h=500;
+						
+						if ($muestra_w>800)
+						{
+							$muestra_w=800;
+							$muestra_h=intval(($original_h/$original_w)*800);
+						}
+				}
+				if($original_w>$original_h) 
+				{
+						$muestra_w=800;
+						$muestra_h=intval(($original_h/$original_w)*800);
+						
+						if ($muestra_h>500)
+						{
+							$muestra_w = intval(($original_w/$original_h)*500);
+							$muestra_h=500;	
+						}
+				}
+				if($original_w==$original_h) 
+				{
+						$muestra_w=500;
+						$muestra_h=500;
+				}
+				
+				
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+					
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+					
+				imagejpeg($muestra,"",100);
+			}
+		}
+	}
+	
+	
+	if ($tipo=="real2")
 	{
 		$foto=$_GET['foto'];
 		$destino="../img/img_bank/".$_GET['anuncio']."_".$foto;

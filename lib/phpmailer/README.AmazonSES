@@ -1,0 +1,39 @@
+===============================
+AmazonSES support for PHPMailer
+===============================
+Usage:
+******
+Please take a look at the source of "examples/test_amazonses.php".
+
+Bug Report:
+***********
+If you stumble upon any bug please send me a mail.
+Titon Barua <titanix88@gmail.com>
+
+Commercial Support:
+*******************
+Do you need technical help to use AmazonSES with phpmailer?
+Perhaps we can be of your service. Here's our profile at elance:
+http://www.elance.com/s/vimmaniac/
+
+Take a look at our website if you feel free:
+http://vimmaniac.com
+
+Or, drop an email:
+vimmaniac@gmail.com
+
+================
+Initial Release:
+================
+Release Date: 15 April, 2011
+
+=================
+Bugfix Release 1:
+=================
+Release Date: 20 October, 2011
+Changes:
+    * DKIM signing is working properly now. Thanks to Antonello Moro
+      for reporting the bug and helpful hand in testing and patching. :)
+
+    * 'to' and 'bcc' headers were not being added to destinations previously.
+      Thanks to Manish for pointing out the bug. 

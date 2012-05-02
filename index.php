@@ -47,7 +47,7 @@
 
 function listarRecientes() 
 {		
-	document.getElementById("anuncios_recientes").innerHTML="<span class='arial13Gris'><b>cargando...</b></span>";
+	document.getElementById("anuncios_recientes").innerHTML="<div align='center'><img src='img/ajax-loader1.gif' width='110' height='75'></div>";
 	
 	if (document.getElementById("buscar").value=="Búsqueda rápida...")
 		document.getElementById("buscar").value="";
@@ -56,7 +56,7 @@ function listarRecientes()
 	ciudad=document.getElementById("ciudades");
 	buscar=document.getElementById("buscar");
 		
-	var url="lib/servicios/recientes.php?id_cat="+categoria.options[categoria.selectedIndex].value+"&ciudad="+ciudad.options[ciudades.selectedIndex].value+"&buscar="+buscar.value;
+	var url="lib/servicios/recientes.php?id_cat="+categoria.options[categoria.selectedIndex].value+"&ciudad="+ciudad.options[ciudad.selectedIndex].value+"&buscar="+buscar.value;
 	
 	req=getXMLHttpRequest();
 	req.onreadystatechange=processStateChange;
@@ -107,8 +107,7 @@ function processStateChange()
 </table>
 <table width="800" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
-    <td><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://www.hispamercado.com.ve/" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
-    <div style="float:left;"><a href="http://twitter.com/share" class="twitter-share-button" data-text="Anuncios clasificados gratis en Venezuela - Inmuebles, Carros, Negocios, Servicios" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
+    <td><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://www.hispamercado.com.ve/" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like></div>
     </td>
   </tr>
 </table>
@@ -368,13 +367,13 @@ function processStateChange()
 </table>
 
 
-<table width="800" height="33" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#D8E8AE"; style="border-collapse:collapse " >
+<table width="800" height="38" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#D8E8AE"; style="border-collapse:collapse " >
   <tr>
     <td width="672" align="left" valign="middle" class="arial13Mostaza">
-      <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C" value="B&uacute;squeda r&aacute;pida..." size="20">
+      <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C" value="B&uacute;squeda r&aacute;pida..." size="20">
       &nbsp;
       
-      <select name="categorias" id="categorias" style="font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+      <select name="categorias" id="categorias" style="font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C">
         <option selected value="todas">Todas las categor&iacute;as</option>
         <?
 	  	$aux="SELECT id,nombre FROM Categoria WHERE id_pais='".$id_pais."' AND id<>160 AND id_categoria IS NULL";
@@ -386,7 +385,7 @@ function processStateChange()
 			$categoria=new Categoria(mysql_result($query,$i,0));
 			
 			//if ($categoria->anunciosActivos()>0)
-			echo "<option value='".mysql_result($query,$i,0)."'>".mysql_result($query,$i,1)."</option>";
+			echo "<option value='".mysql_result($query,$i,0)."'style='font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,1)."</option>";
 			
 			
 			
@@ -397,9 +396,9 @@ function processStateChange()
 		?>
         </select>
       &nbsp;
-      <select name="ciudades" id="ciudades" style="font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C">
-        <option selected value='todas'>Todas las ciudades</option>
-        <option value='Fuera del país'>Fuera del país</option>
+      <select name="ciudades" id="ciudades" style="font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+        <option selected value='todas' style='font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
+        <option value='Fuera del país'style='font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Fuera del país</option>
         <?
 		
 		//-----EXCLUYENDO CATEGORIA ADULTOS
@@ -415,22 +414,20 @@ function processStateChange()
 	  	$query=operacionSQL("SELECT ciudad,COUNT(*) FROM Anuncio WHERE status_general='Activo' AND ciudad<>'Fuera del país' ".$parche." GROUP BY ciudad ORDER BY ciudad ASC");
 				
 		for ($i=0;$i<mysql_num_rows($query);$i++)
-			echo "<option value='".mysql_result($query,$i,0)."'>".mysql_result($query,$i,0)."</option>";
+			echo "<option value='".mysql_result($query,$i,0)."' style='font-size:15px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,0)."</option>";
 		
 	  ?>
       </select>
       &nbsp;
       <label>
-        <input type="button" name="button" id="button" value="Buscar" onClick="listarRecientes()" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; font-weight:bold;">
+        <input type="button" name="button" id="button" value="Buscar" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold;">
       </label></td>
     </tr>
 </table>
 
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td id="anuncios_recientes" align="center"><?
+<div style="margin:0 auto 0 auto; width:800px;" id="anuncios_recientes">
 
-
+<?
 	
 	$aux="SELECT id FROM Anuncio WHERE id_pais='".$pais->id."' AND status_general='Activo' ".$parche." ORDER BY fecha DESC LIMIT 0,20";
 	$query=operacionSQL($aux);
@@ -447,10 +444,11 @@ function processStateChange()
 		echo $anuncio->armarAnuncio($colorete);
 	}
 	
-?></td>
-  </tr>
-</table>
-<table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
+?>
+
+</div>
+
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
     <td>&nbsp;</td>
   </tr>
@@ -458,7 +456,16 @@ function processStateChange()
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
+    <td><textarea name="textfield" cols="80" rows="10" id="textfield"><?
+	
+			$anuncio=new Anuncio(30018);
+			$texto=quitarBloques($anuncio->descripcion,"<style>","</style>");
+			$texto=quitarBloques($texto,"<xml>","</xml>");
+			echo $texto;
+			
+			
+	
+	 ?></textarea></td>
   </tr>
   <tr>
     <td>&nbsp;</td>

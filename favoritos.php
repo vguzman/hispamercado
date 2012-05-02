@@ -24,13 +24,11 @@
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/ajax.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/favoritos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/basicos.js"></SCRIPT>
-<script src="SpryAssets/SpryValidationTextarea.js" type="text/javascript"></script>
+
 <LINK REL="stylesheet" TYPE="text/css" href="lib/css/basicos.css">
 
-<link href="SpryAssets/SpryValidationTextarea.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<span id="sprytextarea1"><span class="textareaRequiredMsg">Se necesita un valor.</span></span>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="295" align="left"><a href="/"><img src="img/logo_290.JPG" alt="" width="290" height="46" border="0"></a></td>
@@ -78,7 +76,7 @@
 	if ($total==0)
 		echo "<table width='800' border='0' align='center' cellspacing='0'>
 			  <tr>
-				<td align='center' class='Arial13Gris'><b>no tienes anuncios seleccionados como favoritos</b></td>
+				<td align='center' class='arial13Gris'><b>no tienes anuncios seleccionados como favoritos</b></td>
 			  </tr>
 			</table>";
 			
@@ -93,27 +91,6 @@
 		echo $anuncio->armarAnuncio($colorete);
 	}
 ?>
-<table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#FFFFFF">
-  <tr>
-    <td align="center" class="arial13Negro"><? echo $barraPaises; ?> </td>
-  </tr>
-</table>
-<script type="text/javascript">
-<!--
-var sprytextarea1 = new Spry.Widget.ValidationTextarea("sprytextarea1");
-//-->
-</script>
 </body>
 </html>
 <script type="text/javascript">

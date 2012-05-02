@@ -3,10 +3,16 @@
 	
 	include "lib/class.php";
 	
+	//PARA EVITAR PROBLEMAS CON HTACCESS
+	if (( isset($_GET['tipo']) )&& ($_GET['tipo']=="")) 	unset($_GET['tipo']);
+	if (( isset($_GET['ciudad']) )&& ($_GET['ciudad']=="")) 	unset($_GET['ciudad']);
+	if (( isset($_GET['id_cat']) )&& ($_GET['id_cat']=="")) 	unset($_GET['id_cat']);
+	
+	
 	cookieSesion(session_id(),$_SERVER['HTTP_HOST']);
 	
 	//------SI CATEGORIA NO EXISTE LO MANDO PAL INDEX
-	if ($_GET['id_cat']!="")
+	if (isset($_GET['id_cat']))
 	{
 		$query=operacionSQL("SELECT id FROM Categoria WHERE id=".$_GET['id_cat']);
 		if (mysql_num_rows($query)==0)
@@ -35,7 +41,6 @@
 	
 	
 	
-	
 	$id_pais=verificaPais();
 	$pais=new Pais($id_pais);
 	
@@ -47,7 +52,15 @@
 	$barraPaises= barraPaises($id_pais);
 			
 //--------------------------------------------------------------------------------------------------------
-
+	$aux_tipo="";
+	$aux_ciudad="";
+	$aux_cat="";
+	$aux_marca="";
+	$aux_anio="";
+	$aux_modelo="";
+	
+	
+	
 	$url_actual="listado.php?";
 	$url_rewrite="";
 	
@@ -59,7 +72,7 @@
 	
 	
 	
-	if ($_GET['id_cat']!="")
+	if (isset($_GET['id_cat']))
 	{
 		$url_actual.="id_cat=".$_GET['id_cat'];	
 		
@@ -105,7 +118,7 @@
 			$aux_modelo.=" OR id_categoria=".$hijos[$i];
 		}
 	}
-	if ($_GET['tipo']!="")
+	if (isset($_GET['tipo']))
 	{
 		$url_actual.="&tipo=".$_GET['tipo'];
 		$url_rewrite.="tipo-".$_GET['tipo']."/";
@@ -120,7 +133,7 @@
 		$aux_modelo.=") AND (tipo_categoria='".$_GET['tipo']."'";
 		
 	}
-	if ($_GET['ciudad']!="")
+	if (isset($_GET['ciudad']))
 	{
 		$url_actual.="&ciudad=".$_GET['ciudad'];
 		$url_rewrite.="ciudad-".$_GET['ciudad']."/";
@@ -133,7 +146,7 @@
 		$aux_anio.=") AND (ciudad='".$_GET['ciudad']."'";
 		$aux_modelo.=") AND (ciudad='".$_GET['ciudad']."'";
 	}
-	if ($_GET['m2']!="")
+	if (isset($_GET['m2']))
 	{
 		$url_actual.="&m2=".$_GET['m2'];
 		
@@ -151,7 +164,7 @@
 		$aux_ciudad.=$aux_aux;
 		$aux_cat.=$aux_aux;
 	}
-	if ($_GET['hab']!="")
+	if (isset($_GET['hab']))
 	{
 		$url_actual.="&hab=".$_GET['hab'];
 		
@@ -168,7 +181,7 @@
 		$aux_ciudad.=$aux_aux;
 		$aux_cat.=$aux_aux;
 	}
-	if ($_GET['marca']!="")
+	if (isset($_GET['marca']))
 	{
 		$url_actual.="&marca=".$_GET['marca'];
 		
@@ -181,7 +194,7 @@
 		$aux_modelo.=") AND (marca='".$_GET['marca']."'";
 		
 	}
-	if ($_GET['anio']!="")
+	if (isset($_GET['anio']))
 	{
 		$url_actual.="&anio=".$_GET['anio'];
 		
@@ -193,7 +206,7 @@
 		$aux_anio.=") AND (anio=".$_GET['anio'];
 		$aux_modelo.=") AND (anio=".$_GET['anio'];
 	}
-	if ($_GET['modelo']!="")
+	if (isset($_GET['modelo']))
 	{
 		$url_actual.="&modelo=".$_GET['modelo'];
 		
@@ -221,13 +234,13 @@
 	
 	
 //-----------------------------CASO NO CATEGORIA-	
-	if ($_GET['id_cat']==NULL)
+	if (isset($_GET['id_cat'])==false)
 	{		
 		$aux="SELECT id FROM Anuncio WHERE status_general='Activo'";
 		$aux_ciudad="SELECT ciudad,COUNT(*) AS C FROM Anuncio WHERE status_general='Activo'";
 		$aux_cat="SELECT A.id_categoria,COUNT(*) AS C FROM Anuncio A, Categoria B WHERE A.id_categoria=B.id AND status_general='Activo'";
 		
-		if ($_GET['ciudad']!="")
+		if (isset($_GET['ciudad']))
 		{
 			$url_actual.="&ciudad=".$_GET['ciudad'];
 			
@@ -253,7 +266,7 @@
 
 
 //--------------------------------CASO DE CATEGORIAS Y BUSQUEDA ---------------------------------------
-	if (($_GET['id_cat']!="")&&($_GET['buscar']!=""))
+	if ( (isset($_GET['id_cat'])) && (isset($_GET['buscar'])) )
 	{
 		$url_actual.="&buscar=".$_GET['buscar'];
 		//$url_rewrite.="buscar-".$_GET['buscar']."/";
@@ -310,7 +323,7 @@
 
 //-----------------------CASO BUSQUEDA SIN CATEGORIA
 	
-	if (($_GET['id_cat']==NULL)&&($_GET['buscar']!=""))
+	if  ( (isset($_GET['id_cat'])==false) &&  ( isset($_GET['buscar']) ) )
 	{
 		$aux_ciudad="SELECT ciudad,COUNT(*) AS C FROM Anuncio WHERE status_general='Activo' AND (id=9999999";
 		$aux_cat="SELECT A.id_categoria,COUNT(*) AS C FROM Anuncio A, Categoria B WHERE A.id_categoria=B.id AND status_general='Activo' AND (A.id=9999999";
@@ -354,14 +367,16 @@
 	
 	
 //---------------------------ARMANDO PAGINACION--------------------------------
-	if ($_GET['factor']=="")
+	if ( (isset($_GET['factor']))==false )
 		$factor=30;
 	else
 	{
 		$factor=$_GET['factor'];
 		$url_actual.="&factor=".$_GET['factor'];
 	}	
-	if ($_GET['parte']=="")
+	
+	
+	if ( (isset($_GET['parte']))==false )
 		$parte=1;
 	else
 		$parte=$_GET['parte'];
@@ -374,7 +389,7 @@
 	
 //----------------------------------------------ARMANDO TITULO--------------------------
 	$titulo="Anuncios clasificados";
-	if ($_GET['id_cat']!="")
+	if (isset($_GET['id_cat']))
 	{
 		$titulo.=", ";
 		
@@ -385,18 +400,26 @@
 		$titulo=substr($titulo,0,strlen($titulo)-3);
 	}	
 	
-	if ($_GET['tipo']!="") $titulo.=", ".$_GET['tipo'];
-	if ($_GET['ciudad']!="") $titulo.=", ".$_GET['ciudad']; else $titulo.=", Venezuela";
+	if (isset($_GET['tipo'])) $titulo.=", ".$_GET['tipo'];
+	if (isset($_GET['ciudad'])) $titulo.=", ".$_GET['ciudad']; else $titulo.=", Venezuela";
 //------------------------------------------------------------------------------------------	
-	
-	echo '<base href="http://www.hispamercado.com.ve/" />';
 	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<base href="http://www.hispamercado.com.ve/" />
+
+
+
+<? 
+	if (substr_count($_SERVER['HTTP_HOST'],"testhispamercado")==0)
+		echo '<base href="http://www.hispamercado.com.ve/" />';
+	else
+		echo '<base href="http://www.testhispamercado.com/" />';
+?>
+
+
 <title><? echo $titulo ?></title>
 
 
@@ -490,7 +513,7 @@ function validar(e) {
 
 </SCRIPT>
 </head>
-<body style="text-align:center">
+<body>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="295" align="left"><a href="/"><img src="img/logo_290.JPG" alt="" width="290" height="46" border="0"></a></td>
@@ -500,9 +523,10 @@ function validar(e) {
 </table>
 <table width="800" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
-    <td><div style="float:left"><a href="http://twitter.com/share" class="twitter-share-button" data-text="Anuncios clasificados gratis en Venezuela - Inmuebles, Carros, Negocios, Servicios" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
-    <div id="fb-root" style="float:left"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>    
-    </td>
+    <td align="left"><div id="fb-root"></div>
+      <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script>
+      <fb:like href="http://www.hispamercado.com.ve/" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+      </div></td>
   </tr>
 </table>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="6" bgcolor="#FFFFFF">
@@ -524,29 +548,45 @@ function validar(e) {
     <td>&nbsp;</td>
   </tr>
 </table>
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px;" align="center">
+		  <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-8563690485788309";
+        /* Hispamercado Anuncio Top */
+        google_ad_slot = "3487409011";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+        </script>
+        <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        &nbsp; 
+</div>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
     <td width="800" valign="bottom" align="left" class="arial13Negro"><? 
 
-	if ($_GET['id_cat']!="")
+	echo "<a class='LinkFuncionalidad13' href='/'><b>Inicio</b></a>";
+	echo " &raquo; ";
+	
+	if ( isset($_GET['id_cat']) )
 	{
 		$categoria=new Categoria($_GET['id_cat']);
 		$arbol=$categoria->arbolDeHoja();
 		$niveles=count($arbol);
+		
+		for ($i=($niveles-1);$i>=0;$i--)
+		{
+			$cat=new Categoria($arbol[$i]['id']);
+			$enlace=$cat->armarEnlace();
+			
+			echo "<a class='LinkFuncionalidad13' href='".$enlace."'><b>".$arbol[$i]['nombre']."</b></a>";
+			if ($i>0)
+				echo " &raquo; ";
+		}
+		
 	}	
 	
-	echo "<a class='LinkFuncionalidad13' href='/'><b>Inicio</b></a>";
-	echo " &raquo; ";
-	
-	for ($i=($niveles-1);$i>=0;$i--)
-	{
-		$cat=new Categoria($arbol[$i]['id']);
-		$enlace=$cat->armarEnlace();
-		
-		echo "<a class='LinkFuncionalidad13' href='".$enlace."'><b>".$arbol[$i]['nombre']."</b></a>";
-		if ($i>0)
-			echo " &raquo; ";
-	}
 	
 	?></td>
   </tr>
@@ -578,7 +618,7 @@ function validar(e) {
 	
 	
 	// ------CATEGORIAS
-	if ($_GET['id_cat']==NULL)
+	if (isset($_GET['id_cat'])==false)
 	{
 		$count_div++;
 		echo '<div id="listado"><span class="arial12Negro">Categorias<br>';
@@ -649,8 +689,8 @@ function validar(e) {
 
 
 	//---TIPOS- DEPENDE DE QUE EXISTA UNA CATEGORIA SELECCIONADA
-	if (($_GET['id_cat']!=NULL))
-		if ($_GET['tipo']==NULL) // TIPO DE OPERACION NO SELECCIONADA
+	if ( isset($_GET['id_cat'])==true )
+		if ( isset($_GET['tipo'])==false ) // TIPO DE OPERACION NO SELECCIONADA
 		{
 			$count_div++;
 			echo '<div id="listado"><span class="arial12Negro">Tipo de operación:<br>';
@@ -669,6 +709,7 @@ function validar(e) {
 		}
 		else // TIPO DE OPERACION SI SELECCIONADA
 		{
+			
 			$count_div++;
 			echo '<div id="listado"><span class="arial12Gris">';
 			
@@ -684,24 +725,10 @@ function validar(e) {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		//CIUDADES
-		if ($_GET['ciudad']==NULL)
+		$ciudades="";
+		$ciudades_7="";
+		if ( isset($_GET['ciudad'])==false )
 		{
 			$count_div++;
 			echo '<div id="listado"><span class="arial12Negro" id="listadoCiudades_html">Ciudades:<br>';
@@ -767,10 +794,11 @@ function validar(e) {
 
 
 		//-----------------CASO DETALLES: OTROS INMUEBLES
+		if (isset($_GET['id_cat']))
 		if (($_GET['id_cat']==4)||($_GET['id_cat']==3)||($id_cat==5)||($id_cat==6)||($id_cat==7)||($id_cat==8)||($id_cat==9)||($id_cat==10)||($id_cat==3707))
 		{
 			
-			if ($_GET['m2']==NULL)
+			if ( isset($_GET['m2'])==false )
 			{
 				$count_div++;
 				echo '<div id="listado"><span class="arial12Negro" id="listadoCiudades_html">Superficie:<br>';
@@ -834,9 +862,10 @@ function validar(e) {
 
 
 		//-----------------CASO DETALLES: CASAS-APTOS DONDE ESTA EL PARAMETRO HABITACIONES
+		if (isset($_GET['id_cat']))
 		if (($id_cat==4)||($id_cat==3))
 		{
-			if ($_GET['hab']!="")
+			if ( isset($_GET['hab']) )
 			{
 				if ($_GET['hab']=="1")		$leyenda="1 habitación";
 				if ($_GET['hab']=="2")		$leyenda="2";
@@ -901,18 +930,7 @@ function validar(e) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+	if (isset($_GET['id_cat']))
 	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
 	{				
 		
@@ -1095,7 +1113,7 @@ function validar(e) {
 </table>
 <table width="800" height="30" border="0" align="center" cellpadding="4" cellspacing="0" bgcolor="#D8E8AE"; style="border-collapse:collapse " >
   <tr>
-    <td width="497" align="left" valign="middle" class="arial13Mostaza"><input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C" value="<? if ($_GET['buscar']!="") echo $_GET['buscar']; else echo "¿Qué estas buscando?" ?>" size="30">
+    <td width="497" align="left" valign="middle" class="arial13Mostaza"><input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C" value="<? if (isset($_GET['buscar'])) echo $_GET['buscar']; else echo "¿Qué estas buscando?" ?>" size="30">
       <label>
         <input type="button" name="button" id="button" value="Buscar en esta categor&iacute;a" onClick="accionBuscar()" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; font-weight:bold;">
         <input type="hidden" name="url_actual" id="url_actual" value="<? echo $url_actual ?>">
@@ -1117,7 +1135,8 @@ function validar(e) {
     </b></td>
   </tr>
 </table>
-<?	
+<div style="margin:0 auto 0 auto; width:800px; ">
+  <?	
 	for ($i=$primero;$i<$ultimo;$i++)
 	{		
 		if (($i%2)==0)
@@ -1137,17 +1156,20 @@ function validar(e) {
 			</table>";
 	
 ?>
-<table width="400" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>
+</div>
+<div style="margin:0 auto 0 auto; width:800px;">
+  <script type="text/javascript"><!--
+		google_ad_client = "ca-pub-8563690485788309";
+		/* Hispamercado__Anuncio */
+		google_ad_slot = "8673209427";
+		google_ad_width = 800;
+		google_ad_height = 90;
+		//-->
+		</script>
+  <script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+  &nbsp; </div>
 <div align="center">
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="8">
     <tr>

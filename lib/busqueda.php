@@ -90,7 +90,6 @@
 		}
 		
 		$tiempo_fin = microtime(true);
- 		//echo "Tiempo empleado: " . ($tiempo_fin - $tiempo_inicio); 
 		
 		
 		return $anuncios;
@@ -98,44 +97,18 @@
 	}
 	
 	
-	function buscarMYSQL($universo,$criterio)
-	{
-		
-		
-		
-		//ARMANDO QUERY CON TODO EL UNIVERSO
-		$aux="SELECT id_anuncio FROM AnuncioMetainformacion WHERE (id_anuncio=-5";
-		for ($i=0;$i<count($universo);$i++)
-		{
-			$id=$universo[$i];			
-			$aux.=" OR id_anuncio=".$id;
-		}
-		//COMPLETANDO LA PARTE DE TODOS LOS ID's
-		$aux.=")";
-		
-		
-		//LA PARTE DEL FULLTEXT
-		$aux.=" AND MATCH(titulo,descripcion,detalles) AGAINST ('".$criterio."')";	
-		$query=operacionSQL($aux);
-		
-		//ARMANDO VECTOR DE RESULTADOS
-		$resul=array();
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-		{
-			$resul[$i]=mysql_result($query,$i,0);
-		}
-		
-		return $resul;
-	}
-	
-	
-	
-	
 	
 	//QUITA ACENTOS - QUITA ETIQUETAS HTML - LLEVA PALABRAS A MINUSCULAS - QUITA S AL FINAL DE LA PALABRA
 	function desglosarPalabras($texto)
 	{
-		//FILTRADO 1 - QUITANDO TODAS LAS ETIQUETAS DEL TEXTO ORIGINAL		
+		//QUITANDO STYLES AND SCRIPTS
+		$texto=quitarBloques($texto,"<style>","</style>");
+		$texto=quitarBloques($texto,"<xml>","</xml>");
+		$texto=quitarBloques($texto,"<script>","</script>");
+		
+		
+		//FILTRADO 1 - QUITANDO TODAS LAS ETIQUETAS DEL TEXTO ORIGINAL	.
+		$descripcion="";	
 		for ($i=0;$i<strlen($texto);$i++)
 		{
 			if ($texto[$i]!='<')
@@ -217,6 +190,27 @@
 		$s=str_replace("Ñ","n",$s);
 		
 		return $s;
+	}
+	
+	function quitarBloques($texto,$inicio,$fin)
+	{
+		while (true)
+		{
+			if ((substr_count($texto,$inicio)>0)&&(substr_count($texto,$fin)>0))
+			{
+				$pos1=strpos($texto,$inicio);
+				$pos2=strpos($texto,$fin);
+				
+				$bloque=substr($texto,$pos1,($pos2-$pos1+strlen($fin)));
+				
+				
+				$texto=str_replace($bloque,'',$texto);
+			}
+			else
+				break;
+		}
+		
+		return $texto;
 	}
 	
 	

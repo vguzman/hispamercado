@@ -13,7 +13,7 @@
 		
 	$url="listado.php?";
 	
-	if ($id_cat!=todas)
+	if ($id_cat!="todas")
 	{
 		$url.="id_cat=".$id_cat;
 		$aux="SELECT id FROM Anuncio WHERE status_general='Activo' AND (id=99999999";
@@ -29,7 +29,7 @@
 		$aux="SELECT id FROM Anuncio WHERE status_general='Activo' AND (id>=0";
 	}
 	
-	if ($ciudad!=todas)
+	if ($ciudad!="todas")
 	{
 		$url.="&ciudad=".$ciudad;
 		$aux.=" ) AND ciudad='".$ciudad."'";
@@ -64,34 +64,8 @@
 		
 		$resul=buscarSphinx($anuncios,$buscar);
 		$anuncios=$resul;
-		
-		
-		
-		/*for ($i=0;$i<mysql_num_rows($query);$i++)
-		{
-			$anuncio=new Anuncio(mysql_result($query,$i,0));
-			$valor=$anuncio->busqueda($buscar);
-			if ($valor>0)
-				$resul[$anuncio->id]=$valor;	
-		}
-		
-		if (count($resul)>0)
-		{
-			$z=0;
-			arsort($resul);
-			while (list($i,$valor)=each($resul))
-			{
-				$anuncios[$z]=$i;
-				$z++;
-			}
-		}*/
 	}
-	/*else
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-			$anuncios[$i]=mysql_result($query,$i,0);*/
 
-	
-	
 	
 	
 	if (count($anuncios)==0)

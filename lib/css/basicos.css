@@ -14,6 +14,9 @@ a.linkCategoriaPrincipal:hover {font-family: Arial, Helvetica, sans-serif; font-
 .linkCategoriaPrincipal13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:none}
 a.linkCategoriaPrincipal13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:underline}
 
+.tituloAnuncio {font-family: Arial, Helvetica, sans-serif; font-size:18px; color:#003399; text-decoration:none}
+a.tituloAnuncio:hover {font-family: Arial, Helvetica, sans-serif; font-size:18px; color:#003399; text-decoration:underline}
+
 
 
 
@@ -45,8 +48,11 @@ a.linkCategoriaPrincipal13:hover {font-family: Arial, Helvetica, sans-serif; fon
 
 
 
+
 .arial15Negro {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#000000; text-decoration:none}
 .arial17Negro {font-family: Arial, Helvetica, sans-serif; font-size:19px; color:#000000; text-decoration:none}
+.arial15Rojo {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#FF0000; text-decoration:none}
+.arial15RojoPrecio {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#E60000; text-decoration:none}
 
 .arial25Negro {font-family: Arial, Helvetica, sans-serif; font-size:25px; color:#000000; text-decoration:none}
 .arial25Mostaza {font-family: Arial, Helvetica, sans-serif; font-size:25px; color:#77773C; text-decoration:none}
