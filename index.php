@@ -425,7 +425,7 @@ function processStateChange()
     </tr>
 </table>
 
-<div style="margin:0 auto 0 auto; width:800px;" id="anuncios_recientes">
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:50px;" id="anuncios_recientes">
 
 <?
 	
@@ -447,35 +447,6 @@ function processStateChange()
 ?>
 
 </div>
-
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td><textarea name="textfield" cols="80" rows="10" id="textfield"><?
-	
-			$anuncio=new Anuncio(30018);
-			$texto=quitarBloques($anuncio->descripcion,"<style>","</style>");
-			$texto=quitarBloques($texto,"<xml>","</xml>");
-			echo $texto;
-			
-			
-	
-	 ?></textarea></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-
-
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
