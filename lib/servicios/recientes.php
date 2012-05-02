@@ -35,7 +35,9 @@
 		$aux.=" ) AND ciudad='".$ciudad."'";
 	}
 	else
-		$aux.=")";	 
+		$aux.=")";	
+		
+	echo $aux; 
 	
 
 //----------------EXCLUYENDO CATEGORIA ADULTOS
