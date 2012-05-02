@@ -37,7 +37,7 @@
 	else
 		$aux.=")";	
 		
-	echo $aux; 
+	
 	
 
 //----------------EXCLUYENDO CATEGORIA ADULTOS
@@ -51,6 +51,11 @@
 	
 	
 	$aux.=$parche." ORDER BY fecha DESC";
+	
+	
+	echo $aux;
+	
+	
 	$query=operacionSQL($aux);
 	
 	
