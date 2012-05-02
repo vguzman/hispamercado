@@ -72,7 +72,7 @@
 		$resul=buscarSphinx($anuncios,$buscar);
 		$anuncios=$resul;
 	}
-
+	
 	
 	
 	if (count($anuncios)==0)
