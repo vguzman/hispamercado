@@ -64,7 +64,7 @@
 		$cl->SetMatchMode( SPH_MATCH_ALL );
 		$cl->SetFilter('id_anuncio' , $filtro);
 		$cl->SetFieldWeights( array ('b.titulo' => 10, 'b.descripcion' => 5, 'b.ciudad' => 6, 'b.urbanizacion' => 8, 'b.marca' => 8, 'b.modelo' => 8, 'b.anio' => 1) );
-		$cl->SetLimits(0,500000,500000,500000);
+		$cl->SetLimits(0,10000,10000,10000);
 		
 		
 					
