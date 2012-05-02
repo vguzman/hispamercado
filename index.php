@@ -56,7 +56,7 @@ function listarRecientes()
 	ciudad=document.getElementById("ciudades");
 	buscar=document.getElementById("buscar");
 		
-	var url="lib/servicios/recientes.php?id_cat="+categoria.options[categoria.selectedIndex].value+"&ciudad="+ciudad.options[ciudad.selectedIndex].value+"&buscar="+buscar.value;
+	var url="ajaxRecientes.php?id_cat="+categoria.options[categoria.selectedIndex].value+"&ciudad="+ciudad.options[ciudad.selectedIndex].value+"&buscar="+buscar.value;
 	
 	req=getXMLHttpRequest();
 	req.onreadystatechange=processStateChange;
@@ -66,7 +66,6 @@ function listarRecientes()
 
 function manejoBusqueda(donde)
 {
-	//window.alert(document.getElementById("buscar").value);
 	if (donde=="adentro")
 		if (document.getElementById("buscar").value=="Búsqueda rápida...")
 			document.getElementById("buscar").value="";
