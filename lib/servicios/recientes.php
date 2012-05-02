@@ -53,7 +53,7 @@
 	$aux.=$parche." ORDER BY fecha DESC";
 	
 	
-	echo $aux;
+	//echo $aux;
 	
 	
 	$query=operacionSQL($aux);
