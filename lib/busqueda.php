@@ -75,8 +75,8 @@
 		
 		
 		
-		//echo "fallo en Query: " . $cl->GetLastError() . "<br>";
-		//echo "WARNING: " . $cl->GetLastWarning() . "<br>";
+		echo "fallo en Query: " . $cl->GetLastError() . "<br>";
+		echo "WARNING: " . $cl->GetLastWarning() . "<br>";
 		
 		if (count($result["matches"])>0)
 		{
