@@ -273,9 +273,10 @@ class Anuncio
 			}
 		}
 		
+		$descripcion=strtolower($descripcion2);
+		$descripcion=ucwords($descripcion);
 		
-		
-		return $descripcion2;
+		return $descripcion;
 	}
 	
 	
