@@ -401,6 +401,21 @@ function validarContacto()
 <div style="margin:0 auto 0 auto; width:800px;">
 	<? echo $barra_gestion ?>
 </div>
+
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px;" align="center">
+		  <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-8563690485788309";
+        /* Hispamercado Anuncio Top */
+        google_ad_slot = "3487409011";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+        </script>
+        <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        &nbsp; 
+</div>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin-top:40px; ">
     <tr>
       <td width="537" align="left" valign="bottom" class="arial13Negro"><a href="../" class="LinkFuncionalidad13"><b>Inicio</b></a> &raquo; <?

@@ -548,7 +548,9 @@ function validar(e) {
     <td>&nbsp;</td>
   </tr>
 </table>
-<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px;" align="center">
+
+
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:30px; margin-top:10px;" align="center">
 		  <script type="text/javascript"><!--
         google_ad_client = "ca-pub-8563690485788309";
         /* Hispamercado Anuncio Top */
@@ -560,7 +562,6 @@ function validar(e) {
         <script type="text/javascript"
         src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
         </script>
-        &nbsp; 
 </div>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
@@ -1136,13 +1137,29 @@ function validar(e) {
   </tr>
 </table>
 <div style="margin:0 auto 0 auto; width:800px; ">
-  <?	
+  <?
+  	$medio=intval(31/2);
 	for ($i=$primero;$i<$ultimo;$i++)
 	{		
 		if (($i%2)==0)
 			$colorete="#F2F7E6";			
 		else
 			$colorete="#FFFFFF";
+			
+		if ($i==($primero+$medio))
+			echo '<div style="margin:0 auto 0 auto; width:800px; margin-top:10px; margin-bottom:10px;">
+				  <script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8563690485788309";
+						/* Hispamercado__Anuncio */
+						google_ad_slot = "8673209427";
+						google_ad_width = 800;
+						google_ad_height = 90;
+						//-->
+						</script>
+				  <script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
+				  &nbsp; </div>';
 			
 		$anuncio=new Anuncio($anuncios[$i]);
 		echo $anuncio->armarAnuncio($colorete);		
