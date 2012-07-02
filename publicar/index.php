@@ -577,7 +577,7 @@ theme_advanced_resizing : true,
   <? echo $barra; ?>
   
 
-<div style="visibility:hidden">
+<div style="visibility:hidden; display:none;">
 <img src="../img/bigrotation2.gif" width="32" height="32" >
 </div>
 
