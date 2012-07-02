@@ -435,7 +435,7 @@ function processCalibrar()
   </tr>
 </table>
 <? echo $barra; ?>
-<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px;" align="center">
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:30px; margin-top:30px;" align="center">
   <script type="text/javascript"><!--
         google_ad_client = "ca-pub-8563690485788309";
         /* Hispamercado Anuncio Top */
