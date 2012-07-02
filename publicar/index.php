@@ -575,12 +575,13 @@ theme_advanced_resizing : true,
     </tr>
   </table>
   <? echo $barra; ?>
-  <table width="300" border="0" align="center" cellpadding="0" cellspacing="5" bgcolor="#FFFFFF">
-    <tr>
-      <td><img src="../img/bigrotation2.gif" width="32" height="32" style="visibility:hidden" ></td>
-    </tr>
-  </table>
   
+
+<div style="visibility:hidden">
+<img src="../img/bigrotation2.gif" width="32" height="32" >
+</div>
+
+      
   <div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px;" align="center">
 		  <script type="text/javascript"><!--
         google_ad_client = "ca-pub-8563690485788309";
