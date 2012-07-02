@@ -419,36 +419,37 @@ function processCalibrar()
 <title>Gestionar mis anuncios clasificados</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <body>
-
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-      <td width="295" align="left"><a href="../"><img src="../img/logo_290.JPG" width="290" height="46" border="0"></a></td>
-      <td width="280" align="left" valign="bottom" class="arial13Mostaza"><strong><em>Anuncios Clasificados  en Venezuela</em></strong></td>
-      <td width="225" align="right" valign="top" class="arial11Negro"><a href="javascript:window.alert('Sección en construcción')" class="LinkFuncionalidad">T&eacute;rminos</a> | <a href="../sugerencias.php" class="LinkFuncionalidad">Sugerencias</a></td>
-    </tr>
-  </table>
-  <table width="800" border="0" cellspacing="0" cellpadding="0" align="center">
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://www.hispamercado.com.ve/" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
-    <div style="float:left;"><a href="http://twitter.com/share" class="twitter-share-button" data-text="Anuncios clasificados gratis en Venezuela - Inmuebles, Carros, Negocios, Servicios" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
-    </td>
+    <td width="295" height="55" align="left"><a href="../"><img src="../img/logo_290.JPG" width="290" height="46" border="0"></a></td>
+    <td width="280" align="left" valign="bottom" class="arial13Mostaza"><strong><em>Anuncios Clasificados  en Venezuela</em></strong></td>
+    <td width="225" align="right" valign="top" class="arial11Negro"><a href="javascript:window.alert('Secci&oacute;n en construcci&oacute;n')" class="LinkFuncionalidad">T&eacute;rminos</a> | <a href="../sugerencias.php" class="LinkFuncionalidad">Sugerencias</a></td>
   </tr>
 </table>
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="6" bgcolor="#FFFFFF">
-    <tr>
-      <td width="10">&nbsp;</td>
-      <td width="777" align="right" class="Arial11Negro">&nbsp;</td>
-      <td width="13">&nbsp;</td>
-    </tr>
-  </table>
-  <? echo $barra; ?>
-  <table width="300" border="0" align="center" cellpadding="0" cellspacing="5" bgcolor="#FFFFFF">
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-  </table>
-  <div align="center">
-    <table width="800" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><div id="fb-root"></div>
+      <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script>
+      <fb:like href="http://www.hispamercado.com.ve/" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+      </div></td>
+  </tr>
+</table>
+<? echo $barra; ?>
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px;" align="center">
+  <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-8563690485788309";
+        /* Hispamercado Anuncio Top */
+        google_ad_slot = "3487409011";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+        </script>
+  <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+  &nbsp; </div>
+<div align="center">
+<table width="800" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
       <tr>
         <td width="220" align="left" valign="bottom" class="arial13Negro"><a href="/" class="LinkFuncionalidad13"><b>Inicio </b></a>&raquo; Gestionar mis anuncios</td>
         <td width="580" align="right" valign="bottom">&nbsp;</td>
@@ -459,7 +460,7 @@ function processCalibrar()
         <td height="1"></td>
       </tr>
     </table>
-  </div>
+</div>
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td>&nbsp;</td>
