@@ -6,9 +6,11 @@ function operacionSQL($aux)
 	mysql_select_db ("hispamercado"); 
 	
 	$query=mysql_query($aux,$link);
+	
+	mysql_close($link);
 		
 	if (!($query))
-		echo mysql_error();
+		$error=mysql_error();
 	else
 		return $query;	
 }
