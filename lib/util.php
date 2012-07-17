@@ -7,7 +7,7 @@ function operacionSQL($aux)
 	
 	$query=mysql_query($aux,$link);
 	
-	mysql_close($link);
+	//mysql_close($link);
 		
 	if (!($query))
 		$error=mysql_error();
