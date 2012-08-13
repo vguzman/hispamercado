@@ -510,7 +510,7 @@ function email($de_nombre,$de_mail,$para_nombre,$para_mail,$asunto,$contenido)
 	$mail-> Body = utf8_encode($contenido);
 	
 	$mail->IsHTML(true);
-	$mail->SetLanguage('es','phpmailer/language/');
+	//$mail->SetLanguage('es','phpmailer/language/');
 	$mail->CharSet = "UTF-8";
 
 	

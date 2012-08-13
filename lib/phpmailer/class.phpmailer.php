@@ -672,8 +672,8 @@ class PHPMailer {
     if ($isSent === 1) {return TRUE; }
 
     // Some sort of error occured.
-    throw new phpmailerException
-      ($this->Lang('amazonses_error').$ret[1], self::STOP_CRITICAL);
+    /*throw new phpmailerException
+      ($this->Lang('amazonses_error').$ret[1], self::STOP_CRITICAL);*/
     return FALSE;
   }
 
