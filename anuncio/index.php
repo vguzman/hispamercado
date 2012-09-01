@@ -402,7 +402,7 @@ function validarContacto()
 	<? echo $barra_gestion ?>
 </div>
 
-<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px;" align="center">
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px; <? if ($categoria->patriarca()==160) echo 'display:none;' ?>" align="center">
 		  <script type="text/javascript"><!--
         google_ad_client = "ca-pub-8563690485788309";
         /* Hispamercado Anuncio Top */
@@ -623,7 +623,7 @@ function validarContacto()
         <td>&nbsp;<? echo $anuncio->descripcion ?></td>
       </tr>
     </table>
-    <div style="margin:0 auto 0 auto; width:800px; margin-top:15px;">
+    <div style="margin:0 auto 0 auto; width:800px; margin-top:15px; <? if ($categoria->patriarca()==160) echo 'display:none;' ?>">
       <script type="text/javascript"><!--
 		google_ad_client = "ca-pub-8563690485788309";
 		/* Hispamercado__Anuncio */
