@@ -550,7 +550,7 @@ function validar(e) {
 </table>
 
 
-<div style="margin:0 auto 0 auto; width:800px; margin-bottom:30px; margin-top:10px; <? if ($cat->patriarca()==160) echo 'display:none;' ?>" align="center">
+<div style="margin:0 auto 0 auto; width:800px; margin-bottom:30px; margin-top:10px; <? if (isset($_GET['id_cat'])) if ($cat->patriarca()==160) echo 'display:none;' ?>" align="center">
 		  <script type="text/javascript"><!--
         google_ad_client = "ca-pub-8563690485788309";
         /* Hispamercado Anuncio Top */
@@ -1146,11 +1146,12 @@ function validar(e) {
 			$colorete="#F2F7E6";			
 		else
 			$colorete="#FFFFFF";
-			
-		if ($cate->patriarca()==160) 
-			$display='display:none;';
-		else
-			$display='';	
+		
+		if (isset($_GET['id_cat']))	
+			if ($cate->patriarca()==160)
+				$display='display:none;';
+			else
+				$display='';	
 			
 		if ($i==($primero+$medio))
 			echo '<div style="margin:0 auto 0 auto; width:800px; margin-top:10px; margin-bottom:10px; '.$display.'">
@@ -1180,7 +1181,7 @@ function validar(e) {
 	
 ?>
 </div>
-<div style="margin:0 auto 0 auto; width:800px; <? if ($cate->patriarca()==160) echo 'display:none;' ?> ">
+<div style="margin:0 auto 0 auto; width:800px; <? if (isset($_GET['id_cat'])) if ($cate->patriarca()==160) echo 'display:none;' ?> ">
   <script type="text/javascript"><!--
 		google_ad_client = "ca-pub-8563690485788309";
 		/* Hispamercado__Anuncio */
