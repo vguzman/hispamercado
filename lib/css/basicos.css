@@ -6,8 +6,8 @@ body {
 
 
 
-a.barraPrincipal {font-family: Arial, Helvetica, sans-serif; color:#585247; font-size:13px; text-decoration:none}
-a.barraPrincipal:hover {font-family: Arial, Helvetica, sans-serif; color:#0066FF; font-size:13px; text-decoration:none}
+a.barraPrincipal {font-family: Arial, Helvetica, sans-serif; color:#004080; font-size:15px; text-decoration:none}
+a.barraPrincipal:hover {font-family: Arial, Helvetica, sans-serif; color:#0066FF; font-size:15px; text-decoration:none}
 
 .linkCategoriaPrincipal {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#003399; text-decoration:none}
 a.linkCategoriaPrincipal:hover {font-family: Arial, Helvetica, sans-serif; font-size:11px; color:#003399; text-decoration:underline}
@@ -16,6 +16,10 @@ a.linkCategoriaPrincipal13:hover {font-family: Arial, Helvetica, sans-serif; fon
 
 .tituloAnuncio {font-family: Arial, Helvetica, sans-serif; font-size:18px; color:#003399; text-decoration:none}
 a.tituloAnuncio:hover {font-family: Arial, Helvetica, sans-serif; font-size:18px; color:#003399; text-decoration:underline}
+
+
+.tituloAnuncioChico {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:none}
+a.tituloAnuncioChico:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:underline}
 
 
 
@@ -53,6 +57,9 @@ a.tituloAnuncio:hover {font-family: Arial, Helvetica, sans-serif; font-size:18px
 .arial17Negro {font-family: Arial, Helvetica, sans-serif; font-size:19px; color:#000000; text-decoration:none}
 .arial15Rojo {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#FF0000; text-decoration:none}
 .arial15RojoPrecio {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#E60000; text-decoration:none}
+.arial15Mostaza {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#77773C; text-decoration:none}
+
+
 
 .arial25Negro {font-family: Arial, Helvetica, sans-serif; font-size:25px; color:#000000; text-decoration:none}
 .arial25Mostaza {font-family: Arial, Helvetica, sans-serif; font-size:25px; color:#77773C; text-decoration:none}
@@ -77,6 +84,13 @@ a.LinkFuncionalidad13:hover {font-family: Arial, Helvetica, sans-serif; font-siz
 .LinkFuncionalidad15 {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#0000FF; text-decoration:none}
 a.LinkFuncionalidad15:hover {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#FF6600;}
 
+.LinkFuncionalidad14 {font-family: Arial, Helvetica, sans-serif; font-size:14px; color:#0000FF; text-decoration:none}
+a.LinkFuncionalidad14:hover {font-family: Arial, Helvetica, sans-serif; font-size:14px; color:#FF6600;}
+
+.LinkFuncionalidad17 {font-family: Arial, Helvetica, sans-serif; font-size:17px; color:#0000FF; text-decoration:none}
+a.LinkFuncionalidad17:hover {font-family: Arial, Helvetica, sans-serif; font-size:17px; color:#FF6600;}
+
+
 
 .LinkFuncionalidad12 {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#0000FF; text-decoration:none}
 a.LinkFuncionalidad12:hover {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#FF6600;}
@@ -91,3 +105,6 @@ a.LinkRojo11:hover {font-family: Arial, Helvetica, sans-serif; font-size:11px; c
 
 .LinkRojo13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:none}
 a.LinkRojo13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:underline}
+
+.LinkBlanco13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:none}
+a.LinkBlanco13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:underline;}

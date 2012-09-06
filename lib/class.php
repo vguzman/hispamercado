@@ -987,17 +987,14 @@ class Categoria
 class Usuario
 {
 	var $id;
-	var $user;
-	var $email;
+	var $fb_id;
+	var $fb_nick;
 	var $nombre;
-	var $telefonos;
-	var $provincia;
-	var $ciudad;
-	var $direccion;
-	var $validado;
-	var $fecha_registro;
-	var $pais;
-	var $web;
+	var $email;
+	var $fb_token;
+	var $fb_token_expires;
+	var $cookie;
+	var $status;
 
 
 	function Usuario($id)
@@ -1005,25 +1002,16 @@ class Usuario
 		$query=operacionSQL("SELECT * FROM Usuario WHERE id=".$id);
 		
 		$this->id=$id;
-		$this->user=mysql_result($query,0,1);
-		$this->email=mysql_result($query,0,2);
+		$this->fb_id=mysql_result($query,0,1);
+		$this->fb_nick=mysql_result($query,0,2);
 		$this->nombre=mysql_result($query,0,3);
-		$this->telefonos=mysql_result($query,0,4);
-		$this->provincia=mysql_result($query,0,6);
-		$this->ciudad=mysql_result($query,0,7);
-		$this->direccion=mysql_result($query,0,8);	
-		$this->validado=mysql_result($query,0,9);
-		$this->fecha_registro=mysql_result($query,0,10);
-		$this->pais=mysql_result($query,0,11);
-		$this->web=mysql_result($query,0,12);		
+		$this->email=mysql_result($query,0,4);
+		$this->fb_token=mysql_result($query,0,5);
+		$this->fb_token_expires=mysql_result($query,0,6);
+		$this->cookie=mysql_result($query,0,7);	
+		$this->status=mysql_result($query,0,8);
 	}
 	
-	function numAnunciosActivos()
-	{
-		$aux="SELECT count(*) FROM Anuncio WHERE id_usuario='".$this->id."' AND status_general='Activo'";
-		$query=operacionSQL($aux);
-		return mysql_result($query,0,0);
-	}
 	
 	
 }
