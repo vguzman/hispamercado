@@ -35,8 +35,11 @@ function checkSession()
 	
 	if (isset($_COOKIE['hispacookie']))
 	{
-		$query=operacionSQL("SELECT id FROM Usuario WHERE cookie='".$_COOKIE['hispacookie']."'");
-		return mysql_result($query,0,0);
+		$query=operacionSQL("SELECT id FROM Usuario WHERE cookie='".$_COOKIE['hispacookie']."' AND fb_token_expires>NOW()");
+		if (mysql_num_rows($query)>0)
+			return mysql_result($query,0,0);
+		else
+			return false;
 	}
 	else
 		return false;

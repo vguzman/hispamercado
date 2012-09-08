@@ -83,6 +83,23 @@ class Anuncio
 		}
 	}
 	
+	function visitas()
+	{
+		$query=operacionSQL("SELECT cuenta FROM AnuncioVisitaResumen WHERE id_anuncio=".$this->id);
+		if (mysql_num_rows($query)==0)
+			$visitas_archivo=0;
+		else
+			$visitas_archivo=mysql_result($query,0,0);
+			
+			
+		$query=operacionSQL("SELECT COUNT(*) FROM AnuncioVisita WHERE id_anuncio=".$this->id);
+		$visitas_recientes=mysql_result($query,0,0);
+
+
+		return $visitas_archivo+$visitas_recientes;			
+			
+	}
+	
 	function tamanoFoto($foto)
 	{
 		$destino="../img/img_bank/".$this->id."_".$foto;

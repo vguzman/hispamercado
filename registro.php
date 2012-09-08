@@ -39,6 +39,9 @@
 			//NUEVO USUARIO
 			if (mysql_num_rows($query)==0)
 			{
+				$cookie=md5(uniqid(rand().$fb_id, TRUE));
+				
+				
 				$aux="INSERT INTO Usuario VALUES (null,".$fb_id.",'".$fb_nick."','".$nombre."','".$email."','".$access_token."',NOW()+INTERVAL ".$expires_token." SECOND,'A','".$cookie."')";
 				operacionSQL($aux);
 				
@@ -66,10 +69,9 @@
 			
 			
 			//INICIANDO SESION
-			$cookie=md5(uniqid(rand().$fb_id, TRUE));
-			setcookie("hispacookie",$cookie,time() + (30*24*60*60),"/",".hispamercado.com.ve",false,true);
-			operacionSQL("UPDATE Usuario SET cookie='".$cookie."' WHERE id=".$id_usuario);
-			
+			$usuario=new Usuario($id_usuario);
+			setcookie("hispacookie",$usuario->cookie,time() + (30*24*60*60),"/",".hispamercado.com.ve",false,true);
+						
 			
 		}
 		

@@ -108,3 +108,9 @@ a.LinkRojo13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; c
 
 .LinkBlanco13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:none}
 a.LinkBlanco13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:underline;}
+
+
+.miCuentaMenu {margin:0 auto 0 auto; height:40px; list-style:none; padding:0px; width:650px; border-bottom:2px solid #77773C; background-color:#D8E8AE; margin-top:30px;}
+
+.LinkmiCuentaMenu {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:none;}
+a.LinkmiCuentaMenu:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:underline;}
