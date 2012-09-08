@@ -204,4 +204,23 @@ function aaaammdd_ddmmaaaa($fecha)
 
 
 
+function categorias_principales()
+{
+	$query=operacionSQL("SELECT id,nombre FROM Categoria WHERE id_categoria IS NULL");
+	$total=mysql_num_rows($query);	
+		
+	for ($i=0;$i<$total;$i++)
+	{
+		$categorias[$i]['id']=mysql_result($query,$i,0);
+		$categorias[$i]['nombre']=mysql_result($query,$i,1);
+	}
+	
+	return $categorias;
+}
+
+
+
+
+
+
 ?>
