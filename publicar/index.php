@@ -580,25 +580,8 @@ theme_advanced_resizing : true,
 <div style="visibility:hidden; display:none;">
 <img src="../img/bigrotation2.gif" width="32" height="32" >
 </div>
-
-      
-  <div style="margin:0 auto 0 auto; width:800px; margin-bottom:30px; margin-top:30px;" align="center">
-		  <script type="text/javascript"><!--
-        google_ad_client = "ca-pub-8563690485788309";
-        /* Hispamercado Anuncio Top */
-        google_ad_slot = "3487409011";
-        google_ad_width = 728;
-        google_ad_height = 90;
-        //-->
-        </script>
-        <script type="text/javascript"
-        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-        </script>
-        &nbsp; 
-</div>
-  
-  <div align="center">
-    <table width="800" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
+<div align="center" style="margin-top:30px;">
+<table width="800" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
       <tr>
         <td width="220" align="left" valign="bottom" class="arial13Negro"><a href="/" class="LinkFuncionalidad13"><b>Inicio </b></a>&raquo; Publicar anuncio </td>
         <td width="580" align="right" valign="bottom">&nbsp;</td>

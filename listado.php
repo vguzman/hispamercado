@@ -550,19 +550,6 @@ function validar(e) {
 </table>
 
 
-<div style="margin:0 auto 0 auto; width:800px; margin-bottom:30px; margin-top:10px; <? if (isset($_GET['id_cat'])) if ($cat->patriarca()==160) echo 'display:none;' ?>" align="center">
-		  <script type="text/javascript"><!--
-        google_ad_client = "ca-pub-8563690485788309";
-        /* Hispamercado Anuncio Top */
-        google_ad_slot = "3487409011";
-        google_ad_width = 728;
-        google_ad_height = 90;
-        //-->
-        </script>
-        <script type="text/javascript"
-        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-        </script>
-</div>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
     <td width="800" valign="bottom" align="left" class="arial13Negro"><? 
@@ -1153,20 +1140,6 @@ function validar(e) {
 			else
 				$display='';	
 			
-		if ($i==($primero+$medio))
-			echo '<div style="margin:0 auto 0 auto; width:800px; margin-top:10px; margin-bottom:10px; '.$display.'">
-				  <script type="text/javascript"><!--
-						google_ad_client = "ca-pub-8563690485788309";
-						/* Hispamercado__Anuncio */
-						google_ad_slot = "8673209427";
-						google_ad_width = 800;
-						google_ad_height = 90;
-						//-->
-						</script>
-				  <script type="text/javascript"
-						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-						</script>
-				  &nbsp; </div>';
 			
 		$anuncio=new Anuncio($anuncios[$i]);
 		echo $anuncio->armarAnuncio($colorete);		
@@ -1181,19 +1154,7 @@ function validar(e) {
 	
 ?>
 </div>
-<div style="margin:0 auto 0 auto; width:800px; <? if (isset($_GET['id_cat'])) if ($cate->patriarca()==160) echo 'display:none;' ?> ">
-  <script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8563690485788309";
-		/* Hispamercado__Anuncio */
-		google_ad_slot = "8673209427";
-		google_ad_width = 800;
-		google_ad_height = 90;
-		//-->
-		</script>
-  <script type="text/javascript"
-		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script>
-  &nbsp; </div>
+
 <div align="center">
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="8">
     <tr>
