@@ -16,8 +16,6 @@ class Anuncio
 	var $precio;
 	var $moneda;
 	var $ciudad;
-	var $id_provincia;
-	var $id_pais;
 	var $foto1;
 	var $foto2;
 	var $foto3;
@@ -50,20 +48,18 @@ class Anuncio
 		$this->precio=mysql_result($query,0,8);
 		$this->moneda=mysql_result($query,0,9);
 		$this->ciudad=mysql_result($query,0,10);
-		$this->id_provincia=mysql_result($query,0,11);
-		$this->id_pais=mysql_result($query,0,12);
-		$this->foto1=mysql_result($query,0,13);
-		$this->foto2=mysql_result($query,0,14);
-		$this->foto3=mysql_result($query,0,15);
-		$this->foto4=mysql_result($query,0,16);
-		$this->foto5=mysql_result($query,0,17);
-		$this->foto6=mysql_result($query,0,18);
-		$this->video_youtube=mysql_result($query,0,19);
-		$this->anunciante_email=mysql_result($query,0,20);
-		$this->anunciante_nombre=mysql_result($query,0,21);
-		$this->anunciante_telefonos=mysql_result($query,0,22);
-		$this->status_general=mysql_result($query,0,23);
-		$this->status_revision=mysql_result($query,0,24);
+		$this->foto1=mysql_result($query,0,11);
+		$this->foto2=mysql_result($query,0,12);
+		$this->foto3=mysql_result($query,0,13);
+		$this->foto4=mysql_result($query,0,14);
+		$this->foto5=mysql_result($query,0,15);
+		$this->foto6=mysql_result($query,0,16);
+		$this->video_youtube=mysql_result($query,0,17);
+		$this->anunciante_email=mysql_result($query,0,18);
+		$this->anunciante_nombre=mysql_result($query,0,19);
+		$this->anunciante_telefonos=mysql_result($query,0,20);
+		$this->status_general=mysql_result($query,0,21);
+		$this->status_revision=mysql_result($query,0,22);
 		
 		//echo $this->id."<br>";
 	}
@@ -649,9 +645,7 @@ class Anuncio
 		
 		
 		$ciudad=$this->ciudad;
-		$pro=new Provincia($this->id_provincia);
-		$ciudad.=" ".$pro->nombre;		
-		
+		$ciudad=str_replace(",","",$ciudad);		
 		
 		
 		$id_cat=$this->id_categoria;
@@ -799,7 +793,6 @@ class Categoria
 	var $nombre;
 	var $id_categoria;
 	var $orden;
-	var $id_pais;
 	
 	function Categoria($id)
 	{
@@ -809,7 +802,6 @@ class Categoria
 		$this->nombre=mysql_result($query,0,1);
 		$this->id_categoria=mysql_result($query,0,2);
 		$this->orden=mysql_result($query,0,3);
-		$this->id_pais=mysql_result($query,0,4);		
 	}
 	
 	

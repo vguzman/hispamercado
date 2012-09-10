@@ -57,12 +57,12 @@
 					<a href="" class="tituloAnuncioChico">'.$anuncio->titulo.'</a>
 				</div>
 				<div class="arial11Negro" style="margin-top:5px;">
-					<em>Publicado hace '.$anuncio->tiempoHace().' | 545 visitas</em>
+					<em>Publicado hace '.$anuncio->tiempoHace().' | '.$anuncio->visitas().' visitas</em>
 				</div>
 				
 				<div style="margin-top:30px;">
 				
-				<a href="" class="LinkFuncionalidad13"><img src="../img/edit-icon.png" width="19" height="19" border="0" /> Editar   </a>&nbsp;&nbsp;&nbsp;<a href="" class="LinkFuncionalidad13"><img src="../img/delete-icon.png" width="19" height="19" border="0" /> Finalizar</a>&nbsp;&nbsp;&nbsp;  <a href="" class="LinkFuncionalidad13"><img src="../img/chart-icon.png" width="19" height="19" border="0" /> Destacar</a>
+				<a href="../publicar/index.php?edit='.$anuncio->codigo_verificacion.'" class="LinkFuncionalidad13" target="_blank"><img src="../img/edit-icon.png" width="19" height="19" border="0" />Editar</a>&nbsp;&nbsp;&nbsp; <a href="" class="LinkFuncionalidad13"><img src="../img/delete-icon.png" width="19" height="19" border="0" /> Finalizar</a>&nbsp;&nbsp;&nbsp;  <a href="" class="LinkFuncionalidad13"><img src="../img/chart-icon.png" width="19" height="19" border="0" /> Destacar</a>
 					
 				</div>
 				

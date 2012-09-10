@@ -1,22 +1,17 @@
 <?
-	session_start();
+	include "../lib/class.php";
+	$sesion=checkSession();
 	
-	include "../lib/class.php";	
 	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
-	
-	cookieSesion(session_id(),$_SERVER['HTTP_HOST']);			
-	
-	$barra=barraPrincipal("../");
-	$barraLogueo=barraLogueo();
-	$barraPaises= barraPaises($id_pais);
+	if ($sesion!=false)
+		$id_usuario=$sesion;
+	else
+		$id_usuario="NULL";
 	
 	
 	$id_sesion=session_id();	
 	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
+	
 	
 	//De las categorías
 	$id=$_POST['id'];
@@ -42,21 +37,10 @@
 	$texto=$_POST['content'];
 	$titulo=$_POST['titulo'];
 	$precio=$_POST['precio'];
-	$moneda=$_POST['moneda'];
+	$moneda="Bs";
 	
 	
-	
-	if ($_POST['ubicacion_fuera']=="SI")
-	{	
-		$ciudad="Fuera del país";
-		$provincia="NULL";
-	}
-	else
-	{
-		$ciudad=ucwords(strtolower(addslashes($_POST['ciudad'])));
-		$provincia=$_POST['provincia'];	
-	}
-	
+	$ciudad=$_POST['ciudad'];
 	
 	
 	$query=operacionSQL("SELECT max(id) FROM Anuncio");
@@ -89,15 +73,6 @@
 	if (mysql_num_rows($query)==0)
 		$flag=1;
 	
-	//COMPROBANDO MONEDA CORRECTA
-	if ($precio!="NULL")
-	{
-		$aux="SELECT * FROM Pais_Moneda WHERE id_pais='".$id_pais."' AND moneda='".$moneda."'";
-		$query=operacionSQL($aux);
-		if (mysql_num_rows($query)==0)
-			$flag=1;
-	}
-	
 	
 	if ($flag==1)
 	{
@@ -125,10 +100,10 @@
 		
 		$headers = "MIME-Version: 1.0\n";
 		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
-		$headers .= "From: HispaMercado ".$nombre_pais." <admin@hispamercado.com.ve>\n";
+		$headers .= "From: Hispamercado <admin@hispamercado.com.ve>\n";
 		$headers .= "Reply-To: admin@hispamercado.com.ve";
 		
-		email("HispaMercado ".$nombre_pais,"info@hispamercado.com",$_POST['nombre'],$email,"Tu e-mail ha sido bloqueado en Hispamercado",$contenido);
+		email("Hispamercado","info@hispamercado.com",$_POST['nombre'],$email,"Tu e-mail ha sido bloqueado en Hispamercado",$contenido);
 		
 		
 		echo "<script type='text/javascript'>
@@ -144,7 +119,7 @@
 	
 	
 	$precio=str_replace(",",".",$precio);
-	$aux="INSERT INTO Anuncio VALUES (".$id_anuncio.",'".$verificacion."',".$id_cat.",'".trim($tipo)."',NULL,DATE_ADD(NOW(),INTERVAL 30 MINUTE),'".addslashes(trim($titulo))."','".addslashes($texto)."',".trim($precio).",'".$moneda."','".trim($ciudad)."',".$provincia.",'".$id_pais."','".$foto1."','".$foto2."','".$foto3."','".$foto4."','".$foto5."','".$foto6."',".trim($youtube).",'".addslashes(trim($email))."','".addslashes(trim($nombre))."','".addslashes(trim($telefonos))."','Verificar','Revision')";
+	$aux="INSERT INTO Anuncio VALUES (".$id_anuncio.",'".$verificacion."',".$id_cat.",'".trim($tipo)."',".$id_usuario.",DATE_ADD(NOW(),INTERVAL 30 MINUTE),'".addslashes(trim($titulo))."','".addslashes($texto)."',".trim($precio).",'".$moneda."','".trim($ciudad)."','".$foto1."','".$foto2."','".$foto3."','".$foto4."','".$foto5."','".$foto6."',".trim($youtube).",'".addslashes(trim($email))."','".addslashes(trim($nombre))."','".addslashes(trim($telefonos))."','Verificar','Revision')";
 	//echo "<br>";
 	operacionSQL($aux);
 	//INFO DE ANUNCIANTE	
@@ -229,7 +204,7 @@
 					<tr>
 						<td align='left'><font face='Arial' size='2'>Hola <b>".$nombre."</b>,</font><p>
 						<font face='Arial' size='2'>Muchas gracias por utilizar
-						<a href='http://".$_SERVER['HTTP_HOST']."'>HispaMercado ".$pais->nombre."</a>.</font><p>
+						<a href='http://".$_SERVER['HTTP_HOST']."'>Hispamercado</a>.</font><p>
 						<font face='Arial' size='2'>Para que tu anuncio sea activado y aparezca en nuestros 
 			listados debes ingresar en el siguiente link:
 			<a href='http://".$_SERVER['HTTP_HOST']."/publicar/activaAnuncio.php?id=".$verificacion."'>
@@ -250,13 +225,11 @@
 		
 		$headers = "MIME-Version: 1.0\n";
 		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
-		$headers .= "From: HispaMercado ".$nombre_pais." <admin@hispamercado.com.ve>\n";
+		$headers .= "From: Hispamercado <admin@hispamercado.com.ve>\n";
 		$headers .= "Reply-To: admin@hispamercado.com.ve";
 		
-		email("HispaMercado ".$nombre_pais,"info@hispamercado.com",$_POST['nombre'],$email,"Activa tu anuncio",$contenido);
-		//mail($email,"Activa tu anuncio",$contenido,$headers);
-		//mail("vmgafrm@gmail.com","Nuevo anuncio publicado",$contenido,$headers);
-	//--------------------------------------------------------------------------------------------------------------------
+		email("Hispamercado","info@hispamercado.com",$_POST['nombre'],$email,"Activa tu anuncio",$contenido);
+//--------------------------------------------------------------------------------------------------------------------
 		
 
 

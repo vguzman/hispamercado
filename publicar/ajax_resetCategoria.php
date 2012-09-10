@@ -2,15 +2,14 @@
 	session_start();	
 	include "../lib/class.php";	
 	
-	$id_pais=verificaPais();
 
 ?>
 
-<table width="800" align="center" border="0" cellpadding="0" cellspacing="0" >
+<table width="1000" align="center" border="0" cellpadding="0" cellspacing="0" >
         <tr>
-          <td width="67"><select name="principal" size="6" id="principal" onChange="subcategorias(this)">
+          <td width="67" style="padding-top:5px;"><select name="principal" size="6" id="principal" onChange="subcategorias(this)">
             <?			
-			$categorias=categorias_principales($id_pais);			
+			$categorias=categorias_principales();			
 			$total=sizeof($categorias);
 			for ($i=0;$i<$total;$i++)
 				echo utf8_encode("<option value='".$categorias[$i]['id']."'>".$categorias[$i]['nombre']."</option>");			

@@ -2,8 +2,25 @@
 	include "../lib/class.php";
 	$sesion=checkSession();	
 
-
-
+	
+	$pre_email="";
+	$pre_nombre="";
+	$pre_telefonos="";
+	$pre_titulo="";
+	$pre_descripcion="";
+	$pre_ciudad="";
+	$pre_precio="";
+	
+	//CASOS USUARIO REGISTRADO
+	if ($sesion!=false)
+	{
+		$usuario=new Usuario($sesion);
+		
+		$pre_email=$usuario->email;
+		$pre_nombre=$usuario->nombre;	
+	}
+	
+	
 	//CASOS SPAM
 	if (isset($_GET['precarga']))
 	{
@@ -19,6 +36,318 @@
 			$pre_ciudad=mysql_result($query,0,8);
 		}
 	}
+	
+	
+	$trigger="";$trigger2="";
+	if (isset($_GET['edit']))
+	{
+		$query=operacionSQL("SELECT id FROM Anuncio WHERE codigo_verificacion='".$_GET['edit']."'");
+		if (mysql_num_rows($query)==0)
+		{
+			echo "<SCRIPT LANGUAGE='JavaScript'>		
+				document.location.href='http://www.hispamercado.com.ve/';			
+			</SCRIPT>";
+			exit;
+		}
+		else
+		{
+			$anuncio=new Anuncio(mysql_result($query,0,0));
+			
+			$pre_nombre=$anuncio->anunciante_nombre;
+			$pre_email=$anuncio->anunciante_email;
+			$pre_telefonos=$anuncio->anunciante_telefonos;
+			$pre_titulo=$anuncio->titulo;
+			$pre_descripcion=$anuncio->descripcion;
+			$pre_ciudad=$anuncio->ciudad;
+			$pre_precio=$anuncio->precio;
+			
+			
+			$cate=new Categoria($anuncio->id_categoria);
+			$arbol=$cate->arbolDeHoja();
+			
+			$armar_cate="";
+			for ($i=count($arbol)-1;$i>=0;$i--)
+			{
+				$armar_cate.=$arbol[$i]['id'];
+				if ($i>0)
+					$armar_cate.=";";
+			}
+			
+			
+			//TRATANDO FOTOS
+			if ($anuncio->foto1=="SI")
+			{
+				$destino="../img/img_bank/temp/".session_id()."_1";
+				copy("../img/img_bank/".$anuncio->id."_1",$destino);
+			
+				$info = getimagesize($destino);
+			
+				//Para abrir archivo
+				switch ($info[2]) 
+				{
+					case 1:
+						$original = imagecreatefromgif($destino); break;
+					case 2:
+						$original = imagecreatefromjpeg($destino); break;
+					case 3:
+						$original = imagecreatefrompng($destino); break;
+					
+				}
+				
+				//TODO LO QUE VIENE ES PARA CUADRAR LAS PROPORCIONES DE LA FOTO
+				$original_w = imagesx($original);
+				$original_h = imagesy($original);
+			
+				if($original_w<$original_h) 
+				{
+					$muestra_w = intval(($original_w/$original_h)*97);
+					$muestra_h=97;				
+				}
+				else
+				{
+					$muestra_w=77;
+					$muestra_h=intval(($original_h/$original_w)*77);
+				}
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+				
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+				
+				//Para cerrar y guardar foto			
+				imagejpeg($muestra,$destino."_muestra",100);
+				imagedestroy($muestra);			
+			
+			
+			
+			
+			}
+			if ($anuncio->foto2=="SI")
+			{
+				
+				$destino="../img/img_bank/temp/".session_id()."_2";
+				copy("../img/img_bank/".$anuncio->id."_2",$destino);
+			
+			
+			
+				$info = getimagesize($destino);
+			
+				//Para abrir archivo
+				switch ($info[2]) 
+				{
+					case 1:
+						$original = imagecreatefromgif($destino); break;
+					case 2:
+						$original = imagecreatefromjpeg($destino); break;
+					case 3:
+						$original = imagecreatefrompng($destino); break;
+					
+				}
+				
+				//TODO LO QUE VIENE ES PARA CUADRAR LAS PROPORCIONES DE LA FOTO
+				$original_w = imagesx($original);
+				$original_h = imagesy($original);
+			
+				if($original_w<$original_h) 
+				{
+					$muestra_w = intval(($original_w/$original_h)*97);
+					$muestra_h=97;				
+				}
+				else
+				{
+					$muestra_w=77;
+					$muestra_h=intval(($original_h/$original_w)*77);
+				}
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+				
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+				
+				//Para cerrar y guardar foto			
+				imagejpeg($muestra,$destino."_muestra",100);
+				imagedestroy($muestra);
+			}			
+			if ($anuncio->foto3=="SI")
+			{
+				$destino="../img/img_bank/temp/".session_id()."_3";
+				copy("../img/img_bank/".$anuncio->id."_3",$destino);
+				
+				$info = getimagesize($destino);
+			
+				//Para abrir archivo
+				switch ($info[2]) 
+				{
+					case 1:
+						$original = imagecreatefromgif($destino); break;
+					case 2:
+						$original = imagecreatefromjpeg($destino); break;
+					case 3:
+						$original = imagecreatefrompng($destino); break;
+					
+				}
+				
+				//TODO LO QUE VIENE ES PARA CUADRAR LAS PROPORCIONES DE LA FOTO
+				$original_w = imagesx($original);
+				$original_h = imagesy($original);
+			
+				if($original_w<$original_h) 
+				{
+					$muestra_w = intval(($original_w/$original_h)*97);
+					$muestra_h=97;				
+				}
+				else
+				{
+					$muestra_w=77;
+					$muestra_h=intval(($original_h/$original_w)*77);
+				}
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+				
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+				
+				//Para cerrar y guardar foto			
+				imagejpeg($muestra,$destino."_muestra",100);
+				imagedestroy($muestra);
+			}
+			if ($anuncio->foto4=="SI")
+			{
+				$destino="../img/img_bank/temp/".session_id()."_4";
+				copy("../img/img_bank/".$anuncio->id."_4",$destino);
+				
+				
+				$info = getimagesize($destino);
+			
+				//Para abrir archivo
+				switch ($info[2]) 
+				{
+					case 1:
+						$original = imagecreatefromgif($destino); break;
+					case 2:
+						$original = imagecreatefromjpeg($destino); break;
+					case 3:
+						$original = imagecreatefrompng($destino); break;
+					
+				}
+				
+				//TODO LO QUE VIENE ES PARA CUADRAR LAS PROPORCIONES DE LA FOTO
+				$original_w = imagesx($original);
+				$original_h = imagesy($original);
+			
+				if($original_w<$original_h) 
+				{
+					$muestra_w = intval(($original_w/$original_h)*97);
+					$muestra_h=97;				
+				}
+				else
+				{
+					$muestra_w=77;
+					$muestra_h=intval(($original_h/$original_w)*77);
+				}
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+				
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+				
+				//Para cerrar y guardar foto			
+				imagejpeg($muestra,$destino."_muestra",100);
+				imagedestroy($muestra);
+			}
+			if ($anuncio->foto5=="SI")
+			{
+				$destino="../img/img_bank/temp/".session_id()."_5";
+				copy("../img/img_bank/".$anuncio->id."_5",$destino);
+				
+				$info = getimagesize($destino);
+			
+				//Para abrir archivo
+				switch ($info[2]) 
+				{
+					case 1:
+						$original = imagecreatefromgif($destino); break;
+					case 2:
+						$original = imagecreatefromjpeg($destino); break;
+					case 3:
+						$original = imagecreatefrompng($destino); break;
+					
+				}
+				
+				//TODO LO QUE VIENE ES PARA CUADRAR LAS PROPORCIONES DE LA FOTO
+				$original_w = imagesx($original);
+				$original_h = imagesy($original);
+			
+				if($original_w<$original_h) 
+				{
+					$muestra_w = intval(($original_w/$original_h)*97);
+					$muestra_h=97;				
+				}
+				else
+				{
+					$muestra_w=77;
+					$muestra_h=intval(($original_h/$original_w)*77);
+				}
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+				
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+				
+				//Para cerrar y guardar foto			
+				imagejpeg($muestra,$destino."_muestra",100);
+				imagedestroy($muestra);
+			}
+			if ($anuncio->foto6=="SI")
+			{
+				$destino="../img/img_bank/temp/".session_id()."_6";
+				copy("../img/img_bank/".$anuncio->id."_6",$destino);
+			
+			
+				$info = getimagesize($destino);
+			
+				//Para abrir archivo
+				switch ($info[2]) 
+				{
+					case 1:
+						$original = imagecreatefromgif($destino); break;
+					case 2:
+						$original = imagecreatefromjpeg($destino); break;
+					case 3:
+						$original = imagecreatefrompng($destino); break;
+					
+				}
+				
+				//TODO LO QUE VIENE ES PARA CUADRAR LAS PROPORCIONES DE LA FOTO
+				$original_w = imagesx($original);
+				$original_h = imagesy($original);
+			
+				if($original_w<$original_h) 
+				{
+					$muestra_w = intval(($original_w/$original_h)*97);
+					$muestra_h=97;				
+				}
+				else
+				{
+					$muestra_w=77;
+					$muestra_h=intval(($original_h/$original_w)*77);
+				}
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+				
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+				
+				//Para cerrar y guardar foto			
+				imagejpeg($muestra,$destino."_muestra",100);
+				imagedestroy($muestra);
+			
+			}
+			
+			
+			
+			
+			$trigger='onLoad="armarCategoria('.chr(39).$armar_cate.chr(39).','.chr(39).$anuncio->tipo_categoria.chr(39).')"';
+			$trigger2='<SCRIPT LANGUAGE="JavaScript">
+						calibrarFotos();
+					</SCRIPT>';
+		}
+	}
+	
 	
 	
 	
@@ -71,7 +400,7 @@ function armarCategoria(id,tipo)
 	fox=0;
 	req=getXMLHttpRequest();
 	req.onreadystatechange=processArmarCategoria;
-	req.open("GET","../lib/servicios/armarCategoria.php?id="+id+"&tipo="+tipo,true);
+	req.open("GET","ajax_armarCategoria.php?id="+id+"&tipo="+tipo,true);
 	req.send(null);	
 	
 	
@@ -122,15 +451,6 @@ function process_selecCategoria()
 }
 
 
-
-
-function agregar_categoria()
-{	
-	if (document.Forma['id'].value=="NULL")
-		ventana=window.open("agregarCategoria.php","publicar_agregar_categoria","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=750,height=160");
-	else
-		alert("Ya has seleccionado una categoría");
-}
 
 
 
@@ -204,10 +524,6 @@ function contar_texto()
 
 function colocar()
 {
-	//probarYoutube();
-	//while (document.Forma.estado_yutub.value=="X")
-		//document.Forma.estado_yutub.value=document.Forma.estado_yutub.value;
-	
 	var aux=new String(document.Forma.id.value);
 	var cates=aux.split(";");
 	var id_cat=cates[cates.length-1];
@@ -216,7 +532,7 @@ function colocar()
 	
 	//EXPRESIONES REGULARES
 	var patron_email=/^[^@ ]+@[^@ ]+.[^@ .]+$/;
-	var patron_ciudad=/^[a-zA-Z][a-zA-Z\s]+$/;
+	//var patron_ciudad=/^[a-zA-Z][a-zA-Z\s]+$/;
 	var patron_anio=/^19\d\d|200\d|201\d$/;
 	var patron_no_vacio=/^\S[\w\W]*$/;
 	
@@ -236,11 +552,8 @@ function colocar()
 				if (patron_no_vacio.test(document.Forma.titulo.value)==false)
 					window.alert("Debe introducir el título del anuncio");
 				else
-					if ((patron_ciudad.test(document.Forma.ciudad.value)==false)&&(document.Forma.ubicacion_fuera.checked==false))
+					if (patron_no_vacio.test(document.Forma.ciudad.value)==false)
 						window.alert("Debe introducir un nombre de ciudad válido");
-					else
-						if ((document.Forma.provincia.selectedIndex==0)&&(document.Forma.ubicacion_fuera.checked==false))
-							window.alert("Debe seleccionar una provincia");
 						else
 							if ((document.Forma.precio.value!="")&&(validaDecimal(document.Forma.precio.value)==0))
 								window.alert("El precio debe tener el formato indicado");
@@ -432,50 +745,6 @@ function processCalibrar()
 
 
 
-function control_ubicacion(donde)
-{
-	if (donde=="fuera")
-	{
-		if (document.Forma.ubicacion_fuera.checked==true)
-		{
-			document.Forma.ciudad.value="";
-			document.Forma.ciudad.disabled=true;
-			document.Forma.provincia.selectedIndex=0;
-			document.Forma.provincia.disabled=true;
-			
-			document.Forma.ubicacion_todo.checked=false;
-			
-		}
-		else
-		{
-			document.Forma.ciudad.disabled=false;
-			document.Forma.provincia.disabled=false;
-		}		
-	}
-	
-	
-	if (donde=="todo")
-	{
-		if (document.Forma.ubicacion_todo.checked==true)
-		{
-			document.Forma.ciudad.value="";
-			document.Forma.ciudad.disabled=true;
-			document.Forma.provincia.selectedIndex=0;
-			document.Forma.provincia.disabled=true;
-			
-			document.Forma.ubicacion_fuera.checked=false;
-			
-		}
-		else
-		{
-			document.Forma.ciudad.disabled=false;
-			document.Forma.provincia.disabled=false;
-		}		
-	}
-	
-	
-}
-
 
 function probarYoutube() 
 {	
@@ -506,7 +775,18 @@ function processStateChange2()
 </script>
 
 
-
+<script src="suggest/js/jquery-1.4.2.min.js"></script>
+<script src="suggest/js/autocomplete.jquery.js"></script>
+ <script>
+            $(document).ready(function(){
+                /* Una vez que se cargo la pagina , llamo a todos los autocompletes y
+                 * los inicializo */
+                $('.autocomplete').autocomplete();
+            });
+        </script>
+<link type="text/css" rel="stylesheet" href="suggest/css/autocomplete.css"></link>
+        
+        
 <script type="text/javascript" src="../lib/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 tinyMCE.init({
@@ -539,10 +819,10 @@ theme_advanced_resizing : true,
 
 <title>Publicar anuncio clasificado gratis en Venezuela</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<body>
+<body <? echo $trigger ?>>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <img src="../img/logo_original.jpg" alt="" width="360" height="58"> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
+    <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="http://www.hispamercado.com.ve/"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
     <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
       <?
 	
@@ -582,7 +862,7 @@ theme_advanced_resizing : true,
         <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
           <option selected value="todas">Todas las categor&iacute;as</option>
           <?
-	  	$aux="SELECT id,nombre FROM Categoria WHERE id_pais='".$id_pais."' AND id<>160 AND id_categoria IS NULL";
+	  	$aux="SELECT id,nombre FROM Categoria WHERE id<>160 AND id_categoria IS NULL";
 		$query=operacionSQL($aux);
 		$total=mysql_num_rows($query);	
 		
@@ -630,50 +910,74 @@ theme_advanced_resizing : true,
 </div>
 <div style="visibility:hidden; display:none;">
 <img src="../img/bigrotation2.gif" width="32" height="32" ></div>
-<div align="center" style="margin-top:40px;">
-<table width="800" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
+<div align="center" style="margin-top:50px;">
+<table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
       <tr>
-        <td width="220" align="left" valign="bottom" class="arial13Negro"><a href="/" class="LinkFuncionalidad13"><b>Inicio </b></a>&raquo; Publicar anuncio </td>
-        <td width="580" align="right" valign="bottom">&nbsp;</td>
-      </tr>
-    </table>
-    <table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor="#C8C8C8">
-      <tr>
-        <td height="1"></td>
+        <td width="220" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; <? if (isset($anuncio)) echo "Editar anuncio #".$anuncio->id; else echo "Publicar anuncio"; ?> </td>
+        <td width="580" align="right" valign="bottom">
+        
+        <?
+			if (isset($anuncio))
+			{	
+				if ($anuncio->status_general=="Activo")
+					echo '<table width="200" border="0" cellspacing="0" cellpadding="0">
+						  <tr>
+							<td width="42" align="right"><img src="../img/delete-icon.png" width="24" height="24" border="0"></td>
+							<td width="158" style="padding-left:3px;" align="left"><a href="" class="LinkFuncionalidad15">Finalizar este anuncio</a></td>
+						  </tr>
+						</table>';
+						
+				if ($anuncio->status_general=="Inactivo")
+					echo '<table width="200" border="0" cellspacing="0" cellpadding="0">
+						  <tr>
+							<td width="42" align="right"><img src="../img/activate-icon.png" width="24" height="24" border="0"></td>
+							<td width="158" style="padding-left:3px;" align="left"><a href="" class="LinkFuncionalidad15">Reactivar este anuncio</a></td>
+						  </tr>
+						</table>';
+			
+			
+			
+			}
+		?>
+        
+        
+
+        
+        
+        
+        </td>
       </tr>
     </table>
 </div>
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-  </table>
- <form name="Forma" method="post" action="publicar.php">
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8" style="border-collapse:collapse ">
-    <tr>
-      <td width="484" align="left" class="arial13Negro"><strong>Categor&iacute;a <span class="arial13Rojo">*</span></strong></td>
-    </tr>
-  </table>
+
+<div style=" margin-top:30px;">
+<form name="Forma" method="post" action="publicar.php">
+
+
+<div style="margin:0 auto 0 auto; width:1000px; background-color:#F4F9E8; padding-top:5px; padding-left:5px;" class="arial13Negro">
+	<strong>Categor&iacute;a <span class="arial13Rojo">*</span></strong>
+</div>
+
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
     <tr>
-      <td align="center" id="categoriasSeleccionadas" class="arial13Negro"><table width="800" align="center" border="0" cellpadding="0" cellspacing="0" >
+      <td align="center" id="categoriasSeleccionadas" class="arial13Negro"><table width="1000" align="center" border="0" cellpadding="0" cellspacing="0" >
         <tr>
-          <td width="67"><select name="principal" size="6" id="principal" onChange="subcategorias(this)">
+          <td width="67" style="padding-top:5px; padding-bottom:5px;"><select name="principal" size="6" id="principal" onChange="subcategorias(this)">
             <?			
-			$categorias=categorias_principales($id_pais);			
+			$categorias=categorias_principales();			
 			$total=sizeof($categorias);
 			for ($i=0;$i<$total;$i++)
 				echo "<option value='".$categorias[$i]['id']."'>".$categorias[$i]['nombre']."</option>";			
 		?>
           </select></td>
           <td width="7" align="center" class="arial13Negro"><b>&nbsp;&raquo;&nbsp;</b></td>
-          <td width="7" id="sub1">&nbsp;</td>
-          <td width="7" id="sig_sub1"></td>
-          <td width="7" id="sub2">&nbsp;</td>
-          <td width="7" id="sig_sub2"></td>
-          <td width="7" id="sub3">&nbsp;</td>
-          <td width="7" id="sig_sub3"><div align="center"></div></td>
-          <td width="584" align="left" id="final">&nbsp;</td>
+          <td width="7" id="sub1" style="padding-top:5px; padding-bottom:5px;">&nbsp;</td>
+          <td width="7" id="sig_sub1" style="padding-top:5px; padding-bottom:5px;"></td>
+          <td width="7" id="sub2" style="padding-top:5px; padding-bottom:5px;">&nbsp;</td>
+          <td width="7" id="sig_sub2" style="padding-top:5px; padding-bottom:5px;"></td>
+          <td width="7" id="sub3" style="padding-top:5px; padding-bottom:5px;">&nbsp;</td>
+          <td width="7" id="sig_sub3" style="padding-top:5px; padding-bottom:5px;"><div align="center"></div></td>
+          <td width="584" align="left" id="final" style="padding-top:5px; padding-bottom:5px;">&nbsp;</td>
         </tr>
       </table></td>
     </tr>
@@ -688,13 +992,13 @@ theme_advanced_resizing : true,
       </font></i></td>
     </tr>
   </table>
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8" style="border-collapse:collapse ">
+  <table width="1000" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8" style="border-collapse:collapse ">
     <tr>
-      <td width="332" align="left" class="arial13Negro"><strong>Datos del anunciante</strong></td>
-      <td width="268" align="right" class="Estilo3"><? //f (isset($_SESSION['user'])) echo "te encuentras logueado como <strong>".$_SESSION['user']."</strong>"; ?></td>
+      <td width="435" align="left" class="arial13Negro" style="padding-top:5px; padding-bottom:5px;"><strong>Datos del anunciante</strong></td>
+      <td width="356" align="right" class="Estilo3"><? //f (isset($_SESSION['user'])) echo "te encuentras logueado como <strong>".$_SESSION['user']."</strong>"; ?></td>
     </tr>
   </table>
-  <table width="800" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
+  <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
     <tr>
       <td width="117" align="left" class="arial13Negro">E-mail</td>
       <td width="258" valign="middle" align="left"><input name="email" type="text" id="email" size="25" maxlength="255" value="<? echo $pre_email ?>"></td>
@@ -714,73 +1018,56 @@ theme_advanced_resizing : true,
       <td>&nbsp;<input name="id_anuncio" type="hidden" id="id_anuncio" value="<? echo session_id(); ?>"></td>
     </tr>
   </table>
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8" style="border-collapse:collapse ">
+  <table width="1000" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8" style="border-collapse:collapse ">
     <tr>
-      <td width="484" align="left" class="arial13Negro"><strong>Datos del anuncio</strong></td>
+      <td width="484" align="left" class="arial13Negro" style="padding-top:5px; padding-bottom:5px;"><strong>Datos del anuncio</strong></td>
     </tr>
   </table>
-  <table width="800" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
+  <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
     <tr>
       <td align="left" class="arial13Negro"> T&iacute;tulo</td>
       <td align="left"><input name="titulo" type="text" id="titulo" size="100" maxlength="200" value="<? echo $pre_titulo ?>"></td>
     </tr>
     <tr>
-      <td width="112" align="left" valign="top" class="arial13Negro">Descripci&oacute;n</td>
-      <td width="676" align="left"><textarea id="content" name="content" rows="10" style="width:100%" ><? echo $pre_descripcion ?>
+      <td width="150" align="left" valign="top" class="arial13Negro">Descripci&oacute;n</td>
+      <td width="850" align="left"><textarea id="content" name="content" rows="10" style="width:100%" ><? echo $pre_descripcion ?>
 	</textarea></td>
     </tr>
   </table>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
+    <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
     <tr>
       <td id="barra_detalles_anuncio"></td>
     </tr>
   </table>
-  <table width="800" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
+  <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
     <tr>
-      <td align="left" class="arial13Negro">Ciudad</td>
-      <td align="left">
-        
-        <span class="arial11Gris">Introduzca solo letras y espacios</span><br>
-        <input name="ciudad" type="text" id="ciudad" size="40" maxlength="255"><br>
-      	  
-          
-          
-          <input name="ubicacion_fuera" type="checkbox" id="ubicacion_fuera" onClick="control_ubicacion('fuera')" value="SI">        
-     	<span class="arial11Negro">El producto o servicio anunciado se encuentra fuera del país</span>       
-        </td>
-    </tr>
-    <tr>
-      <td align="left" class="arial13Negro">Estado</td>
-      <td align="left"><select name="provincia" id="provincia">
-          <option selected> </option>
-          <?
-	  	$query=operacionSQL("SELECT id FROM Provincia WHERE id_pais='".$id_pais."'");
-		
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-		{
-			$provincia=new Provincia(mysql_result($query,$i,0));
-			echo "<option value='".$provincia->id."'>".$provincia->nombre."</option>";
-		}
-	  ?>
-      </select></td>
+      <td width="150" align="left" class="arial13Negro">Ciudad</td>
+      <td width="830" align="left" style="padding-top:8px;">
+      
+     
+      
+      
+      <div  class="autocomplete" style="margin:0px; padding:0px;">
+        <input name="ciudad" type="text" id="ciudad" size="40" maxlength="255" value="<? echo $pre_ciudad ?>"  data-source="suggest/search.php?search=">
+      </div>
+      
+       <div class="arial11Gris">Si la ciudad introducida es distinta a cualquiera de las sugeridas el anuncio sera revisado antes de su activacion</div>
+      	
+       
+      
+      
+      </td>
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Precio </td>
-      <td align="left" class="arial13Negro"><input name="precio" type="text" id="precio" size="16">
-          <select name="moneda" id="moneda">
-            <?
-			
-			$monedas=$pais->monedas();
-			for ($i=0;$i<count($monedas);$i++)
-				echo "<option>".$monedas[$i]."</option>";
-		?>
-          </select>
-      <em>(opcional)</em><br>
-          <span class="arial11Gris">Usar formato 999.99</span></td>
+      <td align="left" class="arial13Negro" style="padding-top:8px;">Bs 
+        <input name="precio" type="text" id="precio" size="16" value="<? echo $pre_precio ?>">
+        <em>(opcional)</em><br>
+        <span class="arial11Gris">Usar formato 999.99</span></td>
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Fotos (<a href="javascript:subirFoto()" class="LinkFuncionalidad13">subir foto</a>) </td>
-      <td align="left"><table width="600" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8" style="border-collapse:collapse ">
+      <td align="left" style="padding-top:8px;"><table width="600" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8" style="border-collapse:collapse; ">
           <tr>
             <td width="100" height="81" align="center" class="arial13Negro" id="foto1">Foto 1</td>
             <td width="100" align="center" class="arial13Negro" id="foto2">Foto 2</td>
@@ -793,7 +1080,7 @@ theme_advanced_resizing : true,
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Video <img src="../img/youtube.png" width="16" height="16"></td>
-      <td align="left" class="arial13Negro"><input name="youtube" type="text" id="youtube" size="72" maxlength="255" onChange="probarYoutube()">
+      <td align="left" class="arial13Negro" style="padding-top:8px;"><input name="youtube" type="text" id="youtube" size="72" maxlength="255" onChange="probarYoutube()">
         <input name="estado_yutub" type="hidden" id="estado_yutub" value="X">
       <em>(opcional)</em><br>
           <span class="arial11Gris">Introducir url del video de YouTube (ejemplo: http://www.youtube.com/watch?v=DZRXe1wtC)</span></td>
@@ -807,23 +1094,30 @@ theme_advanced_resizing : true,
   <div align="center">
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="4">
       <tr>
-        <td><input name="foto1" type="hidden" id="foto1" value="NO">
+        <td><input name="foto1" type="hidden" id="foto1" <? if (isset($anuncio)) if ($anuncio->foto1=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
         <input name="aux1" type="hidden" id="aux1"></td>
-        <td><input name="foto2" type="hidden" id="foto2" value="NO">
+        <td><input name="foto2" type="hidden" id="foto2" <? if (isset($anuncio)) if ($anuncio->foto2=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
         <input name="aux2" type="hidden" id="aux2"></td>
-        <td><input name="foto3" type="hidden" id="foto3" value="NO">
+        <td><input name="foto3" type="hidden" id="foto3" <? if (isset($anuncio)) if ($anuncio->foto3=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
         <input name="aux3" type="hidden" id="aux3"></td>
-        <td><input name="foto4" type="hidden" id="foto4" value="NO">
+        <td><input name="foto4" type="hidden" id="foto4" <? if (isset($anuncio)) if ($anuncio->foto4=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
         <input name="aux4" type="hidden" id="aux4"></td>
-        <td><input name="foto5" type="hidden" id="foto5" value="NO">
+        <td><input name="foto5" type="hidden" id="foto5" <? if (isset($anuncio)) if ($anuncio->foto5=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
         <input name="aux5" type="hidden" id="aux5"></td>
-        <td><input name="foto6" type="hidden" id="foto6" value="NO">
+        <td><input name="foto6" type="hidden" id="foto6" <? if (isset($anuncio)) if ($anuncio->foto6=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
         <input name="aux6" type="hidden" id="aux6"></td>
       </tr>
   </table>
  
       <p align="center">
-        <input type="button" name="Submit" value="Colocar anuncio" onClick="colocar()">
+        <?
+			if (isset($anuncio))
+				echo '<input type="button" name="Submit" value="Editar anuncio" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">';
+			else
+				echo '<input type="button" name="Submit" value="Colocar anuncio" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">';
+		
+		?>
+        
   </p>
       <table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
         <tr>
@@ -838,7 +1132,8 @@ theme_advanced_resizing : true,
       </table>
       
 </form>
-
+</div>
+<? echo $trigger2 ?>
 </body>
 </html>
 <script type="text/javascript">

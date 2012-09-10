@@ -13,7 +13,7 @@
 <head>
 
 
-<title>Anuncios clasificados gratis en <? echo $pais->nombre ?> - Avisos Clasificados gratuitos - Inmuebles, Carros, Negocios, Servicios</title>
+<title>Anuncios clasificados gratis en Venezuela - Avisos Clasificados gratuitos - Inmuebles, Carros, Negocios, Servicios</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <meta name="description" content="Avisos clasificados gratuitos en toda Venezuela, avanzadas herramientas de publicación y búsqueda. Inmuebles: Apartamentos, Casas, Oficinas, Locales comerciales. Vehículos: Carros, Camionetas, Motos, Repuestos. Celulares, Video juegos, Ropa, Negocios, Servicios, Mascotas y mucho mas">
@@ -178,7 +178,7 @@ function loginFB(url)
       <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
         <option selected value="todas">Todas las categor&iacute;as</option>
         <?
-	  	$aux="SELECT id,nombre FROM Categoria WHERE id_pais='".$id_pais."' AND id<>160 AND id_categoria IS NULL";
+	  	$aux="SELECT id,nombre FROM Categoria WHERE id<>160 AND id_categoria IS NULL";
 		$query=operacionSQL($aux);
 		$total=mysql_num_rows($query);	
 		
