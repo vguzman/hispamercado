@@ -522,7 +522,7 @@ function contar_texto()
 		document.getElementById("restan").innerHTML=longitud;	
 }
 
-function colocar()
+function colocar(tipo)
 {
 	var aux=new String(document.Forma.id.value);
 	var cates=aux.split(";");
@@ -605,8 +605,14 @@ function colocar()
 											if ((document.Forma.youtube.value!="")&&(document.Forma.estado_yutub.value!="1"))
 												window.alert("El video introducido no existe o no es válido");
 											else
+											{
+												if (tipo==1)
+													document.Forma.action="publicar.php";
+												if (tipo==2)
+													document.Forma.action="editar.php";
+												
 												document.Forma.submit();
-							
+											}
 							}
 								
 	}
@@ -834,7 +840,7 @@ theme_advanced_resizing : true,
       <table width="270" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="closeSession.php" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="closeSession.php" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
         </tr>
       </table>
     </div>
@@ -842,7 +848,7 @@ theme_advanced_resizing : true,
         <div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
           <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
         </div>
-        <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
+        <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
       </div></td>
   </tr>
 </table>
@@ -854,7 +860,7 @@ theme_advanced_resizing : true,
   </table>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;">
+      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href=''" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;">
         <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;"></td>
       <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
         <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
@@ -956,6 +962,7 @@ theme_advanced_resizing : true,
 
 <div style="margin:0 auto 0 auto; width:1000px; background-color:#F4F9E8; padding-top:5px; padding-left:5px;" class="arial13Negro">
 	<strong>Categor&iacute;a <span class="arial13Rojo">*</span></strong>
+    <input type="hidden" name="codigo" id="codigo"  <? if (isset($anuncio)) echo 'value="'.$anuncio->codigo_verificacion.'"' ?>>
 </div>
 
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
@@ -985,8 +992,8 @@ theme_advanced_resizing : true,
   <table width="800" border="0" align="center" cellpadding="0" cellspacing="3">
     <tr>
       <td><i><font face="Arial" size="2" color="#666666">
-        <input name="id" type="hidden" id="id" value="NULL">
-        <input name="tipo" type="hidden" id="tipo" value="NULL">
+        <input name="id" type="hidden" id="id" <? if (isset($anuncio)) echo 'value="'.$armar_cate.'"'; else echo 'value="NULL"'; ?>>
+        <input name="tipo" type="hidden" id="tipo" <? if (isset($anuncio)) echo 'value="'.$anuncio->tipo_categoria.'"'; else echo 'value="NULL"'; ?>>
         &nbsp;
         <input name="control_sub2" type="hidden" id="control_sub2" value="NO">
       </font></i></td>
@@ -1112,9 +1119,9 @@ theme_advanced_resizing : true,
       <p align="center">
         <?
 			if (isset($anuncio))
-				echo '<input type="button" name="Submit" value="Editar anuncio" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">';
+				echo '<input type="button" name="Submit" value="Editar anuncio" onClick="colocar(2)" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">';
 			else
-				echo '<input type="button" name="Submit" value="Colocar anuncio" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">';
+				echo '<input type="button" name="Submit" value="Colocar anuncio" onClick="colocar(1)" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">';
 		
 		?>
         

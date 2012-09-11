@@ -577,61 +577,6 @@ class Anuncio
 	
 	
 	
-	function metainformacion2()
-	{
-		$palabras_titulo=desglosarPalabras($this->titulo);
-		//$palabras_titulo=filtrarConectivos($palabras_titulo);
-		
-		$palabras_descripcion=desglosarPalabras($this->descripcion);
-		//$palabras_descripcion=filtrarConectivos($palabras_descripcion);
-		
-		
-		
-		$detalles=$this->ciudad;
-		$pro=new Provincia($this->id_provincia);
-		$detalles.=" ".$pro->nombre;		
-		$id_cat=$this->id_categoria;
-		
-		
-		//CASO INMUEBLES
-		if (($id_cat==4)||($id_cat==3)||($id_cat==5)||($id_cat==6)||($id_cat==7)||($id_cat==8)||($id_cat==9)||($id_cat==10)||($id_cat==3707)||($id_cat==3707))
-		{
-			$aux=$this->detalles();
-			$detalles.=" ".$aux['urbanizacion'];
-			
-		}
-		//CASO VEHICULOS
-		if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
-		{
-			$aux=$this->detalles();
-			$detalles.=" ".$aux['marca'];
-			$detalles.=" ".$aux['modelo'];
-			$detalles.=" ".$aux['anio'];
-		}
-		
-		$palabras_detalles=desglosarPalabras($detalles);
-		$palabras_detalles=filtrarConectivos($palabras_detalles);
-		
-		
-		for ($i=0;$i<count($palabras_titulo);$i++)
-			$titulo.=$palabras_titulo[$i]." ";
-		
-		for ($i=0;$i<count($palabras_descripcion);$i++)
-			$descripcion.=$palabras_descripcion[$i]." ";
-		
-		for ($i=0;$i<count($palabras_detalles);$i++)
-			$detalles_aux.=$palabras_detalles[$i]." ";
-		
-		
-		$query=operacionSQL("SELECT * FROM AnuncioMetainformacion WHERE id_anuncio=".$this->id);
-		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO AnuncioMetainformacion VALUES (".$this->id.",'".$titulo."','".$descripcion."','".$detalles_aux."')");
-		else
-			operacionSQL("UPDATE AnuncioMetainformacion SET titulo='".$titulo."', descripcion='".$descripcion."', detalles='".$detalles_aux."' WHERE id_anuncio=".$this->id);
-
-		//return $titulo." ".$descripcion." ".$detalles_aux;
-	
-	}
 	
 	
 	function metainformacion()

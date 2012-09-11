@@ -198,9 +198,24 @@
 	}
 	error_reporting(1);
 	
+	
+	//POR SI EL EMAIL ES DE UN USUARIO REGISTRADO
+	$query=operacionSQL("SELECT id FROM Usuario WHERE email='".$email."'");
+	if (mysql_num_rows($query)>0)
+	{
+		$id_usuario=mysql_result($query,0,0);
+		operacionSQL("UPDATE Anuncio SET id_usuario=".$id_usuario." WHERE id=".$id_anuncio);
+	}
+	
+	
 	//-----Aquí envío mail de activación de anuncio
+	if ($id_usuario=="NULL")
+	{
 		$contenido="<div align='center'>
 				<table border='0' width='800' id='table1'>
+					<tr>
+					  <td align='left'><img src='http://www.hispamercado.com.ve/img/logo_original.jpg'  width='360' height='58'></td>
+				  </tr>
 					<tr>
 						<td align='left'><font face='Arial' size='2'>Hola <b>".$nombre."</b>,</font><p>
 						<font face='Arial' size='2'>Muchas gracias por utilizar
@@ -210,17 +225,11 @@
 			<a href='http://".$_SERVER['HTTP_HOST']."/publicar/activaAnuncio.php?id=".$verificacion."'>
 			http://www.hispamercado.com/publicar/activaAnuncio.php?id=".$verificacion."</a></font></p>
 						<p><font face='Arial' size='2'>Podrás realizar cambios a tu anuncio 
-						en cualquier momento ingresando en el siguiente link: <a href='http://www.hispamercado.com.ve/gestionar/redirect.php?codigo=".$verificacion."'>http://www.hispamercado.com.ve/gestionar/redirect.php?codigo=".$verificacion."</a> </font></p>
-						
-						<p><font face='Arial' size='2'>Tambien podrás editar tu anuncio ingresando en la opción <b>Gestionar mis 
-						anuncios</b> del menú principal 
-			utilizando el siguiente código de verificación: </font></p>
-						<p align='center'><font face='Arial' size='2'><strong>
-						<span style='background-color: #FFFF00'>".$verificacion."</span></strong></font></p>
-			<p class='Estilo1'><font face='Arial' size='2'>Hasta luego...</font></p>		
+						en cualquier momento ingresando en el siguiente link: <a href='http://www.hispamercado.com.ve/publicar/index.php?edit=".$verificacion."'>http://www.hispamercado.com.ve/publicar/index.php.php?edit=".$verificacion."</a> </font></p>
+						<p>¡Gracias por usar Hispamercado!</p>
 						</td>
 					</tr>
-				</table>
+</table>
 			</div>";
 		
 		$headers = "MIME-Version: 1.0\n";
@@ -228,7 +237,10 @@
 		$headers .= "From: Hispamercado <admin@hispamercado.com.ve>\n";
 		$headers .= "Reply-To: admin@hispamercado.com.ve";
 		
-		email("Hispamercado","info@hispamercado.com",$_POST['nombre'],$email,"Activa tu anuncio",$contenido);
+		email("Hispamercado","info@hispamercado.com.ve",$_POST['nombre'],$email,"Activa tu anuncio",$contenido);
+	}
+	else
+		operacionSQL("UPDATE Anuncio SET status_general='Activo' WHERE id=".$id_anuncio);
 //--------------------------------------------------------------------------------------------------------------------
 		
 
@@ -258,54 +270,103 @@
 <title>Publicar anuncio clasificado gratis en Venezuela</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <body>
-
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-      <td width="295" align="left"><a href="../"><img src="../img/logo_290.JPG" width="290" height="46" border="0"></a></td>
-      <td width="280" align="left" valign="bottom" class="arial13Mostaza"><strong><em>Anuncios Clasificados  en Venezuela</em></strong></td>
-      <td width="225" align="right" valign="top" class="arial11Negro"><a href="javascript:window.alert('Sección en construcción')" class="LinkFuncionalidad">T&eacute;rminos</a> | <a href="../sugerencias.php" class="LinkFuncionalidad">Sugerencias</a></td>
-    </tr>
-  </table>
-  <table width="800" border="0" align="center" cellpadding="0" cellspacing="6" bgcolor="#FFFFFF">
-    <tr>
-      <td width="10">&nbsp;</td>
-      <td width="777" align="right" class="Arial11Negro">&nbsp;</td>
-      <td width="13">&nbsp;</td>
-    </tr>
-  </table>
-  <? echo $barra; ?>
-  <table width="300" border="0" align="center" cellpadding="0" cellspacing="5" bgcolor="#FFFFFF">
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-</table>
-  <div align="center">
-    <table width="800" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse ">
-      <tr>
-        <td width="220" align="left" valign="bottom" class="arial13Negro"><a href="/" class="LinkFuncionalidad13"><b>Inicio </b></a>&raquo; Publicar anuncio </td>
-        <td width="580" align="right" valign="bottom">&nbsp;</td>
-      </tr>
-    </table>
-    <table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor="#C8C8C8">
-      <tr>
-        <td height="1"></td>
-      </tr>
-    </table>
-  </div>
-
-      <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="http://www.hispamercado.com.ve/"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
+    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+      <?
+	
+	if ($sesion!=false)
+		$user=new Usuario($sesion);
+	
+	
+	 ?>
+      <table width="270" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td>&nbsp;</td>
+          <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
+          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="closeSession.php" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
         </tr>
       </table>
-      <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style=" border-style:solid; border-color:#999; border-width:1px;" >
-        <tr>
+    </div>
+      <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
+        <div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
+          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
+        </div>
+        <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
+      </div></td>
+  </tr>
+</table>
+<div style="margin-top:50px;">
+  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
+    </tr>
+  </table>
+  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href='index.php'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;">
+        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;"></td>
+      <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
+        <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
+        &nbsp;
+        <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+          <option selected value="todas">Todas las categor&iacute;as</option>
+          <?
+	  	$aux="SELECT id,nombre FROM Categoria WHERE id<>160 AND id_categoria IS NULL";
+		$query=operacionSQL($aux);
+		$total=mysql_num_rows($query);	
+		
+		for ($i=0;$i<$total;$i++)
+		{
+			$categoria=new Categoria(mysql_result($query,$i,0));
+			
+			//if ($categoria->anunciosActivos()>0)
+			echo "<option value='".mysql_result($query,$i,0)."'style='font-size:13px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,1)."</option>";
+			
+			
+		}
+		?>
+        </select>
+        &nbsp;
+        <select name="ciudades" id="ciudades" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+          <option selected value='todas' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
+          <option value='Fuera del pa&iacute;s'style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Fuera del pa&iacute;s</option>
+          <?
+		
+		//-----EXCLUYENDO CATEGORIA ADULTOS
+	$cat=new Categoria(160);
+	$hijos=$cat->hijos();
+	
+	$parche="";
+	for ($i=0;$i<count($hijos);$i++)
+		$parche.=" AND id_categoria<>".$hijos[$i];
+	//-----------
+		
+		
+	  	$query=operacionSQL("SELECT ciudad,COUNT(*) FROM Anuncio WHERE status_general='Activo' AND ciudad<>'Fuera del pa&iacute;s' ".$parche." GROUP BY ciudad ORDER BY ciudad ASC");
+				
+		for ($i=0;$i<mysql_num_rows($query);$i++)
+			echo "<option value='".mysql_result($query,$i,0)."' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,0)."</option>";
+		
+	  ?>
+        </select>
+        &nbsp;
+        <label>
+          <input type="button" name="button2" id="button2" value="Buscar" onClick="listarRecientes()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
+        </label>
+      </div></td>
+    </tr>
+  </table>
+</div>
+<div style="visibility:hidden; display:none;"> <img src="../img/bigrotation2.gif" width="32" height="32" ></div>
+<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style=" border-style:solid; border-color:#999; border-width:1px; margin-top:50px;" >
+<tr>
           <td align="left" class="arial13Negro" style="padding:15px;">
           
-          <p><strong>&iexcl;Felicidades!</strong> <strong>Tu anuncio fue recibido correctamente</strong><br>
-          Ahora solo debes activarlo ingresando al link que enviamos a tu e-mail</p>
+          <p><strong>&iexcl;Felicidades!</strong> <strong>Tu anuncio fue recibido correctamente</strong>
+          <? if ($id_usuario=="NULL") echo "<br>Ahora solo debes activarlo ingresando al link que enviamos a tu e-mail</p>" ?>
             
-          <p>Podras ver preliminarmente tu anuncio en el siguiente link: <a href="http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?>">http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?></a></p>
+          <p>Podras ver publicado tu anuncio en el siguiente link: <a href="http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?>">http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?></a></p>
           
           </td>
         </tr>
@@ -325,21 +386,7 @@
           
           </td>
         </tr>
-      </table>
-      <table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
-        <tr>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-        </tr>
-</table>
+    </table>
 </body>
 </html>
 <script type="text/javascript">

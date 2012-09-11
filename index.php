@@ -85,10 +85,7 @@ function processStateChange()
 
 
 
-function loginFB(url)
-{
-	window.open(url,"loginFB","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=400");
-}
+
 
 
 </SCRIPT>
@@ -158,7 +155,7 @@ function loginFB(url)
 <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
       <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;">
-      <a href="" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
+      <a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
   </tr>
 </table>
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
