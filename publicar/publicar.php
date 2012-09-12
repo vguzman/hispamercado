@@ -9,7 +9,7 @@
 		$id_usuario="NULL";
 	
 	
-	$id_sesion=session_id();	
+	$id_sesion=$_POST['id_anuncio'];	
 	
 	
 	

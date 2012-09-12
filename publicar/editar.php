@@ -13,7 +13,7 @@
 		$id_usuario="NULL";
 	
 	
-	$id_sesion=session_id();	
+	$id_sesion=$_POST['id_anuncio'];	
 	
 	
 	
@@ -216,6 +216,7 @@
 
 	
 	$anuncio->metainformacion();
+	
 	
 	echo "<script type='text/javascript'>
 			window.history.go(-1);

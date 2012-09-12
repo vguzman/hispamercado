@@ -1,6 +1,8 @@
 <?	
 	include "../lib/class.php";
-	$sesion=checkSession();	
+	$sesion=checkSession();
+	
+	$cookie=md5(uniqid(rand().time(), TRUE));
 
 	
 	$pre_email="";
@@ -77,7 +79,7 @@
 			//TRATANDO FOTOS
 			if ($anuncio->foto1=="SI")
 			{
-				$destino="../img/img_bank/temp/".session_id()."_1";
+				$destino="../img/img_bank/temp/".$cookie."_1";
 				copy("../img/img_bank/".$anuncio->id."_1",$destino);
 			
 				$info = getimagesize($destino);
@@ -124,7 +126,7 @@
 			if ($anuncio->foto2=="SI")
 			{
 				
-				$destino="../img/img_bank/temp/".session_id()."_2";
+				$destino="../img/img_bank/temp/".$cookie."_2";
 				copy("../img/img_bank/".$anuncio->id."_2",$destino);
 			
 			
@@ -168,7 +170,7 @@
 			}			
 			if ($anuncio->foto3=="SI")
 			{
-				$destino="../img/img_bank/temp/".session_id()."_3";
+				$destino="../img/img_bank/temp/".$cookie."_3";
 				copy("../img/img_bank/".$anuncio->id."_3",$destino);
 				
 				$info = getimagesize($destino);
@@ -210,7 +212,7 @@
 			}
 			if ($anuncio->foto4=="SI")
 			{
-				$destino="../img/img_bank/temp/".session_id()."_4";
+				$destino="../img/img_bank/temp/".$cookie."_4";
 				copy("../img/img_bank/".$anuncio->id."_4",$destino);
 				
 				
@@ -253,7 +255,7 @@
 			}
 			if ($anuncio->foto5=="SI")
 			{
-				$destino="../img/img_bank/temp/".session_id()."_5";
+				$destino="../img/img_bank/temp/".$cookie."_5";
 				copy("../img/img_bank/".$anuncio->id."_5",$destino);
 				
 				$info = getimagesize($destino);
@@ -295,7 +297,7 @@
 			}
 			if ($anuncio->foto6=="SI")
 			{
-				$destino="../img/img_bank/temp/".session_id()."_6";
+				$destino="../img/img_bank/temp/".$cookie."_6";
 				copy("../img/img_bank/".$anuncio->id."_6",$destino);
 			
 			
@@ -340,7 +342,6 @@
 			
 			
 			
-			
 			$trigger='onLoad="armarCategoria('.chr(39).$armar_cate.chr(39).','.chr(39).$anuncio->tipo_categoria.chr(39).')"';
 			$trigger2='<SCRIPT LANGUAGE="JavaScript">
 						calibrarFotos();
@@ -367,417 +368,8 @@
 
 <script language="javascript" type="text/javascript" src="../lib/js/basicos.js"> </script>
 <script language="javascript" type="text/javascript" src="../lib/js/ajax.js"> </script>
-<script language="javascript" type="text/javascript" src="../lib/js/selecCategoria.js"> </script>
+<script language="javascript" type="text/javascript" src="../lib/js/publicacion.js"> </script>
 <script language="javascript" type="text/javascript">
-
-function detallesAnuncio(id_cat) 
-{	
-	fox=0;
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processdetallesAnuncio;
-	req.open("GET","detallesAnuncio.php?id_cat="+id_cat,true);
-	req.send(null);	
-} 
-
-function processdetallesAnuncio()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			document.getElementById("barra_detalles_anuncio").innerHTML=req.responseText;
-		} 
-		else 
-			alert("Problema");      
-	}
-}
-
-
-
-var fox=0;
-function armarCategoria(id,tipo) 
-{	
-	fox=0;
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processArmarCategoria;
-	req.open("GET","ajax_armarCategoria.php?id="+id+"&tipo="+tipo,true);
-	req.send(null);	
-	
-	
-} 
-
-
-function processArmarCategoria()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			document.getElementById("categoriasSeleccionadas").innerHTML=req.responseText;
-			fox=1;
-			
-			//ventana.close();
-			detallesAnuncio(document.Forma['id'].value);				
-		} 
-		else 
-			alert("Problema");      
-	}
-}
-
-
-
-function resetCategoria() 
-{	
-	eliminar_categoria();
-	
-	req=getXMLHttpRequest();
-	req.onreadystatechange=process_selecCategoria;
-	req.open("GET","ajax_resetCategoria.php",true);
-	req.send(null);
-} 
-
-
-function process_selecCategoria()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			document.getElementById("categoriasSeleccionadas").innerHTML=req.responseText;
-		} 
-		else 
-			alert("Problema");      
-	}
-}
-
-
-
-
-
-function eliminar_categoria()
-{
-	document.Forma['id'].value="NULL";
-	document.Forma['tipo'].value="NULL";
-	
-	//document.getElementById("categoriasSeleccionadas").innerHTML="no has agregado ninguna categor&iacute;a";
-	document.getElementById("barra_detalles_anuncio").innerHTML="";
-}
-
-function subirFoto()
-{	
-	var foto="X";
-	
-	if (document.Forma['foto1'].value=="NO")
-		foto="1"; else
-	if (document.Forma['foto2'].value=="NO")
-		foto="2"; else
-	if (document.Forma['foto3'].value=="NO")
-		foto="3"; else
-	if (document.Forma['foto4'].value=="NO")
-		foto="4"; else
-	if (document.Forma['foto5'].value=="NO")
-		foto="5"; else
-	if (document.Forma['foto6'].value=="NO")
-		foto="6";
-	
-	if (foto!="X")
-		window.open("subirFoto.php?foto="+foto,"subirFoto","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=400,height=130");
-	else
-		window.alert("Ya has subido todas las fotos posibles");
-}
-
-function borrarFoto(foto)
-{	
-	document.Forma['foto'+foto].value="NO";
-	document.getElementById("foto"+foto).innerHTML="Foto "+foto;
-	
-	calibrarFotos();		
-}
-
-
-function processBorrarFoto()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			
-		} 
-		else 
-			alert("Ocurrió un problema");  
-			
-	}
-}
-
-function contar_texto()
-{
-	texto = new String (document.Forma.texto.value);
-	longitud = 700-texto.length;
-	if (longitud<0)
-	{
-		//window.alert("Tamaño máximo alcanzado");
-		document.Forma.texto.value=texto.substr(0,700);
-	}
-	else
-		document.getElementById("restan").innerHTML=longitud;	
-}
-
-function colocar(tipo)
-{
-	var aux=new String(document.Forma.id.value);
-	var cates=aux.split(";");
-	var id_cat=cates[cates.length-1];
-	
-	
-	
-	//EXPRESIONES REGULARES
-	var patron_email=/^[^@ ]+@[^@ ]+.[^@ .]+$/;
-	//var patron_ciudad=/^[a-zA-Z][a-zA-Z\s]+$/;
-	var patron_anio=/^19\d\d|200\d|201\d$/;
-	var patron_no_vacio=/^\S[\w\W]*$/;
-	
-	
-	
-	
-	if (document.Forma.id.value=="NULL")
-		window.alert("Debes seleccionar una categoría para tu anuncio");
-	else 
-	{
-		if (patron_email.test(document.Forma.email.value)==false)
-			window.alert("Debe indicar un e-mail válido");
-		else
-			if (patron_no_vacio.test(document.Forma.nombre.value)==false)
-				window.alert("Debe indicar su nombre");
-			else
-				if (patron_no_vacio.test(document.Forma.titulo.value)==false)
-					window.alert("Debe introducir el título del anuncio");
-				else
-					if (patron_no_vacio.test(document.Forma.ciudad.value)==false)
-						window.alert("Debe introducir un nombre de ciudad válido");
-						else
-							if ((document.Forma.precio.value!="")&&(validaDecimal(document.Forma.precio.value)==0))
-								window.alert("El precio debe tener el formato indicado");
-							else
-							{
-								if ((id_cat==4)||(id_cat==3))
-								{
-									if (patron_no_vacio.test(document.Forma.urbanizacion.value)==false)
-										window.alert("Debes indicar la urbanización, barrio o zona donde se encuentra el inmueble");
-									else
-										if (validaDecimal(document.Forma.superficie.value)==0)
-											window.alert("El valor de la superficie del inmueble debe tener el formato indicado");
-										else
-											if (validaEntero(document.Forma.habitaciones.value)==0)
-												window.alert("El numero de habitaciones del inmueble debe ser un número entero");
-											else
-												document.Forma.submit();
-								}
-								else
-									if ((id_cat==5)||(id_cat==6)||(id_cat==7)||(id_cat==8)||(id_cat==9)||(id_cat==10)||(id_cat==3707))
-									{
-										if (patron_no_vacio.test(document.Forma.urbanizacion.value)==false)
-											window.alert("Debes indicar la urbanización, barrio o zona donde se encuentra el inmueble");
-										else
-											if (validaDecimal(document.Forma.superficie.value)==0)
-												window.alert("El valor de la superficie del inmueble debe tener el formato indicado");
-											else
-												document.Forma.submit();
-									}
-									else
-										if ((id_cat==11)||(id_cat==12)||(id_cat==16)||(id_cat==13)||(id_cat==14))
-										{
-											if (patron_no_vacio.test(document.Forma.marca.value)==false)
-												window.alert("Debes indicar la marca del vehículo");
-											else
-												if (patron_no_vacio.test(document.Forma.modelo.value)==false)
-													window.alert("Debes indicar el modelo del vehículo");
-												else
-													if (patron_anio.test(document.Forma.anio.value)==false)
-														window.alert("El año del vehículo no es correcto");
-													else
-														if (validaEntero(document.Forma.kms.value)==0)
-															window.alert("El kilometraje del vehículo no es correcto");
-														else														
-															document.Forma.submit();											
-													
-										}
-										else
-											if ((document.Forma.youtube.value!="")&&(document.Forma.estado_yutub.value!="1"))
-												window.alert("El video introducido no existe o no es válido");
-											else
-											{
-												if (tipo==1)
-													document.Forma.action="publicar.php";
-												if (tipo==2)
-													document.Forma.action="editar.php";
-												
-												document.Forma.submit();
-											}
-							}
-								
-	}
-}
-
-
-function calibrarFotos()
-{
-	document.Forma['aux1'].value="0";
-	document.Forma['aux2'].value="0";
-	document.Forma['aux3'].value="0";
-	document.Forma['aux4'].value="0";
-	document.Forma['aux5'].value="0";
-	document.Forma['aux6'].value="0";
-	
-	var num=0;
-	
-	if (document.Forma['foto1'].value=="SI")
-	{
-		num++;
-		document.Forma['aux'+num].value="1";
-			
-	}
-	if (document.Forma['foto2'].value=="SI")
-	{
-		num++;
-		document.Forma['aux'+num].value="2";		
-	}
-	if (document.Forma['foto3'].value=="SI")
-	{
-		num++;
-		document.Forma['aux'+num].value="3";	
-	}
-	if (document.Forma['foto4'].value=="SI")
-	{
-		num++;
-		document.Forma['aux'+num].value="4";		
-	}
-	if (document.Forma['foto5'].value=="SI")
-	{
-		num++;
-		document.Forma['aux'+num].value="5";	
-	}
-	if (document.Forma['foto6'].value=="SI")
-	{
-		num++;
-		document.Forma['aux'+num].value="6";	
-	}	
-	//---------------------------------------------------------	
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processCalibrar;
-	req.open("GET","../lib/servicios/calibraFotosPublicar.php?foto1="+document.Forma['aux1'].value+"&foto2="+document.Forma['aux2'].value+"&foto3="+document.Forma['aux3'].value+"&foto4="+document.Forma['aux4'].value+"&foto5="+document.Forma['aux5'].value+"&foto6="+document.Forma['aux6'].value, true);
-	req.send(null);	
-}
-
-var n=0;
-
-function processCalibrar()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{			
-			document.Forma['foto1'].value="NO";
-			document.Forma['foto2'].value="NO";
-			document.Forma['foto3'].value="NO";
-			document.Forma['foto4'].value="NO";
-			document.Forma['foto5'].value="NO";
-			document.Forma['foto6'].value="NO";
-			
-			if (document.Forma['aux1'].value!="0")
-			{
-				document.Forma['foto1'].value="SI";
-				n++;
-				document.getElementById("foto1").innerHTML="<img src='../img/img_bank/temp/"+document.Forma['id_anuncio'].value+"_1_muestra?d="+n+"'><br><a href='javascript:borrarFoto(1)' class='LinkFuncionalidad'>eliminar</a>";
-			}
-			else
-			{
-				document.getElementById("foto1").innerHTML="Foto 1";
-			}
-			if (document.Forma['aux2'].value!="0")
-			{
-				document.Forma['foto2'].value="SI";
-				n++;
-				document.getElementById("foto2").innerHTML="<img src='../img/img_bank/temp/"+document.Forma['id_anuncio'].value+"_2_muestra?d="+n+"'><br><a href='javascript:borrarFoto(2)' class='LinkFuncionalidad'>eliminar</a>";
-			}
-			else
-			{
-				document.getElementById("foto2").innerHTML="Foto 2";
-			}
-			if (document.Forma['aux3'].value!="0")
-			{
-				document.Forma['foto3'].value="SI";
-				n++;
-				document.getElementById("foto3").innerHTML="<img src='../img/img_bank/temp/"+document.Forma['id_anuncio'].value+"_3_muestra?d="+n+"'><br><a href='javascript:borrarFoto(3)' class='LinkFuncionalidad'>eliminar</a>";
-			}
-			else
-			{
-				document.getElementById("foto3").innerHTML="Foto 3";
-				}
-			if (document.Forma['aux4'].value!="0")
-			{
-				document.Forma['foto4'].value="SI";
-				n++;
-				document.getElementById("foto4").innerHTML="<img src='../img/img_bank/temp/"+document.Forma['id_anuncio'].value+"_4_muestra?d="+n+"'><br><a href='javascript:borrarFoto(4)' class='LinkFuncionalidad'>eliminar</a>";
-			}
-			else
-			{
-				document.getElementById("foto4").innerHTML="Foto 4";
-			}
-			if (document.Forma['aux5'].value!="0")
-			{
-				document.Forma['foto5'].value="SI";
-				n++;
-				document.getElementById("foto5").innerHTML="<img src='../img/img_bank/temp/"+document.Forma['id_anuncio'].value+"_5_muestra?d="+n+"'><br><a href='javascript:borrarFoto(5)' class='LinkFuncionalidad'>eliminar</a>";
-			}
-			else
-			{
-				document.getElementById("foto5").innerHTML="Foto 5";
-			}
-			if (document.Forma['aux6'].value!="0")
-			{
-				document.Forma['foto6'].value="SI";
-				n++;
-				document.getElementById("foto6").innerHTML="<img src='../img/img_bank/temp/"+document.Forma['id_anuncio'].value+"_6_muestra?d="+n+"'><br><a href='javascript:borrarFoto(6)' class='LinkFuncionalidad'>eliminar</a>";
-			}
-			else
-			{
-				document.getElementById("foto6").innerHTML="Foto 6";
-			}	
-		} 
-		else 
-			alert("Ocurrió un problema");      
-	}
-}
-
-
-
-
-function probarYoutube() 
-{	
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processStateChange2;
-	req.open("POST","ajax_comprobarYutub.php", true);
-	req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-	req.send("url="+document.Forma.youtube.value);		
-}
-
-function processStateChange2()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			document.Forma.estado_yutub.value=req.responseText;								
-		} 
-		else 
-		{
-			//window.alert("Problema youtube");
-			window.alert(req.status);
-		}
-	}
-} 
-
-
 </script>
 
 
@@ -790,6 +382,10 @@ function processStateChange2()
                 $('.autocomplete').autocomplete();
             });
         </script>
+        
+        
+        
+        
 <link type="text/css" rel="stylesheet" href="suggest/css/autocomplete.css"></link>
         
         
@@ -1022,7 +618,7 @@ theme_advanced_resizing : true,
   </table>
   <table width="200" border="0" align="center" cellpadding="0" cellspacing="3">
     <tr>
-      <td>&nbsp;<input name="id_anuncio" type="hidden" id="id_anuncio" value="<? echo session_id(); ?>"></td>
+      <td>&nbsp;<input name="id_anuncio" type="hidden" id="id_anuncio" value="<? echo $cookie ?>"></td>
     </tr>
   </table>
   <table width="1000" border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#F4F9E8" style="border-collapse:collapse ">
@@ -1101,17 +697,17 @@ theme_advanced_resizing : true,
   <div align="center">
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="4">
       <tr>
-        <td><input name="foto1" type="hidden" id="foto1" <? if (isset($anuncio)) if ($anuncio->foto1=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
+        <td><input name="foto1" type="hidden" id="foto1" <? if (isset($anuncio)) if ($anuncio->foto1=="SI") echo 'value="SI"'; else echo 'value="NO"';  else echo 'value="NO"'; ?>>
         <input name="aux1" type="hidden" id="aux1"></td>
-        <td><input name="foto2" type="hidden" id="foto2" <? if (isset($anuncio)) if ($anuncio->foto2=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
+        <td><input name="foto2" type="hidden" id="foto2" <? if (isset($anuncio)) if ($anuncio->foto2=="SI") echo 'value="SI"'; else echo 'value="NO"';  else echo 'value="NO"'; ?>>
         <input name="aux2" type="hidden" id="aux2"></td>
-        <td><input name="foto3" type="hidden" id="foto3" <? if (isset($anuncio)) if ($anuncio->foto3=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
+        <td><input name="foto3" type="hidden" id="foto3" <? if (isset($anuncio)) if ($anuncio->foto3=="SI") echo 'value="SI"'; else echo 'value="NO"';  else echo 'value="NO"'; ?>>
         <input name="aux3" type="hidden" id="aux3"></td>
-        <td><input name="foto4" type="hidden" id="foto4" <? if (isset($anuncio)) if ($anuncio->foto4=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
+        <td><input name="foto4" type="hidden" id="foto4" <? if (isset($anuncio)) if ($anuncio->foto4=="SI") echo 'value="SI"'; else echo 'value="NO"';  else echo 'value="NO"'; ?>>
         <input name="aux4" type="hidden" id="aux4"></td>
-        <td><input name="foto5" type="hidden" id="foto5" <? if (isset($anuncio)) if ($anuncio->foto5=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
+        <td><input name="foto5" type="hidden" id="foto5" <? if (isset($anuncio)) if ($anuncio->foto5=="SI") echo 'value="SI"'; else echo 'value="NO"';  else echo 'value="NO"'; ?>>
         <input name="aux5" type="hidden" id="aux5"></td>
-        <td><input name="foto6" type="hidden" id="foto6" <? if (isset($anuncio)) if ($anuncio->foto6=="SI") echo 'value="SI"'; else echo 'value="NO"'; ?>>
+        <td><input name="foto6" type="hidden" id="foto6" <? if (isset($anuncio)) if ($anuncio->foto6=="SI") echo 'value="SI"'; else echo 'value="NO"';  else echo 'value="NO"'; ?>>
         <input name="aux6" type="hidden" id="aux6"></td>
       </tr>
   </table>
@@ -1131,8 +727,8 @@ theme_advanced_resizing : true,
           <td><input type="hidden" name="referencia" id="referencia" value="<? echo $_GET['precarga'] ?>"></td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
-        </tr>
+          <td id="campo_prueba">&nbsp;</td>
+        </tr> 
         <tr>
           <td>&nbsp;</td>
         </tr>

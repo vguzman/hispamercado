@@ -36,7 +36,8 @@ function cargando(boton)
     <table width="300" border="0" align="center" cellpadding="0" cellspacing="6">
       <tr>
         <td><input type="button" name="Submit2" value="Aceptar" onClick="cargando(this)">
-        <input name="foto" type="hidden" id="foto" value="<?php echo $_GET['foto']; ?>"></td>
+        <input name="foto" type="hidden" id="foto" value="<?php echo $_GET['foto']; ?>">
+        <input type="hidden" name="code" id="code" value="<?php echo $_GET['code']; ?>"></td>
       </tr>
     </table>
 </form>
