@@ -37,7 +37,7 @@
 	$texto=$_POST['content'];
 	$titulo=$_POST['titulo'];
 	$precio=$_POST['precio'];
-	$moneda="Bs";
+	$moneda=$_POST['moneda'];
 	
 	
 	$ciudad=$_POST['ciudad'];

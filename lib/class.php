@@ -966,74 +966,31 @@ class Usuario
 		$this->status=mysql_result($query,0,8);
 	}
 	
-	
-	
+	function idTienda()
+	{
+		$query=operacionSQL("SELECT id FROM Tienda WHERE id_usuario=".$this->id);
+		
+		if (mysql_num_rows($query)>0)
+			return mysql_result($query,0,0);
+		else
+			return false;
+	}
 }
 
 
 //****************************************************************************************
 
-class Pais
-{
-	var $id;
-	var $nombre;
-	var $gmt;
-	var $dominio;
-	var $status;
-		
-	
-	function Pais($id)
-	{
-		$query=operacionSQL("SELECT * FROM Pais WHERE id='".$id."'");
-		
-		$this->id=$id;
-		$this->nombre=mysql_result($query,0,1);
-		$this->gmt=mysql_result($query,0,2);
-		$this->dominio=mysql_result($query,0,3);
-		$this->status=mysql_result($query,0,3);
-	}
-	
-	function monedas()
-	{
-		$query=operacionSQL("SELECT moneda FROM Pais_Moneda WHERE id_pais='".$this->id."' ORDER BY orden ASC");
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-			$arreglo[$i]=mysql_result($query,$i,0);
-	
-		return $arreglo;
-	}
 
-}
-
-//****************************************************************************************
-
-class Provincia
-{
-	var $id;
-	var $id_pais;
-	var $nombre;
-	var $status;
-		
-	
-	function Provincia($id)
-	{
-		$query=operacionSQL("SELECT * FROM Provincia WHERE id='".$id."'");
-		
-		$this->id=$id;
-		$this->id_pais=mysql_result($query,0,1);		
-		$this->nombre=mysql_result($query,0,2);
-		$this->status=mysql_result($query,0,3);
-	}
-
-}
-
-//****************************************************************************************
 
 class Tienda
 {
 	var $id;
-	var $usuario;
+	var $id_usuario;
+	var $nick;
+	var $nombre;
+	var $descripcion;
 	var $logo;
-	var $descripción;
+	var $status;
 	
 	function Tienda($id)
 	{
@@ -1042,51 +999,13 @@ class Tienda
 		
 		$this->id=$id;
 		$this->id_usuario=mysql_result($query,0,1);
-		$this->logo=mysql_result($query,0,2);
-		$this->descripcion=mysql_result($query,0,3);
+		$this->nick=mysql_result($query,0,2);
+		$this->nombre=mysql_result($query,0,3);
+		$this->descripcion=mysql_result($query,0,4);
+		$this->logo=mysql_result($query,0,5);
+		$this->status=mysql_result($query,0,6);
 	}	
 	
-	function armaTienda()
-	{
-		$usuario=new Usuario($this->id_usuario);
-		
-		return "<table width='800' height='70'  border='0' align='center' cellpadding='0' cellspacing='0'>
-		  <tr>
-			<td width='150' valign='center' align='center'><a href='tienda.php?user=".strtolower($usuario->user)."'><img src='lib/logo.php?tienda=".strtolower($usuario->user)."' border='0'></a></td>
-			<td width='650' class='arial11Negro'><table width='640' border='0' align='center' cellpadding='0' cellspacing='3'>
-			  <tr>
-				<td><a href='tienda.php?user=".strtolower($usuario->user)."'><strong>".$usuario->nombre."</strong></a></td>
-			  </tr>
-			  <tr>
-				<td>".substr($this->descripcion,0,245)."...</td>
-			  </tr>
-			  <tr>
-				<td><b>".$usuario->ciudad.", ".$usuario->provincia."</b></td>
-			  </tr>
-			  <tr>
-				<td><div align='right'><span class='arial11Rojo'><b>".$usuario->numAnunciosActivos()." anuncios publicados</b></span></div></td>
-			  </tr>
-			</table></td>
-		  </tr>
-		</table>
-		<table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor='#C8C8C8'>
-			<tr>
-				<td height='1'></td>
-			</tr>
-		</table>";
-	}
-	
-	function politicas()
-	{
-		$arreglo=array();
-		$aux="SELECT * FROM Tienda_Politicas WHERE id_tienda=".$this->id;
-		$query=operacionSQL($aux);
-		
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-			$arreglo[$i]=mysql_result($query,$i,1);
-		
-		return $arreglo;
-	}	
 	
 }
 

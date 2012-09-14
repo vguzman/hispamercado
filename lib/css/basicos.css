@@ -110,7 +110,10 @@ a.LinkRojo13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; c
 a.LinkBlanco13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:underline;}
 
 
-.miCuentaMenu {margin:0 auto 0 auto; height:40px; list-style:none; padding:0px; width:650px; border-bottom:2px solid #77773C; background-color:#D8E8AE; margin-top:30px;}
+.miCuentaMenu {margin:0 auto 0 auto; height:30px; list-style:none; padding:0px; width:700px; border-bottom:2px solid #77773C; background-color:#D8E8AE;}
+.miCuentaMenuSeleccion{border-top:2px solid #77773C; border-left:2px solid #77773C; border-right:2px solid #77773C; border-bottom:1px solid #FFF; background-color:#FFF; text-align:center; float:left; height:24px;; padding-top:5px; }
+.miCuentaMenuNoSeleccion{text-align:center; float:left; height:100%; padding-top:5px;}
+
 
 .LinkmiCuentaMenu {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:none;}
 a.LinkmiCuentaMenu:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:underline;}

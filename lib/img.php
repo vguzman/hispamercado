@@ -63,7 +63,7 @@
 				}
 				if($original_w==$original_h) 
 				{
-					$muestra_w=145;
+					$muestra_w=135;
 					$muestra_h=135;
 				}
 				
@@ -78,6 +78,85 @@
 			}
 		}
 	}
+	
+	
+	if ($tipo=="gestion")
+	{
+		$destino="../img/img_bank/".$_GET['anuncio']."_1";
+		
+		if (file_exists($destino)) 
+		   $existe=true; 
+		else 
+		   $existe=false;				
+		
+		if ($existe==false)
+		{
+			$original = imagecreatefromgif("../img/no_foto.gif");
+			imagegif($original);
+		}
+		else
+		{
+			$info = getimagesize($destino);
+			switch ($info[2]) 
+			{
+				case 1:
+					$original = imagecreatefromgif($destino); break;
+				case 2:
+					$original = imagecreatefromjpeg($destino); break;
+				case 3:
+					$original = imagecreatefrompng($destino); break;		
+			}
+			
+			$original_w = imagesx($original);
+			$original_h = imagesy($original);
+			
+			if (($original_w<=100)&&($original_h<=80))
+				imagejpeg($original,"",100);	
+			else
+			{
+				if ($original_w<$original_h) 
+				{
+						$muestra_w = intval(($original_w/$original_h)*100);
+						$muestra_h=90;	
+						
+						if ($muestra_w>100)
+						{
+							$muestra_w=100;
+							$muestra_h=intval(($original_h/$original_w)*100);
+						}
+									
+				}
+				if ($original_w>$original_h)
+				{
+						$muestra_w=90;
+						$muestra_h=intval(($original_h/$original_w)*90);
+						
+						if ($muestra_h>90)
+						{
+							$muestra_w = intval(($original_w/$original_h)*135);
+							$muestra_h=90;	
+						}
+						
+				}
+				if($original_w==$original_h) 
+				{
+					$muestra_w=90;
+					$muestra_h=90;
+				}
+				
+				
+				
+				$muestra = imagecreatetruecolor($muestra_w,$muestra_h); 
+					
+				imagecopyresampled($muestra,$original,0,0,0,0,$muestra_w,$muestra_h,$original_w,$original_h);
+				imagedestroy($original);
+					
+				imagejpeg($muestra,"",100);
+			}
+		}
+	}
+
+	
 	
 	
 	

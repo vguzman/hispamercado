@@ -370,6 +370,21 @@
 <script language="javascript" type="text/javascript" src="../lib/js/ajax.js"> </script>
 <script language="javascript" type="text/javascript" src="../lib/js/publicacion.js"> </script>
 <script language="javascript" type="text/javascript">
+
+
+function accionAnuncio(accion,code)
+{
+	
+	if (accion=="finalizar")
+	{
+		var dec=window.confirm("Seguro de finalizar este anuncio? Podras activarlo nuevamente cuando quieras");
+		if (dec==true)
+			document.location.href="gestionAccion.php?accion="+accion+"&code="+code;
+	}
+	else
+		document.location.href="gestionAccion.php?accion="+accion+"&code="+code;
+}
+
 </script>
 
 
@@ -515,8 +530,8 @@ theme_advanced_resizing : true,
 <div align="center" style="margin-top:50px;">
 <table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
       <tr>
-        <td width="220" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; <? if (isset($anuncio)) echo "Editar anuncio #".$anuncio->id; else echo "Publicar anuncio"; ?> </td>
-        <td width="580" align="right" valign="bottom">
+        <td width="347" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; <? if (isset($anuncio)) echo "Editar anuncio #".$anuncio->id; else echo "Publicar anuncio"; ?> </td>
+        <td width="653" align="right" valign="bottom">
         
         <?
 			if (isset($anuncio))
@@ -525,7 +540,7 @@ theme_advanced_resizing : true,
 					echo '<table width="200" border="0" cellspacing="0" cellpadding="0">
 						  <tr>
 							<td width="42" align="right"><img src="../img/delete-icon.png" width="24" height="24" border="0"></td>
-							<td width="158" style="padding-left:3px;" align="left"><a href="" class="LinkFuncionalidad15">Finalizar este anuncio</a></td>
+							<td width="158" style="padding-left:3px;" align="left"><a href="javascript:accionAnuncio('.chr(39).'finalizar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad15">Finalizar este anuncio</a></td>
 						  </tr>
 						</table>';
 						
@@ -533,7 +548,7 @@ theme_advanced_resizing : true,
 					echo '<table width="200" border="0" cellspacing="0" cellpadding="0">
 						  <tr>
 							<td width="42" align="right"><img src="../img/activate-icon.png" width="24" height="24" border="0"></td>
-							<td width="158" style="padding-left:3px;" align="left"><a href="" class="LinkFuncionalidad15">Reactivar este anuncio</a></td>
+							<td width="158" style="padding-left:3px;" align="left"><a href="javascript:accionAnuncio('.chr(39).'reactivar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad15">Reactivar este anuncio</a></td>
 						  </tr>
 						</table>';
 			
@@ -663,7 +678,11 @@ theme_advanced_resizing : true,
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Precio </td>
-      <td align="left" class="arial13Negro" style="padding-top:8px;">Bs 
+      <td align="left" class="arial13Negro" style="padding-top:8px;"><label for="moneda"></label>
+        <select name="moneda" id="moneda">
+          <option <? if ($anuncio->moneda=="Bs") echo "selected" ?>>Bs</option>
+          <option <? if ($anuncio->moneda=="US$") echo "selected" ?>>US$</option>
+        </select>
         <input name="precio" type="text" id="precio" size="16" value="<? echo $pre_precio ?>">
         <em>(opcional)</em><br>
         <span class="arial11Gris">Usar formato 999.99</span></td>

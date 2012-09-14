@@ -25,12 +25,25 @@
 
 
 <LINK REL="stylesheet" TYPE="text/css" href="lib/css/basicos.css">
+<link href="lib/facebox/src/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 
 
+<script src="lib/facebox/lib/jquery.js" type="text/javascript"></script>
+<script src="lib/facebox/src/facebox.js" type="text/javascript"></script>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/ajax.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/favoritos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/basicos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/URLencode.js"></SCRIPT>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loadingImage : 'lib/facebox/src/loading.gif',
+        closeImage   : 'lib/facebox/src/closelabel.png'
+      })
+    })
+</script>
+
+
 
 <SCRIPT LANGUAGE="JavaScript">
 
@@ -84,8 +97,24 @@ function processStateChange()
 }
 
 
-
-
+function selecMenu(id)
+{
+	document.getElementById("menu1").className = 'miCuentaMenuNoSeleccion';
+	document.getElementById("menu1_link").className = 'LinkmiCuentaMenu';
+	document.getElementById("menu2").className = 'miCuentaMenuNoSeleccion';
+	document.getElementById("menu2_link").className = 'LinkmiCuentaMenu';
+	document.getElementById("menu3").className = 'miCuentaMenuNoSeleccion';
+	document.getElementById("menu3_link").className = 'LinkmiCuentaMenu';
+	document.getElementById("menu4").className = 'miCuentaMenuNoSeleccion';
+	document.getElementById("menu4_link").className = 'LinkmiCuentaMenu';
+	document.getElementById("menu5").className = 'miCuentaMenuNoSeleccion';
+	document.getElementById("menu5_link").className = 'LinkmiCuentaMenu';
+	
+	
+	
+	document.getElementById(id).className = 'miCuentaMenuSeleccion';
+	document.getElementById(id+"_link").className = 'arial13Negro';
+}
 
 
 </SCRIPT>
@@ -120,7 +149,7 @@ function processStateChange()
      <table width="270" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-    <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="closeSession.php" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+    <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="cuenta/index.php?d=<? echo time() ?>" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
   </tr>
 </table>
      

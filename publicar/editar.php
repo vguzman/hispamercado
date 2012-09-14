@@ -43,7 +43,7 @@
 	$texto=$_POST['content'];
 	$titulo=$_POST['titulo'];
 	$precio=$_POST['precio'];
-	$moneda="Bs";
+	$moneda=$_POST['moneda'];
 	
 	
 	$ciudad=$_POST['ciudad'];
@@ -209,9 +209,6 @@
 	error_reporting(1);
 	
 
-		
-		
-		
 
 
 	
@@ -219,7 +216,7 @@
 	
 	
 	echo "<script type='text/javascript'>
-			window.history.go(-1);
+			document.location.href='index.php?edit=".$anuncio->codigo_verificacion."&time=".time()."';
 		</script>";
 		
 	
