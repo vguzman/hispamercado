@@ -42,7 +42,7 @@
 				$cookie=md5(uniqid(rand().$fb_id, TRUE));
 				
 				
-				$aux="INSERT INTO Usuario VALUES (null,".$fb_id.",'".$fb_nick."','".$nombre."','".$email."','".$access_token."',NOW()+INTERVAL ".$expires_token." SECOND,'A','".$cookie."')";
+				$aux="INSERT INTO Usuario VALUES (null,".$fb_id.",'".$fb_nick."','".$nombre."','".$email."','".$access_token."',NOW()+INTERVAL ".$expires_token." SECOND,'".$cookie."','A')";
 				operacionSQL($aux);
 				
 				

@@ -14,8 +14,8 @@ a.linkCategoriaPrincipal:hover {font-family: Arial, Helvetica, sans-serif; font-
 .linkCategoriaPrincipal13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:none}
 a.linkCategoriaPrincipal13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:underline}
 
-.tituloAnuncio {font-family: Arial, Helvetica, sans-serif; font-size:18px; color:#003399; text-decoration:none}
-a.tituloAnuncio:hover {font-family: Arial, Helvetica, sans-serif; font-size:18px; color:#003399; text-decoration:underline}
+.tituloAnuncio {font-family: Arial, Helvetica, sans-serif; font-size:17px; color:#003399; text-decoration:none}
+a.tituloAnuncio:hover {font-family: Arial, Helvetica, sans-serif; font-size:17px; color:#003399; text-decoration:underline}
 
 
 .tituloAnuncioChico {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#003399; text-decoration:none}
@@ -117,3 +117,7 @@ a.LinkBlanco13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px;
 
 .LinkmiCuentaMenu {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:none;}
 a.LinkmiCuentaMenu:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:underline;}
+
+
+.LinkMostaza15 {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#77773C; text-decoration:none;}
+a.LinkMostaza15:hover {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#77773C; text-decoration:underline;}

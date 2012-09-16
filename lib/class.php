@@ -333,16 +333,7 @@ class Anuncio
 	
 	function armarAnuncio($color)
 	{
-		if ($this->id_provincia=="")
-			$provincia="";
-		else
-		{	
-			$provincia=new Provincia($this->id_provincia);
-			$provincia=$provincia->nombre;
-		}
-		
-		
-		//ARMANDO ENLADE
+		//ARMANDO ENLACE
 		$enlace=$this->armarEnlace();
 		
 		$medida=$this->tamanoFotoLista();
@@ -378,36 +369,41 @@ class Anuncio
 					</div>";
 			
 		
-		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:800px; height:150px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
+		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:700px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
 	
-					<div style='width:150px; height:140px; margin-top:5px; float:left;' align='center'>
-						<a href='".$enlace."'><img src='lib/img.php?tipo=lista&anuncio=".$this->id."&foto=1' border='0' alt='".$this->titulo."' title='".$this->titulo."' style='margin-top:".intval((140-$h)/2)."px;' /></a>
-					</div>
-					
-					<div style='width:640px; margin-left:5px; margin-top:5px; margin-right:5px; float:left; display:table; '>
-						<a href='".$enlace."' class='tituloAnuncio'>".$this->titulo."</a>
-					</div>
-					
-					<div style='width:640px; margin-left:5px; margin-top:5px; margin-right:5px; float:left; display:table; '>
-						<span class='arial13Negro'><em>".$detalles."</em></span>
-					</div>
-					 
-					 <div style='width:640px; margin-left:5px; margin-top:8px; margin-right:5px; float:left; display:table;'>
-						<span class='arial13Negro'>".substr($this->descripcionLimpia(),0,150)."...</span>
-					</div>
-					
-					<div style='width:640px; position:absolute; bottom:10px; left:150px; margin-left:5px; margin-top:15px; margin-right:5px; float:left;'>
-						
-						".$video."
-						
-						<div>
-							<span class='arial15Negro' style='float:left;'><em>Publicado hace ".$this->tiempoHace()." en ".$this->ciudad.", ".$provincia."</em></span>
-							<span class='arial15RojoPrecio' style='float:right; padding-right:5px;'><strong>".$precio."</strong></span>
-						</div>
-					
-					</div>
-					
-				  
+					<table width='700' border='0' cellspacing='0' cellpadding='0' align='center'>
+					  <tr>
+						<td width='130' height='120' align='center' valign='middle' style='padding-bottom:7px; padding-top:7px;'><a href='".$enlace."'><img src='lib/img.php?tipo=lista&anuncio=".$this->id."&foto=1' border='0' alt='".$this->titulo."' title='".$this->titulo."' /></a></td>
+						<td width='580'>
+								<table width='570' height='120' border='0' cellspacing='0' cellpadding='0'>
+								  <tr>
+									<td height='40' valign='top'>
+									
+											<div style='margin-left:10px;' >
+												<a href='".$enlace."' class='tituloAnuncio'>".$this->titulo."</a>
+											</div>
+								
+											<div style='margin-left:10px; '>
+												<span class='arial13Negro'><em>".$detalles."</em></span>
+											</div>
+									</td>
+								  </tr>
+								  <tr>
+									<td height='25' valign='bottom'>
+											<div style='margin-left:10px; margin-top:35px;'>
+												".$video."
+											</div>
+										
+											<div style='margin-left:10px;'>
+												<span class='arial15Negro' style='float:left;'><em>Publicado hace ".$this->tiempoHace()." en ".$this->ciudad."</em></span>
+												<span class='arial15RojoPrecio' style='float:right; padding-right:5px;'><strong>".$precio."</strong></span>
+											</div>
+									</td>
+								  </tr>
+								</table>
+						</td>
+					  </tr>
+					</table>
 				</div>";
 				
 		return $anuncio;

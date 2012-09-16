@@ -33,38 +33,38 @@
 			$original_w = imagesx($original);
 			$original_h = imagesy($original);
 			
-			if (($original_w<=145)&&($original_h<=135))
+			if (($original_w<=120)&&($original_h<=110))
 				imagejpeg($original,"",100);	
 			else
 			{
 				if ($original_w<$original_h) 
 				{
-						$muestra_w = intval(($original_w/$original_h)*145);
-						$muestra_h=135;	
+						$muestra_w = intval(($original_w/$original_h)*110);
+						$muestra_h=110;	
 						
-						if ($muestra_w>145)
+						if ($muestra_w>120)
 						{
-							$muestra_w=145;
-							$muestra_h=intval(($original_h/$original_w)*145);
+							$muestra_w=120;
+							$muestra_h=intval(($original_h/$original_w)*120);
 						}
 									
 				}
 				if ($original_w>$original_h)
 				{
-						$muestra_w=135;
-						$muestra_h=intval(($original_h/$original_w)*135);
+						$muestra_w=120;
+						$muestra_h=intval(($original_h/$original_w)*120);
 						
-						if ($muestra_h>135)
+						if ($muestra_h>110)
 						{
-							$muestra_w = intval(($original_w/$original_h)*135);
-							$muestra_h=135;	
+							$muestra_w = intval(($original_w/$original_h)*110);
+							$muestra_h=110;	
 						}
 						
 				}
 				if($original_w==$original_h) 
 				{
-					$muestra_w=135;
-					$muestra_h=135;
+					$muestra_w=110;
+					$muestra_h=110;
 				}
 				
 				

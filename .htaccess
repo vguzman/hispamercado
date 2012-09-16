@@ -1,15 +1,32 @@
 RewriteEngine On
 
-RewriteRule   ^$ 		index.php		[L]
+RewriteRule   ^$                index.php               [L]
+
+#FUNCIONALIDADES
+RewriteRule   ^publicar/$			/publicar/index.php 
+RewriteRule   ^cuenta/$				/cuenta/index.php 
+RewriteRule   ^conversaciones/$			/conversaciones/index.php 
+RewriteRule   ^tiendas/$			tiendasX.php 
+RewriteRule   ^tiendas/([0-9]+)/$		tiendasX.php?cat=$1
+
+
+
+
+#ANUNCIOS
 RewriteRule   ^([a-zA-Z0-9-ñÑ]+)-anuncio-([0-9]+)$ 		/anuncio/?id=$2		[L]
 
 
-
-#RewriteRule   ^([a-zA-Z0-9-ñÑ]+)-gestioncat-([0-9]+)$		listado.php?id_cat=$2	[R]
-
-
+#CATEGORIAS
 RewriteRule   ^(([a-zA-Z0-9-ñÑ]+)-cat-([0-9]+)/)*(tipo-([a-zA-ZñÑ\s\(\)]+)/)*(ciudad-([a-zA-Z0-9-ñÑ\s]+)/)*$ 			listado.php?id_cat=$3&tipo=$5&ciudad=$7	[L]
 RewriteRule   ^(([a-zA-Z0-9-ñÑ]+)-cat-([0-9]+)/)*(ciudad-([a-zA-Z0-9-ñÑ\s]+)/)*(tipo-([a-zA-ZñÑ\s\(\)]+)/)*$ 			listado.php?id_cat=$3&tipo=$7&ciudad=$5	[L]
 
 
 
+
+
+
+#LAS TIENDAS
+RewriteRule ^([a-zA-Z0-9]*)/$					tienda.php?tienda=$1 [L]
+RewriteRule ^([a-zA-Z0-9]*)/page-([0-9]+)$			tienda.php?tienda=$1&page=$2 [L]
+RewriteRule ^([a-zA-Z0-9]*)/([0-9]+)/$ 				tienda.php?tienda=$1&cat=$2 [L]
+RewriteRule ^([a-zA-Z0-9]*)/([0-9]+)/page-([0-9]+)$ 		tienda.php?tienda=$1&cat=$2&page=$3 [L]

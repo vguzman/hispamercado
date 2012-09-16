@@ -4,9 +4,6 @@
 	
 ?>
 
-
-
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -34,14 +31,7 @@
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/favoritos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/basicos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/URLencode.js"></SCRIPT>
-<script type="text/javascript">
-jQuery(document).ready(function($) {
-      $('a[rel*=facebox]').facebox({
-        loadingImage : 'lib/facebox/src/loading.gif',
-        closeImage   : 'lib/facebox/src/closelabel.png'
-      })
-    })
-</script>
+
 
 
 
@@ -97,24 +87,12 @@ function processStateChange()
 }
 
 
-function selecMenu(id)
+function procesar()
 {
-	document.getElementById("menu1").className = 'miCuentaMenuNoSeleccion';
-	document.getElementById("menu1_link").className = 'LinkmiCuentaMenu';
-	document.getElementById("menu2").className = 'miCuentaMenuNoSeleccion';
-	document.getElementById("menu2_link").className = 'LinkmiCuentaMenu';
-	document.getElementById("menu3").className = 'miCuentaMenuNoSeleccion';
-	document.getElementById("menu3_link").className = 'LinkmiCuentaMenu';
-	document.getElementById("menu4").className = 'miCuentaMenuNoSeleccion';
-	document.getElementById("menu4_link").className = 'LinkmiCuentaMenu';
-	document.getElementById("menu5").className = 'miCuentaMenuNoSeleccion';
-	document.getElementById("menu5_link").className = 'LinkmiCuentaMenu';
 	
-	
-	
-	document.getElementById(id).className = 'miCuentaMenuSeleccion';
-	document.getElementById(id+"_link").className = 'arial13Negro';
 }
+
+
 
 
 </SCRIPT>
@@ -184,7 +162,7 @@ function selecMenu(id)
 <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
       <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;">
-      <a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
+      <a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
   </tr>
 </table>
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
