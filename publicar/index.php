@@ -644,7 +644,7 @@ theme_advanced_resizing : true,
   <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
     <tr>
       <td align="left" class="arial13Negro"> T&iacute;tulo</td>
-      <td align="left"><input name="titulo" type="text" id="titulo" size="100" maxlength="200" value="<? echo $pre_titulo ?>"></td>
+      <td align="left"><input name="titulo" type="text" id="titulo" size="100" maxlength="150" value="<? echo $pre_titulo ?>"></td>
     </tr>
     <tr>
       <td width="150" align="left" valign="top" class="arial13Negro">Descripci&oacute;n</td>

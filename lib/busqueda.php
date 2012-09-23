@@ -167,6 +167,77 @@
 	
 	
 	
+	//QUITA ACENTOS - QUITA ETIQUETAS HTML - LLEVA PALABRAS A MINUSCULAS - QUITA S AL FINAL DE LA PALABRA
+	function desglosarPalabrasS($texto)
+	{
+		//QUITANDO STYLES AND SCRIPTS
+		$texto=quitarBloques($texto,"<style>","</style>");
+		$texto=quitarBloques($texto,"<xml>","</xml>");
+		$texto=quitarBloques($texto,"<script>","</script>");
+		
+		
+		//FILTRADO 1 - QUITANDO TODAS LAS ETIQUETAS DEL TEXTO ORIGINAL	.
+		$descripcion="";	
+		for ($i=0;$i<strlen($texto);$i++)
+		{
+			if ($texto[$i]!='<')
+				$descripcion.=$texto[$i];
+			else
+				while ($texto[$i]!='>')
+				{
+					$i++;
+					if ($i>=strlen($texto))
+						break;
+				}
+		}
+		
+		//FLTRADO 2 - DIVIENDO LAS PALABRAS POR SIMBOLOS Y DECODIFICANDO CARACTERES HTML ESPACIALES
+		$descripcion=html_entity_decode($descripcion);
+		$descripcion=str_replace(chr(92),'',$descripcion);
+		$caracteres=' |-|'.chr(160).'|,|_|<|>|/|=|:|"|\?|\+|\.|\*|\(|\)|;|¿|¡|!|%|°|º|&|\$|´|`|@|®|²|\||¨|\[|\]|€|ø|'.chr(13).'|'.chr(10).'|'.chr(39);
+		
+		$z=0;
+		$contenido=split($caracteres,$descripcion);	
+		for ($i=0;$i<count($contenido);$i++)
+		{
+			$palabra=trim($contenido[$i]);
+			$palabra=limpiar_acentos($palabra);
+			$palabra=strtolower($palabra);
+			if (strlen($palabra)>0)
+			{
+				//echo $palabra."<br>";
+				$resul[$z]=$palabra;
+				$z++;
+			}
+		}
+		
+		
+		
+		//DESECHANDO PALABRAS CON CARACTERES EXTRAÑOS
+		$resul2=array();
+		$z=0;
+		for ($i=0;$i<count($resul);$i++)
+		{
+			
+			$palabra=$resul[$i];
+			
+			if	(preg_match('/^[a-zA-Z0-9ñÑ]+$/',$palabra)==1)
+			{	
+				$resul2[$z]=$palabra;
+				$z++;
+				//$palabra." ---- "."PALABRA EXTRAÑA<br><br><br>";
+			}
+		}
+		
+		
+		return $resul2;		
+	}
+	
+	
+	
+	
+	
+	
 	
 	function limpiar_acentos($s)
 	{

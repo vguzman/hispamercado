@@ -3,17 +3,23 @@ RewriteEngine On
 RewriteRule   ^$                index.php               [L]
 
 #FUNCIONALIDADES
-RewriteRule   ^publicar/$			/publicar/index.php 
-RewriteRule   ^cuenta/$				/cuenta/index.php 
-RewriteRule   ^conversaciones/$			/conversaciones/index.php 
-RewriteRule   ^tiendas/$			tiendasX.php 
-RewriteRule   ^tiendas/([0-9]+)/$		tiendasX.php?cat=$1
+RewriteRule   ^publicar/$				/publicar/index.php 
+RewriteRule   ^anuncio/$				/anuncio/index.php 
+RewriteRule   ^cuenta/$					/cuenta/index.php 
+RewriteRule   ^conversaciones/$				/conversaciones/index.php 
+RewriteRule   ^tiendas/$				tiendasX.php
+RewriteRule   ^tiendas/([0-9]+)/$			tiendasX.php?cat=$1
+RewriteRule   ^tiendas/([0-9]+)/page-([0-9]+)$ 		tiendasX.php?cat=$1&page=$2
 
 
 
 
 #ANUNCIOS
-RewriteRule   ^([a-zA-Z0-9-ñÑ]+)-anuncio-([0-9]+)$ 		/anuncio/?id=$2		[L]
+RewriteRule   ^([a-zA-Z0-9-ñÑ]+)-anuncio-([0-9]+)$ 			/anuncio/index.php?id=$2		[L]
+
+#CONVERSACIONES
+RewriteRule   ^([a-zA-Z0-9-ñÑ]+)-conversacion-([0-9]+)$ 		/conversaciones/conversacion.php?id_con=$2		[L]
+
 
 
 #CATEGORIAS

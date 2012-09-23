@@ -124,7 +124,7 @@ function borrarLogo()
   <div style="width:570px; border-style:solid; border-color:#999; border-width:1px; border-bottom:1px dashed #999; background-color:#F4F9E8; margin:0 auto 0 auto; padding:15px;" class="arial13Negro">
   
   <p>Crea una tienda personalizada con todos tus anuncios en un dos por tres. Pasa el link de tu tienda hispamercado a todos tus clientes y promociona de forma efectiva todos tus productos o servicios.</p>
-      <p>El link de tu tienda sera <a href="http://tiendas.hispamercado.com.ve/<? if (isset($tienda)) echo $tienda->nick; else echo "nickdetienda"; ?>" class="LinkFuncionalidad13" target="_blank">tiendas.hispamercado.com.ve/<? if (isset($tienda)) echo $tienda->nick; else echo "nickdetienda"; ?></a></p>
+      <p>El link de tu tienda sera <a href="http://www.hispamercado.com.ve/<? if (isset($tienda)) echo $tienda->nick; else echo "nickdetienda"; ?>/" class="LinkFuncionalidad13" target="_blank">www.hispamercado.com.ve/<? if (isset($tienda)) echo $tienda->nick; else echo "nickdetienda"; ?>/</a></p>
   </div>
   <div style="width:570px; border-style:solid; border-color:#999; border-width:1px; border-top:0px; background-color:#F4F9E8; padding:15px;  margin:0 auto 0 auto; ">
   <table width="500" border="0" cellspacing="0" cellpadding="0" style=" margin-top:10px;">

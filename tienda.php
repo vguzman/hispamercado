@@ -168,26 +168,33 @@
 </div>
 
 
-<table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:30px;">
-  <tr>
-    <td width="300"><img src="img/img_bank/tiendaLogo/<? echo $tienda->id ?>" /></td>
-    <td width="700" style="padding-left:10px;">
+
     
-    <div class="arial15Negro" style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;">
+    <div class="arial15Negro" style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px; width:995px; margin:0 auto 0 auto; margin-top:40px;">
     <strong><? echo $tienda->nombre ?></strong>
     </div>
    
    
-      <div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;" class="arial13Negro"><? echo $tienda->descripcion ?></div>
+      <div style="border:#999 1px solid; border-top:0px; padding:10px; width:980px; margin:0 auto 0 auto;" class="arial13Negro">
+      
+      
+      	<table width="950" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td width="60"><img src="img/img_bank/tiendaLogo/<? echo $tienda->id ?>" /></td>
+            <td width="940" style="padding-left:15px;"><? echo $tienda->descripcion ?></td>
+          </tr>
+        </table>
+
+      
+      
+      </div>
     
     
-    </td>
-  </tr>
-</table>
 
 
 
-<div style="margin-top:50px;">
+
+<div style="margin-top:40px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
     <td width="300" valign="top">

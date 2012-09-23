@@ -69,6 +69,8 @@ class Anuncio
 		$query=operacionSQL("SELECT TIMEDIFF(NOW(),'".$this->fecha."')");
 		$horas=substr(mysql_result($query,0,0),0,2);
 		
+		if ($horas<=0)
+			return "menos de una hora";
 		if ($horas<24)
 			return $horas." horas";
 		else
@@ -308,7 +310,7 @@ class Anuncio
 	function armarEnlace()
 	{
 		$titulo=limpiarEnies($this->titulo);
-		$palabras=desglosarPalabras($titulo);
+		$palabras=desglosarPalabrasS($titulo);
 		
 		$enlace="";
 		
@@ -324,9 +326,7 @@ class Anuncio
 		else
 			$enlace.="anuncio-".$this->id;
 		
-		
-		
-		
+				
 		return $enlace;
 	}
 	
@@ -756,7 +756,7 @@ class Categoria
 		{
 			$nombre_cat=$arbol[$i]['nombre'];
 			$nombre_cat=limpiarEnies($nombre_cat);
-			$palabras=desglosarPalabras($nombre_cat);
+			$palabras=desglosarPalabrasS($nombre_cat);
 			
 			for ($e=0;$e<count($palabras);$e++)
 			{
@@ -1001,6 +1001,80 @@ class Tienda
 		$this->logo=mysql_result($query,0,5);
 		$this->status=mysql_result($query,0,6);
 	}	
+}
+
+
+
+
+class Conversacion
+{
+	var $id;
+	var $id_usuario;
+	var $id_categoria;
+	var $fecha;
+	var $anunciante_nombre;
+	var $anunciante_email;
+	var $titulo;
+	var $descripcion;
+	var $notificaciones;
+	var $status;
+	
+	function Conversacion($id)
+	{
+		$aux="SELECT * FROM Conversacion WHERE id=".$id;
+		$query=operacionSQL($aux);
+		
+		$this->id=$id;
+		$this->id_usuario=mysql_result($query,0,1);
+		$this->id_categoria=mysql_result($query,0,2);
+		$this->fecha=mysql_result($query,0,3);
+		$this->anunciante_nombre=mysql_result($query,0,4);
+		$this->anunciante_email=mysql_result($query,0,5);
+		$this->titulo=mysql_result($query,0,6);
+		$this->descripcion=mysql_result($query,0,7);
+		$this->notificaciones=mysql_result($query,0,8);
+		$this->status=mysql_result($query,0,9);
+	}
+	
+	function tiempoHace()
+	{
+		$query=operacionSQL("SELECT TIMEDIFF(NOW(),'".$this->fecha."')");
+		$horas=substr(mysql_result($query,0,0),0,2);
+		
+		if ($horas<=0)
+			return "menos de una hora";
+		if ($horas<24)
+			return $horas." horas";
+		else
+		{
+			$query=operacionSQL("SELECT DATEDIFF(NOW(),'".$this->fecha."')");
+			$dias=mysql_result($query,0,0);
+			return $dias." dias";
+		}
+	}
+	
+	function armarEnlace()
+	{
+		$titulo=limpiarEnies($this->titulo);
+		$palabras=desglosarPalabrasS($titulo);
+		
+		$enlace="";
+		
+		for ($j=0;$j<count($palabras);$j++)
+			$enlace.=$palabras[$j]."-";
+		
+		
+		$enlace=substr($enlace,0,200);
+		
+		$len=strlen($enlace);
+		if ($enlace[$len-1]!='-')
+			$enlace.="-conversacion-".$this->id;
+		else
+			$enlace.="conversacion-".$this->id;
+		
+				
+		return $enlace;
+	}
 	
 	
 }
