@@ -136,29 +136,7 @@
     <tr>
       <td width="347" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio</b></a> &raquo;
         <a href="tiendas/" class="LinkFuncionalidad15"><b>Tiendas</b></a></td>
-      <td width="653" align="right" valign="bottom"><?
-			if (isset($anuncio))
-			{	
-				if ($anuncio->status_general=="Activo")
-					echo '<table width="200" border="0" cellspacing="0" cellpadding="0">
-						  <tr>
-							<td width="42" align="right"><img src="../img/delete-icon.png" width="24" height="24" border="0"></td>
-							<td width="158" style="padding-left:3px;" align="left"><a href="javascript:accionAnuncio('.chr(39).'finalizar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad15">Finalizar este anuncio</a></td>
-						  </tr>
-						</table>';
-						
-				if ($anuncio->status_general=="Inactivo")
-					echo '<table width="200" border="0" cellspacing="0" cellpadding="0">
-						  <tr>
-							<td width="42" align="right"><img src="../img/activate-icon.png" width="24" height="24" border="0"></td>
-							<td width="158" style="padding-left:3px;" align="left"><a href="javascript:accionAnuncio('.chr(39).'reactivar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad15">Reactivar este anuncio</a></td>
-						  </tr>
-						</table>';
-			
-			
-			
-			}
-		?></td>
+      <td width="653" align="right" valign="bottom">&nbsp;</td>
     </tr>
   </table>
 </div>

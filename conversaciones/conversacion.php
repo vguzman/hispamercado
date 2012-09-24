@@ -233,7 +233,7 @@
 
 
 <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:270px; border:#999 1px solid; border-bottom:0px;"><strong><span class="arial15Negro">Anuncios relacionados</span></strong></div>
-<div id="comentario_dejado"></div>
+
 
 
 </div>
