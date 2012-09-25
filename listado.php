@@ -506,18 +506,21 @@ function validar(e) {
 
 
 
-<div style="margin:0 auto 0 auto; margin-top:10px; width:1000px; clear:both; display:table;">
+
+
+<div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1000px; clear:both">
+
+
+
+<div style="width:274px; margin-right:15px; margin-top:23px; float:left; display:table;">
+
 <?
-	
-	$count_div=0;
-	
+
 	//AQUI ESTOY METIENDO LA CANITDAD DE ANUNCIOS POR CADA CATEGORIA HOJAS EN UN VECTOR CON EL ID DE CADA CATEGORIA COMO INDICE
 	$cate_anuncios=array();
 	$query_cat=operacionSQL($aux_cat);
 	for ($i=0;$i<mysql_num_rows($query_cat);$i++)
-	{
 		$cate_anuncios[mysql_result($query_cat,$i,0)]=mysql_result($query_cat,$i,1);
-	}
 	
 	
 	
@@ -525,11 +528,9 @@ function validar(e) {
 	// ------CATEGORIAS
 	if (isset($_GET['id_cat'])==false)
 	{
-		$count_div++;
-		echo '<div id="listado" style="margin-right:50px; width:auto;">
-		
-		
-		<div style="margin-bottom:5px;" class="arial12Negro">Categorias</div>';
+			echo '<div style="margin-bottom:20px;">
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Sub-categorías</strong></div>
+			<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 		
 		$query=operacionSQL("SELECT id FROM Categoria WHERE id_categoria IS NULL ORDER BY orden ASC");
 		for ($i=0;$i<mysql_num_rows($query);$i++)
@@ -552,7 +553,7 @@ function validar(e) {
 				echo '<div style="margin-bottom:5px;">&raquo; <a href="'.$url_actual.'&id_cat='.$cate->id.'" class="LinkFuncionalidad12">'.$cate->nombre.' ('.$cuenta.')</a></div>';
 		}
 		
-		echo '</div>';
+		echo '</div></div>';
 		
 	}
 	else
@@ -562,11 +563,9 @@ function validar(e) {
 		
 		if ($cate->esHoja()==false)
 		{
-			
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;">
-			
-			<div style="margin-bottom:5px;" class="arial12Negro">Sub-categorias</div>';
+			echo '<div style="margin-bottom:20px;">
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Sub-categorías</strong></div>
+			<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 			
 			
 			$hijos=$cate->hijosInmediatos();
@@ -592,24 +591,23 @@ function validar(e) {
 					echo '<div style="margin-bottom:5px;">&raquo; <a href="'.$url.'" class="LinkFuncionalidad12">'.$cate2->nombre.' ('.$cuenta.')</a></div>';
 			}
 			
-			echo '</div>';
+			echo '</div></div>';
 		}
 		
 	}
-
-
-
-
-
-
+	
+	
+	
 	//---TIPOS- DEPENDE DE QUE EXISTA UNA CATEGORIA SELECCIONADA
 	if ( isset($_GET['id_cat'])==true )
 		if ( isset($_GET['tipo'])==false ) // TIPO DE OPERACION NO SELECCIONADA
 		{
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;">
+			echo '<div style="margin-bottom:20px;">
 			
-			<div class="arial12Negro" style="margin-bottom:5px;">Tipo de operación</div>';
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Tipo de operación</strong></div>
+			
+			<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
+			
 			
 			$query_tipo=operacionSQL($aux_tipo);
 			
@@ -619,24 +617,23 @@ function validar(e) {
 				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_tipo,$i,0)." (".mysql_result($query_tipo,$i,1).")</a></div>";
 			}
 			
-			echo '</div>';
+			echo '</div></div>';
 			
 			
 		}
 		else // TIPO DE OPERACION SI SELECCIONADA
 		{
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
 			
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;" class="arial12Gris">';
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 			
 			$url=str_replace("tipo=".$_GET['tipo'],"",$url_actual);
 			
 			echo "<strong>Tipo de operación: ".$_GET['tipo']." <a href='".$url."'> <img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 			
 			
-			echo '</div>';
+			echo '</div></div>';
 		}
-		
 		
 		
 		
@@ -646,78 +643,57 @@ function validar(e) {
 		$ciudades_7="";
 		if ( isset($_GET['ciudad'])==false )
 		{
-			$count_div++;
-			
-			echo '<div id="listado" style="margin-right:50px; width:auto;">
-			
-			<div class="arial12Negro" style="margin-bottom:5px;" id="listadoCiudades_html">Ciudades</div>';
-			
-			
 			$query_ciudad=operacionSQL($aux_ciudad);
+			$scroll='';
+			if (mysql_num_rows($query_ciudad)>8)
+				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';
+			
+			echo '<div style="margin-bottom:20px;">
+			
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Ciudad</strong></div>
+			
+			<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
+			
+			
 						
 			for ($i=0;$i<mysql_num_rows($query_ciudad);$i++)
 			{	
 					$url=$url_actual."&ciudad=".mysql_result($query_ciudad,$i,0);
 						
 						
-					$ciudades.="<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_ciudad,$i,0)." (".mysql_result($query_ciudad,$i,1).")</a></div>";		
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_ciudad,$i,0)." (".mysql_result($query_ciudad,$i,1).")</a></div>";		
 			}
 			
 			
-			echo "<SCRIPT LANGUAGE='JavaScript'>
-						document.getElementById('listaCiudades').value='".str_replace("'",'"',"<p align='left'>".$ciudades)."</p>';					
-				</SCRIPT>";
-					
-					
-			if (mysql_num_rows($query_ciudad)<=7)
-				echo $ciudades;
-			else
-			{
-				for ($i=0;$i<7;$i++)
-				{	
-					$url=$url_actual."&ciudad=".mysql_result($query_ciudad,$i,0);	
-						
-						
-					$ciudades_7.="<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_ciudad,$i,0)." (".mysql_result($query_ciudad,$i,1).")</a></div>";		
-				}
-				echo $ciudades_7;
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='javascript:verMasCiudades()' class='LinkRojo13'><i>Ver mas ciudades</i></a></div>";
-			}		
-		
-			echo '</div>';
+			
+			echo '</div></div>';
 		}
 		else
 		{
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;" class="arial12Gris">';
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 			
 			$url=str_replace("ciudad=".$_GET['ciudad'],"",$url_actual);
 			
 			
 			echo "<strong>Ciudad: ".$_GET['ciudad']." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 			
-			echo '</div>';
+			echo '</div></div>';
 			
 		}
 		
 		
-
-
-
-
-
-		//-----------------CASO DETALLES: OTROS INMUEBLES
+		
+				//-----------------CASO DETALLES: OTROS INMUEBLES
 		if (isset($_GET['id_cat']))
 		if (($_GET['id_cat']==4)||($_GET['id_cat']==3)||($id_cat==5)||($id_cat==6)||($id_cat==7)||($id_cat==8)||($id_cat==9)||($id_cat==10)||($id_cat==3707))
 		{
 			
 			if ( isset($_GET['m2'])==false )
 			{
-				$count_div++;
-				echo '<div id="listado" style="margin-right:50px; width:auto;">
-				
-				
-				<div class="arial12Negro" id="listadoCiudades_html" style="margin-bottom:5px;">Superficie</div>';
+				echo '<div style="margin-bottom:20px;">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Superficie</strong></div>
+				<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 				
 				$aux_aux=str_replace("WHERE","WHERE m2<50 AND",$aux);
 				
@@ -752,7 +728,7 @@ function validar(e) {
 					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=mas300' class='LinkFuncionalidad12'>mas de 300 m2 (".mysql_num_rows($query_aux).")</a></div>";
 					
 					
-				echo '</div>';
+				echo '</div></div>';
 			}			
 			else
 			{
@@ -766,21 +742,22 @@ function validar(e) {
 
 				
 				
-				$count_div++;
-				echo '<div id="listado" style="margin-right:50px; width:auto;" class="arial12Gris">';
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 				
 				$url=str_replace("m2=".$_GET['m2'],"",$url_actual);
 				
 				echo "<strong>Superficie: ".$leyenda." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 				
-				echo '</div>';
+				echo '</div></div>';
 			}
 		}
 
+		
 
 
 		//-----------------CASO DETALLES: CASAS-APTOS DONDE ESTA EL PARAMETRO HABITACIONES
-		if (isset($_GET['id_cat']))
+	if (isset($_GET['id_cat']))
 		if (($id_cat==4)||($id_cat==3))
 		{
 			if ( isset($_GET['hab']) )
@@ -793,8 +770,8 @@ function validar(e) {
 				if ($_GET['hab']=="mas5")	$leyenda="mas de 5";
 	
 				
-				$count_div++;
-				echo '<div id="listado" style="margin-right:50px; width:auto;" class="arial12Gris">';
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 				
 				
 				$url=str_replace("hab=".$_GET['hab'],"",$url_actual);
@@ -803,14 +780,13 @@ function validar(e) {
 				echo "<strong>Habitaciones: ".$leyenda." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 				
 				
-				echo '</div>';
+				echo '</div></div>';
 			}
 			else
 			{				
-				$count_div++;
-				echo '<div id="listado" style="margin-right:50px; width:auto;">
-				
-				<div class="arial12Negro" style="margin-bottom:5px;">Habitaciones:</div>';
+				echo '<div style="margin-bottom:20px;">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Habitaciones</strong></div>
+				<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 				
 				$aux_aux=str_replace("WHERE","WHERE habitaciones=1 AND",$aux);
 				$query_aux=operacionSQL($aux_aux);
@@ -843,63 +819,50 @@ function validar(e) {
 					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=mas5' class='LinkFuncionalidad12'>mas de 5 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
 						
 						
-				echo '</div>';
+				echo '</div></div>';
 			
 			}
 			
 		}
 
 
-
+		
 	if (isset($_GET['id_cat']))
 	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
 	{
-		
 		$anios="";				
-		
 		
 		if (isset($_GET['anio']))
 		{			
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;" class="arial12Gris">';
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 			
 			$url=str_replace("anio=".$_GET['anio'],"",$url_actual);
 			
-			echo "<strong>Año: ".$_GET['anio']." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
+			echo "<strong>Año ".$_GET['anio']." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 			
-			echo '</div>';		
+			echo '</div></div>';		
 		}
 		else
 		{
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;">
-			
-			<div class="arial12Negro" id="listadoAnios_html" style="margin-bottom:5px;" >Año: </div>';
-					
-					
-
 			$query_anio=operacionSQL($aux_anio);
+			$scroll='';
+			if (mysql_num_rows($query_anio)>8)
+				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';
+			
+			
+			
+			echo '<div style="margin-bottom:20px;">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Año</strong></div>
+				<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
+					
+					
+			
 			for ($i=0;$i<mysql_num_rows($query_anio);$i++)
-				$anios.="<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&anio=".mysql_result($query_anio,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_anio,$i,0)." (".mysql_result($query_anio,$i,1).")</a></div>";
+				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&anio=".mysql_result($query_anio,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_anio,$i,0)." (".mysql_result($query_anio,$i,1).")</a></div>";
 						
-			echo "<SCRIPT LANGUAGE='JavaScript'>
-					document.getElementById('listaAnios').value='".str_replace("'",'"',"<p align='left'>".$anios."</p>")."';					
-				</SCRIPT>";
-			
-			
-			if (mysql_num_rows($query_anio)<=7)
-				echo $anios;
-			else
-			{
-				for ($i=0;$i<7;$i++)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&anio=".mysql_result($query_anio,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_anio,$i,0)." (".mysql_result($query_anio,$i,1).")</a></div>";
-
-
-							
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='javascript:verMasAnios()' class='LinkRojo13'><i>Ver mas años</i></a></div>";
-			}				
 		
-			echo '</div>';
+			echo '</div></div>';
 		}
 		
 		
@@ -910,123 +873,92 @@ function validar(e) {
 		
 		if (isset($_GET['marca']))
 		{			
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;"  class="arial12Gris">';
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 			
 			$url=str_replace("marca=".$_GET['marca'],"",$url_actual);
 			
 			
 			echo "<strong>Marca: ".$_GET['marca']." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 			
-			echo '</div>';
+			echo '</div></div>';
 		}
 		else
-		{
-			
-			$marcas="";
-			$count_div++;
-			echo '<div id="listado" style="margin-right:50px; width:auto;">
-			
-			
-			<div class="arial12Negro" id="listadoMarcas_html" style="margin-bottom:5px;">Marca: </div>';
-	
+		{			
 			$query_marca=operacionSQL($aux_marca);
-			for ($i=0;$i<mysql_num_rows($query_marca);$i++)
-				$marcas.="<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&marca=".mysql_result($query_marca,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_marca,$i,0)." (".mysql_result($query_marca,$i,1).")</a></div>";
-		
-			echo "<SCRIPT LANGUAGE='JavaScript'>
-					document.getElementById('listaMarcas').value='".str_replace("'",'"',"<p align='left'>".$marcas."</p>")."';					
-			</SCRIPT>";
-				
-				
-				
-			if (mysql_num_rows($query_marca)<=7)
-				echo $marcas;
-			else
-			{
-				for ($i=0;$i<7;$i++)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&marca=".mysql_result($query_marca,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_marca,$i,0)." (".mysql_result($query_marca,$i,1).")</a></div>";
-					
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='javascript:verMasMarcas()' class='LinkRojo13'><i>Ver mas marcas</i></a></div>";
-			}
+			$scroll='';
+			if (mysql_num_rows($query_marca)>8)
+				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';
 			
-			echo '</div>';
+			
+			echo '<div style="margin-bottom:20px;">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Marca</strong></div>
+				<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
+			
+			
+			for ($i=0;$i<mysql_num_rows($query_marca);$i++)
+				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&marca=".mysql_result($query_marca,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_marca,$i,0)." (".mysql_result($query_marca,$i,1).")</a></div>";
+		
+				
+			echo '</div></div>';
 			
 		}	
 			
-		
-		
-		
-		
-		
-		
+	
 		
 		if (isset($_GET['marca']))
 		if (isset($_GET['modelo']))
 		{
-			$count_div++;
+			echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
 			
-			echo '<div id="listado" style="margin-right:50px; width:auto;" class="arial12Gris">';
 			
 			$url=str_replace("modelo=".$_GET['modelo'],"",$url_actual);
 				
 			echo "<strong>Modelo: ".$_GET['modelo']." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
 			
-			
-			echo '</span></div>';
+			echo '</div></div>';
 		}
 		else
 		{			
-			$count_div++;
-			$modelos="";			
-			
-			
-			echo '<div id="listado" style="margin-right:50px; width:auto;">
-			
-			
-			<div class="arial12Negro" id="listadoModelos_html" style="margin-bottom:5px;" >Modelo </div>';
-			
-				
 			$query_modelo=operacionSQL($aux_modelo);
+			$scroll='';
+			if (mysql_num_rows($query_modelo)>8)
+				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';		
+			
+			
+			echo '<div style="margin-bottom:20px;">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Modelo</strong></div>
+				<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';			
+				
+			
 			for ($i=0;$i<mysql_num_rows($query_modelo);$i++)
 			{	
 				$url=$url_actual."&modelo=".mysql_result($query_modelo,$i,0);				
-				$modelos.="<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_modelo,$i,0)." (".mysql_result($query_modelo,$i,1).")</a></div>";			
-			}
-				
-			echo "<SCRIPT LANGUAGE='JavaScript'>
-					document.getElementById('listaModelos').value='".str_replace("'",'"',"<p align='left'>".$modelos."</p>")."';					
-			</SCRIPT>";				
-				
-			if (mysql_num_rows($query_modelo)<=7)
-				echo $modelos;
-			else
-			{
-				for ($i=0;$i<7;$i++)
-				{	
-					$url=$url_actual."&modelo=".mysql_result($query_modelo,$i,0);				
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_modelo,$i,0)." (".mysql_result($query_modelo,$i,1).")</a></div>";			
-				}
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='javascript:verMasModelos()' class='LinkRojo13'><i>Ver mas modelos</i></a></div>";
-			}
+				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_modelo,$i,0)." (".mysql_result($query_modelo,$i,1).")</a></div>";			
+			}				
+		
 			
-			echo '</div>';
+			echo '</div></div>';
 		}
 		
 			
 		
 	}//FIN CASO CARROS
 
+
 ?>
+
+
+
 </div>
-
-
-<div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1000px; clear:both">
-
 
 <div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:700px; float:left; ">
   
-  		<div align="right" style="margin-bottom:5px; padding-right:15px;" class="arial13Negro">
+  		
+        
+        
+        <div align="right" style="margin-bottom:5px; padding-right:15px;" class="arial13Negro">
   		  <?
 	
 	$primero=$factor*($parte-1);
@@ -1121,7 +1053,7 @@ function validar(e) {
 </div>
 
 
-<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:274px; border:#999 1px solid; border-bottom:0px; float:left; margin-left:15px; margin-top:23px;"><strong><span class="arial15Negro">Conversaciones relacionadas</span></strong></div>
+
 
 </div>
 

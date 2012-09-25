@@ -577,16 +577,12 @@ class Anuncio
 	
 	function metainformacion()
 	{
-		$palabras_titulo=desglosarPalabras($this->titulo);
+		$palabras_titulo=desglosarPalabrasS($this->titulo);
 		$palabras_titulo=filtrarConectivos($palabras_titulo);
 		
-		$palabras_descripcion=desglosarPalabras($this->descripcion);
+		$palabras_descripcion=desglosarPalabrasS($this->descripcion);
 		$palabras_descripcion=filtrarConectivos($palabras_descripcion);
 		
-		
-		
-		$ciudad=$this->ciudad;
-		$ciudad=str_replace(",","",$ciudad);		
 		
 		
 		$id_cat=$this->id_categoria;
@@ -595,6 +591,8 @@ class Anuncio
 		$marca="";
 		$modelo="";
 		$anio="";
+		$superficie="NULL";
+		$habitaciones="NULL";
 		
 		
 		//CASO INMUEBLES
@@ -602,6 +600,11 @@ class Anuncio
 		{
 			$aux=$this->detalles();
 			$urbanizacion=$aux['urbanizacion'];
+			$superficie=$aux['m2'];
+			
+			if (isset($aux['habitaciones']))
+				$habitaciones=$aux['habitaciones'];
+				
 			
 		}
 		//CASO VEHICULOS
@@ -615,16 +618,20 @@ class Anuncio
 		
 		
 		
-		$palabras_urbanizacion=desglosarPalabras($urbanizacion);
-		$palabras_marca=desglosarPalabras($marca);
-		$palabras_modelo=desglosarPalabras($modelo);
-		$palabras_anio=desglosarPalabras($anio);
+		$palabras_urbanizacion=desglosarPalabrasS($urbanizacion);
+		$palabras_marca=desglosarPalabrasS($marca);
+		$palabras_modelo=desglosarPalabrasS($modelo);
+		$palabras_anio=desglosarPalabrasS($anio);
+		
 		
 		
 		$urbanizacion="";
 		$marca="";
 		$modelo="";
 		$anio="";
+		$ciudad="";
+		$titulo="";
+		$descripcion="";
 
 		
 		
@@ -646,6 +653,8 @@ class Anuncio
 		for ($i=0;$i<count($palabras_anio);$i++)
 			$anio.=$palabras_anio[$i]." ";
 			
+		
+			
 			
 		
 		
@@ -653,11 +662,20 @@ class Anuncio
 		
 		$query=operacionSQL("SELECT * FROM AnuncioMetainformacion WHERE id_anuncio=".$this->id);
 		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO AnuncioMetainformacion VALUES (".$this->id.",'".$titulo."','".$descripcion."','".$ciudad."','".$urbanizacion."','".$marca."','".$modelo."','".$anio."')");
+		{
+			//echo "<br><br>";
+			$aux="INSERT INTO AnuncioMetainformacion VALUES (".$this->id.",".$this->id_categoria.",'".$this->tipo_categoria."','".$titulo."','".$descripcion."','".$this->ciudad."','".$urbanizacion."',".$superficie.",".$habitaciones.",'".$marca."','".$modelo."','".$anio."')";
+			//echo "<br><br>";
+			operacionSQL($aux);
+		}	
 		else
-			operacionSQL("UPDATE AnuncioMetainformacion SET titulo='".$titulo."', descripcion='".$descripcion."', ciudad='".$ciudad."', urbanizacion='".$urbanizacion."', marca='".$marca."', modelo='".$modelo."', anio='".$anio."' WHERE id_anuncio=".$this->id);
+		{
+			//echo "<br><br>";
+			$aux="UPDATE AnuncioMetainformacion SET titulo='".$titulo."', id_categoria=".$this->id_categoria.", tipo_categoria='".$this->tipo_categoria."', descripcion='".$descripcion."', ciudad='".$this->ciudad."', urbanizacion='".$urbanizacion."', superficie=".$superficie.", habitaciones=".$habitaciones.", marca='".$marca."', modelo='".$modelo."', anio='".$anio."' WHERE id_anuncio=".$this->id;
+			//echo "<br><br>";
+			operacionSQL($aux);
+		}
 
-		//return $titulo." ".$descripcion." ".$detalles_aux;
 	
 	}
 	

@@ -2,31 +2,6 @@
 	include_once "class.php";
 	include('sphinx/sphinxapi.php');
 	
-	function buscar($universo,$criterio)
-	{
-		//GUARDANDO INFO DE BUSQUEDA
-		$sesion=session_id();
-		$query=operacionSQL("SELECT * FROM AnuncioBusqueda WHERE id_sesion='".$sesion."' AND termino_busqueda='".trim($criterio)."'");
-		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO AnuncioBusqueda VALUES ('".$sesion."','".trim($criterio)."',NOW())");
-		
-		
-		
-		
-		$palabras_criterio=desglosarPalabras($criterio);
-		$palabras_criterio=filtrarConectivos($palabras_criterio);
-		$criterio="";
-		for ($i=0;$i<count($palabras_criterio);$i++)
-			$criterio.=$palabras_criterio[$i]." ";
-		
-		
-		
-		$anuncios=buscarMYSQL($universo,$criterio);
-		
-		
-		return $anuncios;
-		
-	}
 	
 	
 	function buscarSphinx($universo,$criterio)
@@ -42,8 +17,8 @@
 		
 		
 		
-		//PREPARANDO EL TERMINI PARA LA BUSQUEDA
-		$palabras_criterio=desglosarPalabras($criterio);
+		//PREPARANDO EL TERMINO PARA LA BUSQUEDA
+		$palabras_criterio=desglosarPalabrasS($criterio);
 		$palabras_criterio=filtrarConectivos($palabras_criterio);
 		$criterio="";
 		for ($i=0;$i<count($palabras_criterio);$i++)
@@ -54,16 +29,16 @@
 		//------------------------------------------------FASE SPHINX
 		
 		//FILTRANDO UNIVERSO
-		$filtro=array();
+		/*$filtro=array();
 		for ($i=0;$i<count($universo);$i++)
-			array_push($filtro,$universo[$i]);
+			array_push($filtro,$universo[$i]);*/
 		
 		
 		$cl = new SphinxClient();
 		$cl->SetServer( "localhost", 9312 );
 		$cl->SetMatchMode( SPH_MATCH_ALL );
-		$cl->SetFilter('id_anuncio' , $filtro);
-		$cl->SetFieldWeights( array ('b.titulo' => 10, 'b.descripcion' => 5, 'b.ciudad' => 6, 'b.urbanizacion' => 8, 'b.marca' => 8, 'b.modelo' => 8, 'b.anio' => 1) );
+		$cl->SetFilter('anuncio' , $universo);
+		//$cl->SetFieldWeights( array ('b.titulo' => 10, 'b.descripcion' => 5, 'b.ciudad' => 6, 'b.urbanizacion' => 8, 'b.marca' => 8, 'b.modelo' => 8, 'b.anio' => 1) );
 		$cl->SetLimits(0,10000,10000,10000);
 		
 		
@@ -71,14 +46,27 @@
 		//echo $criterio;
 		
 		
-		$result = $cl->Query( $criterio , 'hispamercado' ); 
+		$result = $cl->Query( $criterio , 'hispamercado' );
+		//print_r($result);
+		echo $result['total']."<br><br><br>";
+		
+		$i=1;		
+		if ($result['total']>0)
+			foreach ( $result["matches"] as $doc => $docinfo ) 
+			{
+				echo $i." - ".$doc." --- ";
+				echo $docinfo['weight']."<br><br><br>";
+				$i++;
+			}
 		
 		
 		
-		//echo "fallo en Query: " . $cl->GetLastError() . "<br>";
-		//echo "WARNING: " . $cl->GetLastWarning() . "<br>";
 		
-		if (count($result["matches"])>0)
+		echo "<br><br><br><br>";
+		echo "fallo en Query: " . $cl->GetLastError() . "<br>";
+		echo "WARNING: " . $cl->GetLastWarning() . "<br>";
+		
+		/*if (count($result["matches"])>0)
 		{
 			$z=0;
 			$anuncios=array();
@@ -92,7 +80,7 @@
 		$tiempo_fin = microtime(true);
 		
 		
-		return $anuncios;
+		return $anuncios;*/
 		
 	}
 	
@@ -170,6 +158,8 @@
 	//QUITA ACENTOS - QUITA ETIQUETAS HTML - LLEVA PALABRAS A MINUSCULAS - QUITA S AL FINAL DE LA PALABRA
 	function desglosarPalabrasS($texto)
 	{
+		$resul=array();
+		
 		//QUITANDO STYLES AND SCRIPTS
 		$texto=quitarBloques($texto,"<style>","</style>");
 		$texto=quitarBloques($texto,"<xml>","</xml>");
@@ -288,6 +278,8 @@
 	
 	function filtrarConectivos($arreglo)
 	{
+		$resul=array();
+		
 		$z=0;
 		for ($i=0;$i<count($arreglo);$i++)
 		{
