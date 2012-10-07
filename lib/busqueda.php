@@ -4,16 +4,16 @@
 	
 	
 	
-	function buscarSphinx($universo,$criterio)
+	function buscarSphinx($criterio,$categoria,$tipo_categoria,$ciudad,$superficie,$habitacion,$marca,$modelo,$anio,$match)
 	{
 		
 		$tiempo_inicio = microtime(true);
 		
 		//GUARDANDO INFO DE BUSQUEDA
 		$sesion=session_id();
-		$query=operacionSQL("SELECT * FROM AnuncioBusqueda WHERE id_sesion='".$sesion."' AND termino_busqueda='".trim($criterio)."'");
+		$query=operacionSQL("SELECT * FROM Busqueda WHERE id_sesion='".$sesion."' AND termino_busqueda='".trim($criterio)."'");
 		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO AnuncioBusqueda VALUES ('".$sesion."','".trim($criterio)."',NOW())");
+			operacionSQL("INSERT INTO Busqueda VALUES ('".$sesion."','".trim($criterio)."',NOW())");
 		
 		
 		
@@ -26,61 +26,360 @@
 		
 		
 		
-		//------------------------------------------------FASE SPHINX
 		
-		//FILTRANDO UNIVERSO
-		/*$filtro=array();
-		for ($i=0;$i<count($universo);$i++)
-			array_push($filtro,$universo[$i]);*/
-		
-		
+		//INICIANDO SPHINX
 		$cl = new SphinxClient();
 		$cl->SetServer( "localhost", 9312 );
-		$cl->SetMatchMode( SPH_MATCH_ALL );
-		$cl->SetFilter('anuncio' , $universo);
-		//$cl->SetFieldWeights( array ('b.titulo' => 10, 'b.descripcion' => 5, 'b.ciudad' => 6, 'b.urbanizacion' => 8, 'b.marca' => 8, 'b.modelo' => 8, 'b.anio' => 1) );
-		$cl->SetLimits(0,10000,10000,10000);
-		
-		
-					
-		//echo $criterio;
-		
-		
-		$result = $cl->Query( $criterio , 'hispamercado' );
-		//print_r($result);
-		echo $result['total']."<br><br><br>";
-		
-		$i=1;		
-		if ($result['total']>0)
-			foreach ( $result["matches"] as $doc => $docinfo ) 
-			{
-				echo $i." - ".$doc." --- ";
-				echo $docinfo['weight']."<br><br><br>";
-				$i++;
-			}
 		
 		
 		
+		//TIPO DE MATCHING
+		if ($match=="ALL")
+			$cl->SetMatchMode( SPH_MATCH_ALL );
+			
+			
 		
-		echo "<br><br><br><br>";
-		echo "fallo en Query: " . $cl->GetLastError() . "<br>";
-		echo "WARNING: " . $cl->GetLastWarning() . "<br>";
-		
-		/*if (count($result["matches"])>0)
+		//FILTROS
+		//-----CASO CATEGORIA
+		if ($categoria!="NO")
 		{
-			$z=0;
-			$anuncios=array();
-			foreach ( $result["matches"] as $doc => $docinfo ) 
-			{
-				$anuncios[$z]=$doc;
-				$z++;		
-			}
+			$cat=new Categoria($categoria);
+			$hijos=$cat->hijos();
+			
+			$filtro=array();
+			
+			for ($i=0;$i<count($hijos);$i++)
+				array_push($filtro,$hijos[$i]);
+				
+			
+			$cl->SetFilter('categoria_index',$filtro);
 		}
 		
-		$tiempo_fin = microtime(true);
+		//------CASO TIPO CATEGORIA
+		if ($tipo_categoria!="NO")
+		{
+			
+			$cl->SetFilter('tipo_index_int' , array(crc32($tipo_categoria)) );
+		}
+		
+		//------CASO CIUDAD
+		if ($ciudad!="NO")
+		{
+			$cl->SetFilter('ciudad_index_int', array(crc32($ciudad)) );
+		}
+		
+		//------CASO MARCAS DE CARROS
+		if ($marca!="NO")
+		{
+			$cl->SetFilter('marca_index_int', array(crc32($marca)) );
+		}
+		
+		//------CASO MARCAS DE CARROS
+		if ($modelo!="NO")
+		{
+			$cl->SetFilter('modelo_index_int', array(crc32($modelo)) );
+		}
+
+
+		//------CASO MARCAS DE CARROS
+		if ($anio!="NO")
+		{
+			$cl->SetFilter('anio_index', array( $anio ) );
+		}
+
+		
+		//------CASO SUPERFICIE
+		if ($superficie!="NO")
+		{
+			
+			if ($superficie=="menos50")
+			{
+				$min="0";
+				$max="49.99";
+			}
+			if ($superficie=="50-100")
+			{
+				$min="50";
+				$max="99.99";
+			}
+			if ($superficie=="100-150")
+			{
+				$min="100";
+				$max="149.99";
+			}
+			if ($superficie=="150-200")
+			{
+				$min="150";
+				$max="199.99";
+			}
+			if ($superficie=="200-300")
+			{
+				$min="200";
+				$max="299.99";
+			}
+			if ($superficie=="mas300")
+			{
+				$min="300";
+				$max="9999999999";
+			}
+						
+			$cl->SetFilterRange('superficie_index',$min,$max);
+		}
+		
+		//------CASO HABITACIONES
+		if ($habitacion!="NO")
+		{
+			
+			if ($habitacion=="1")
+				$cl->SetFilter('habitaciones_index', array( 1 ) );
+			if ($habitacion=="2")
+				$cl->SetFilter('habitaciones_index', array( 2 ) );
+			if ($habitacion=="3")
+				$cl->SetFilter('habitaciones_index', array( 3 ) );
+			if ($habitacion=="4")
+				$cl->SetFilter('habitaciones_index', array( 4 ) );
+			if ($habitacion=="5")
+				$cl->SetFilter('habitaciones_index', array( 5 ) );
+			if ($habitacion=="mas5")
+				$cl->SetFilterRange('habitaciones_index', 6 , 90000 );
+						
+		}
 		
 		
-		return $anuncios;*/
+		
+		
+		
+		//PESOS Y LIMITES
+		$cl->SetFieldWeights( array ('titulo' => 7, 'anuncio' => 100 , 'descripcion' => 4, 'ciudad' => 10, 'urbanizacion' => 15, 'marca' => 15, 'modelo' => 15, 'anio' => 7) );
+		$cl->SetLimits(0,10000,10000,10000);
+		
+					
+		
+		//BUSCANDO
+		$result = $cl->Query( $criterio , 'hispamercado' );
+		
+		
+		
+		
+		
+		
+		//ORGANIZANDO LAS CATEGORIAS PARA LUEGO....
+		$categorias=array();
+		if ($categoria=="NO")
+		{
+			$query=operacionSQL("SELECT id FROM Categoria WHERE id_categoria IS NULL");
+			for ($i=0;$i<mysql_num_rows($query);$i++)
+				$categorias[mysql_result($query,$i,0)]=0;
+				
+		}
+		else
+		{
+			$cat=new Categoria($categoria);
+					
+			//VOY POR LOS HIJOS INMEDIATOS
+			$hijos_inmediatos=$cat->hijosInmediatos();
+			//LOS RECORRO Y CREO UN ARRAY INICIADO CON TODOS 0
+			for ($i=0;$i<count($hijos_inmediatos);$i++)
+			{
+					$aux=$hijos_inmediatos[$i];
+					$categorias[$aux]=0;
+			}				
+		}
+		
+		//ORGANIZANDO LAS SUPERFICIES
+		$superficies['menos50']=0;
+		$superficies['50-100']=0;
+		$superficies['100-150']=0;
+		$superficies['150-200']=0;
+		$superficies['200-300']=0;
+		$superficies['mas300']=0;
+		
+		//ORGANIZANDO HABITACIONES
+		$habitaciones['1']=0;
+		$habitaciones['2']=0;
+		$habitaciones['3']=0;
+		$habitaciones['4']=0;
+		$habitaciones['5']=0;
+		$habitaciones['mas5']=0;
+		
+		$marcas=array();
+		$modelos=array();
+		$anios=array();
+		$tipos=array();
+	
+		
+		
+		
+		$i=1;
+		$z=0;
+		$anuncios=array();$ciudades=array();
+		if ($result['total']>0)
+			foreach ( $result["matches"] as $doc => $docinfo ) 
+			{		
+				
+				$atributos=$docinfo['attrs'];
+				
+				/*print_r($atributos);
+				echo "<br><br><br><br>";*/
+				
+				
+				//ORGANIZANDO LAS CIUDADADES
+				$ciudad=$atributos['ciudad_index'];
+				if (isset($ciudades[$ciudad])==false)
+					$ciudades[$ciudad]=1;
+				else
+					$ciudades[$ciudad]=$ciudades[$ciudad]+1;
+					
+				
+				
+				//ORGANIZANDO LAS CATEGORIAS
+				$cat_actual=new Categoria($atributos['categoria_index']);
+				$arbol=$cat_actual->arbolDeHoja();
+				for ($i=0;$i<count($arbol);$i++)
+				{
+					$id=$arbol[$i]['id'];
+					if (isset($categorias[$id]))
+						$categorias[$id]=$categorias[$id]+1;						
+				}
+				
+				
+				
+				//ORGANIZANDO LOS TIPOS DE OPERACION
+				$tipo=$atributos['tipo_index'];
+				if (isset($tipos[$tipo])==false)
+					$tipos[$tipo]=1;
+				else
+					$tipos[$tipo]=$tipos[$tipo]+1;
+					
+				
+				
+				//ORGANIZANDO LAS MARCAS DE CARROS
+				$marca=trim($atributos['marca_index']);
+				if ($marca!="")
+					if (isset($marcas[$marca])==false)
+						$marcas[$marca]=1;
+					else
+						$marcas[$marca]=$marcas[$marca]+1;
+						
+				
+				//ORGANIZANDO LOS MODELOS DE CARRO
+				$modelo=trim($atributos['modelo_index']);
+				if ($modelo!="")
+					if (isset($modelos[$modelo])==false)
+						$modelos[$modelo]=1;
+					else
+						$modelos[$modelo]=$modelos[$modelo]+1;
+						
+						
+				//ORGANIZANDO LOS ANIOS DE CARRO
+				$anio=trim($atributos['anio_index']);
+				if ($anio!="")
+					if (isset($anios[$anio])==false)
+						$anios[$anio]=1;
+					else
+						$anios[$anio]=$anios[$anio]+1;
+						
+				
+				
+				
+				//ORGANIZANDO SUPERFICIES
+				$superficie=trim($atributos['superficie_index']);
+				if ($superficie!="")
+				{
+					if ($superficie<50)
+					{
+						$superficies['menos50']++;
+						//echo $doc."<br>";
+					}
+					if (($superficie>=50)&&($superficie<100))
+						$superficies['50-100']++;
+					if (($superficie>=100)&&($superficie<150))
+						$superficies['100-150']++;
+					if (($superficie>=150)&&($superficie<200))
+						$superficies['150-200']++;
+					if (($superficie>=200)&&($superficie<300))
+						$superficies['200-300']++;
+					if ($superficie>=300)
+						$superficies['mas300']++;
+				}
+				
+				
+				//ORGANIZANDO HABITACIONES
+				$habitacion=trim($atributos['habitaciones_index']);
+				if ($habitacion!="")
+				{
+					if ($habitacion==1)
+						$habitaciones['1']++;
+					if ($habitacion==2)
+						$habitaciones['2']++;
+					if ($habitacion==3)
+						$habitaciones['3']++;
+					if ($habitacion==4)
+						$habitaciones['4']++;
+					if ($habitacion==5)
+						$habitaciones['5']++;
+					if ($habitacion>5)
+						$habitaciones['mas5']++;
+					
+				}			
+				
+
+				
+						
+				
+				
+				$anuncios[$z]=$doc;
+				$z++;
+				
+				
+				//echo $doc."<br>";
+				
+			}
+			
+			
+		
+		//ORDENANDO ALFABETICAMENTE LOS RESULTADOS
+		ksort($ciudades);
+		ksort($marcas);
+		ksort($modelos);
+		ksort($anios);
+		
+		
+		$resul['anuncios']=$anuncios;
+		$resul['ciudades']=$ciudades;
+		$resul['categorias']=$categorias;
+		$resul['tipos']=$tipos;
+		$resul['marcas']=$marcas;
+		$resul['modelos']=$modelos;
+		$resul['anios']=$anios;
+		$resul['habitaciones']=$habitaciones;
+		$resul['superficies']=$superficies;
+		
+		
+		
+		return $resul;
+		
+		
+		
+		
+		
+		/*print_r($habitaciones);
+		echo "<br><br><br><br>";*/
+		
+		
+		
+		//print_r($ciudades);
+		
+		
+		
+		/*echo "<br><br><br><br>";
+		echo "fallo en Query: " . $cl->GetLastError() . "<br>";
+		echo "WARNING: " . $cl->GetLastWarning() . "<br>";*/
+		
+		
+		//return $anuncios;
+		
+		
 		
 	}
 	

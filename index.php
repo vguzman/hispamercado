@@ -37,40 +37,8 @@
 
 <SCRIPT LANGUAGE="JavaScript">
 
-function listarRecientes() 
-{		
-	document.getElementById("anuncios_recientes").innerHTML="<div align='center'><img src='img/ajax-loader1.gif' width='110' height='75'></div>";
-	
-	if (document.getElementById("buscar").value=="Búsqueda rápida...")
-		document.getElementById("buscar").value="";
-	
-	categoria=document.getElementById("categorias");
-	ciudad=document.getElementById("ciudades");
-	buscar=document.getElementById("buscar");
-		
-	var url="ajaxRecientes.php?id_cat="+categoria.options[categoria.selectedIndex].value+"&ciudad="+ciudad.options[ciudad.selectedIndex].value+"&buscar="+buscar.value;
-	
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processStateChange;
-	req.open("GET",url, true);
-	req.send(null);	
-} 
 
-function manejoBusqueda(donde)
-{
-	if (donde=="adentro")
-		if (document.getElementById("buscar").value=="Búsqueda rápida...")
-			document.getElementById("buscar").value="";
-	
-	if (donde=="afuera")
-		if (document.getElementById("buscar").value=="")
-			document.getElementById("buscar").value="Búsqueda rápida...";
-}
 
-function validar(e) {
-  tecla = (document.all) ? e.keyCode : e.which;
-  if (tecla==13) listarRecientes();
-}
 
 
 function processStateChange()
@@ -222,7 +190,7 @@ function procesar()
       </select>
       &nbsp;
       <label>
-        <input type="button" name="button" id="button" value="Buscar" onClick="listarRecientes()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
+        <input type="button" name="button" id="button" value="Buscar" onClick="buscar()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
       </label>
       </div>
      </td>

@@ -124,8 +124,7 @@
 		if ($_GET['m2']=="50-100")	$aux_aux=") AND (m2>=50) AND (m2<=100";
 		if ($_GET['m2']=="100-150")	$aux_aux=") AND (m2>=100) AND (m2<=150";
 		if ($_GET['m2']=="150-200")	$aux_aux=") AND (m2>=150) AND (m2<=200";
-		if ($_GET['m2']=="200-250")	$aux_aux=") AND (m2>=200) AND (m2<=250";
-		if ($_GET['m2']=="250-300")	$aux_aux=") AND (m2>=250) AND (m2<=300";
+		if ($_GET['m2']=="200-300")	$aux_aux=") AND (m2>=200) AND (m2<=300";
 		if ($_GET['m2']=="mas300")	$aux_aux=") AND (m2>50";
 		
 		
@@ -235,6 +234,66 @@
 	
 
 
+	//TRATANDO TEMA DE LA BUSQUEDA
+	if (isset($_GET['buscar']))
+	{		
+		$url_actual.="&buscar=".trim($_GET['buscar']);
+		
+		if (isset($_GET['id_cat']))
+			$cat_busqueda=$_GET['id_cat'];
+		else
+			$cat_busqueda="NO";
+			
+			
+		if (isset($_GET['ciudad']))
+			$ciudad=$_GET['ciudad'];
+		else
+			$ciudad="NO";
+			
+						
+		if (isset($_GET['tipo']))
+			$tipo=$_GET['tipo'];
+		else
+			$tipo="NO";
+			
+			
+		if (isset($_GET['m2']))
+			$m2=$_GET['m2'];
+		else
+			$m2="NO";
+			
+			
+		if (isset($_GET['hab']))
+			$hab=$_GET['hab'];
+		else
+			$hab="NO";
+			
+			
+		if (isset($_GET['marca']))
+			$marca=$_GET['marca'];
+		else
+			$marca="NO";
+			
+			
+		
+		if (isset($_GET['modelo']))
+			$modelo=$_GET['modelo'];
+		else
+			$modelo="NO";			
+			
+		
+		if (isset($_GET['anio']))
+			$anio=$_GET['anio'];
+		else
+			$anio="NO";
+			
+			
+		$resul=buscarSphinx(trim($_GET['buscar']),$cat_busqueda,$tipo,$ciudad,$m2,$hab,$marca,$modelo,$anio,"ALL");			
+		
+		$anuncios=$resul['anuncios'];
+		
+	}
+
 
 
 	
@@ -276,7 +335,9 @@
 	if (isset($_GET['tipo'])) $titulo.=", ".$_GET['tipo'];
 	if (isset($_GET['ciudad'])) $titulo.=", ".$_GET['ciudad']; else $titulo.=", Venezuela";
 //------------------------------------------------------------------------------------------	
-	
+
+
+
 ?>
 
 
@@ -524,12 +585,27 @@ function validar(e) {
 	
 	
 	
+	if (isset($_GET['buscar']))
+	{
+		echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
+				
+				$url=str_replace("buscar=".$_GET['buscar'],"",$url_actual);
+				
+				echo "<strong>Buscar: ".trim($_GET['buscar'])." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong>";
+				
+				echo '</div></div>';
+	
+	}
+	
+	
+	
 	
 	// ------CATEGORIAS
 	if (isset($_GET['id_cat'])==false)
 	{
 			echo '<div style="margin-bottom:20px;">
-			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Sub-categorías</strong></div>
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Categorías</strong></div>
 			<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 		
 		$query=operacionSQL("SELECT id FROM Categoria WHERE id_categoria IS NULL ORDER BY orden ASC");
@@ -547,6 +623,13 @@ function validar(e) {
 				if (isset($cate_anuncios[$id_hijo]))
 					$cuenta=$cuenta+$cate_anuncios[$id_hijo];
 				
+			}
+			
+			//PERFECTO-SOY UN GENIO
+			if (isset($_GET['buscar']))
+			{	
+				$categorias5=$resul['categorias'];
+				$cuenta=$categorias5[$cate->id];
 			}
 			
 			if ($cuenta>0)
@@ -586,6 +669,13 @@ function validar(e) {
 				}
 				
 				
+				if (isset($_GET['buscar']))
+				{	
+					$categorias5=$resul['categorias'];
+					$cuenta=$categorias5[$cate2->id];
+				}
+				
+				
 				$url=str_replace("id_cat=".$_GET['id_cat'],"id_cat=".$hijos[$i],$url_actual);
 				if ($cuenta>0)
 					echo '<div style="margin-bottom:5px;">&raquo; <a href="'.$url.'" class="LinkFuncionalidad12">'.$cate2->nombre.' ('.$cuenta.')</a></div>';
@@ -609,14 +699,27 @@ function validar(e) {
 			<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 			
 			
-			$query_tipo=operacionSQL($aux_tipo);
-			
-			for ($i=0;$i<mysql_num_rows($query_tipo);$i++)
-			{
-				$url=$url_actual."&tipo=".mysql_result($query_tipo,$i,0);
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_tipo,$i,0)." (".mysql_result($query_tipo,$i,1).")</a></div>";
+			if (isset($_GET['buscar']))
+			{	
+					$tipos=$resul['tipos'];
+					
+					foreach ( $tipos as $doc => $docinfo )
+					{
+						$url=$url_actual."&tipo=".$doc;
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".$doc." (".$docinfo.")</a></div>";
+					}
 			}
+			else
+			{
 			
+				$query_tipo=operacionSQL($aux_tipo);			
+				for ($i=0;$i<mysql_num_rows($query_tipo);$i++)
+				{
+					$url=$url_actual."&tipo=".mysql_result($query_tipo,$i,0);
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_tipo,$i,0)." (".mysql_result($query_tipo,$i,1).")</a></div>";
+				}
+			
+			}
 			echo '</div></div>';
 			
 			
@@ -645,7 +748,17 @@ function validar(e) {
 		{
 			$query_ciudad=operacionSQL($aux_ciudad);
 			$scroll='';
-			if (mysql_num_rows($query_ciudad)>8)
+			
+			
+			if (isset($_GET['buscar']))
+			{	
+				$ciudades=$resul['ciudades'];
+				$cuenta=count($ciudades);
+			}
+			else
+				$cuenta=mysql_num_rows($query_ciudad);
+			
+			if ($cuenta>8)
 				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';
 			
 			echo '<div style="margin-bottom:20px;">
@@ -654,15 +767,24 @@ function validar(e) {
 			
 			<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 			
-			
-						
-			for ($i=0;$i<mysql_num_rows($query_ciudad);$i++)
-			{	
-					$url=$url_actual."&ciudad=".mysql_result($query_ciudad,$i,0);
-						
-						
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_ciudad,$i,0)." (".mysql_result($query_ciudad,$i,1).")</a></div>";		
+			if (isset($_GET['buscar']))
+			{
+				$ciudades=$resul['ciudades'];
+					
+				foreach ( $ciudades as $doc => $docinfo )
+				{
+					$url=$url_actual."&ciudad=".$doc;
+					
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".$doc." (".$docinfo.")</a></div>";
+				}
 			}
+			else			
+				for ($i=0;$i<mysql_num_rows($query_ciudad);$i++)
+				{	
+						$url=$url_actual."&ciudad=".mysql_result($query_ciudad,$i,0);
+							
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_ciudad,$i,0)." (".mysql_result($query_ciudad,$i,1).")</a></div>";		
+				}
 			
 			
 			
@@ -695,37 +817,64 @@ function validar(e) {
 				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Superficie</strong></div>
 				<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 				
-				$aux_aux=str_replace("WHERE","WHERE m2<50 AND",$aux);
 				
+				if (isset($_GET['buscar']))
+				{
+					$superficies=$resul['superficies'];
+					
+					if ($superficies['menos50']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=menos50' class='LinkFuncionalidad12'>menos de 50 m2 (".$superficies['menos50'].")</a></div>";
+					
+					if ($superficies['50-100']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=50-100' class='LinkFuncionalidad12'>50 - 100 m2 (".$superficies['50-100'].")</a></div>";
+					
+					if ($superficies['100-150']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=100-150' class='LinkFuncionalidad12'>100 - 150 m2 (".$superficies['100-150'].")</a></div>";
 				
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=menos50' class='LinkFuncionalidad12'>menos de 50 m2 (".mysql_num_rows($query_aux).")</a></div>";
+					if ($superficies['150-200']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=150-200' class='LinkFuncionalidad12'>150 -200 m2 (".$superficies['150-200'].")</a></div>";
+					
+					if ($superficies['200-300']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=200-300' class='LinkFuncionalidad12'>200 - 300 m2 (".$superficies['200-300'].")</a></div>";
+					
+					if ($superficies['mas300']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=mas300' class='LinkFuncionalidad12'>mas de 300 m2 (".$superficies['mas300'].")</a></div>";
+
+					
+				}
+				else
+				{	
+					$aux_aux=str_replace("WHERE","WHERE m2<50 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=menos50' class='LinkFuncionalidad12'>menos de 50 m2 (".mysql_num_rows($query_aux).")</a></div>";
+					
+					$aux_aux=str_replace("WHERE","WHERE m2>=50 AND m2<=100 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=50-100' class='LinkFuncionalidad12'>50 - 100 m2 (".mysql_num_rows($query_aux).")</a></div>";
+					
+					$aux_aux=str_replace("WHERE","WHERE m2>=100 AND m2<=150 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=100-150' class='LinkFuncionalidad12'>100 - 150 m2 (".mysql_num_rows($query_aux).")</a></div>";
 				
-				$aux_aux=str_replace("WHERE","WHERE m2>=50 AND m2<=100 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=50-100' class='LinkFuncionalidad12'>50 - 100 m2 (".mysql_num_rows($query_aux).")</a></div>";
+					$aux_aux=str_replace("WHERE","WHERE m2>=150 AND m2<=200 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=150-200' class='LinkFuncionalidad12'>150 -200 m2 (".mysql_num_rows($query_aux).")</a></div>";
+					
+					$aux_aux=str_replace("WHERE","WHERE m2>=200 AND m2<=300 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=200-300' class='LinkFuncionalidad12'>200 - 300 m2 (".mysql_num_rows($query_aux).")</a></div>";
+					
+					$aux_aux=str_replace("WHERE","WHERE m2>300 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=mas300' class='LinkFuncionalidad12'>mas de 300 m2 (".mysql_num_rows($query_aux).")</a></div>";
 				
-				$aux_aux=str_replace("WHERE","WHERE m2>=100 AND m2<=150 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=100-150' class='LinkFuncionalidad12'>100 - 150 m2 (".mysql_num_rows($query_aux).")</a></div>";
-			
-				$aux_aux=str_replace("WHERE","WHERE m2>=150 AND m2<=200 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=150-200' class='LinkFuncionalidad12'>150 -200 m2 (".mysql_num_rows($query_aux).")</a></div>";
-				
-				$aux_aux=str_replace("WHERE","WHERE m2>=200 AND m2<=300 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=200-300' class='LinkFuncionalidad12'>200 - 300 m2 (".mysql_num_rows($query_aux).")</a></div>";
-				
-				$aux_aux=str_replace("WHERE","WHERE m2>300 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=mas300' class='LinkFuncionalidad12'>mas de 300 m2 (".mysql_num_rows($query_aux).")</a></div>";
+				}
 					
 					
 				echo '</div></div>';
@@ -736,8 +885,7 @@ function validar(e) {
 				if ($_GET['m2']=="50-100")	$leyenda="50 - 100 m2";
 				if ($_GET['m2']=="100-150")	$leyenda="100 - 150 m2";
 				if ($_GET['m2']=="150-200")	$leyenda="150 - 200 m2";
-				if ($_GET['m2']=="200-250")	$leyenda="200 - 250 m2";
-				if ($_GET['m2']=="250-300")	$leyenda="250 - 300 m2";
+				if ($_GET['m2']=="200-300")	$leyenda="200 - 300 m2";
 				if ($_GET['m2']=="mas300")	$leyenda="mas de 300 m2";
 
 				
@@ -785,39 +933,61 @@ function validar(e) {
 			else
 			{				
 				echo '<div style="margin-bottom:20px;">
-				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Habitaciones</strong></div>
-				<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
+					<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Habitaciones</strong></div>
+					<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 				
-				$aux_aux=str_replace("WHERE","WHERE habitaciones=1 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=1' class='LinkFuncionalidad12'>1 habitación (".mysql_num_rows($query_aux).")</a></div>";					
+				if (isset($_GET['buscar']))
+				{
+					$habitaciones=$resul['habitaciones'];
 					
-				$aux_aux=str_replace("WHERE","WHERE habitaciones=2 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=2' class='LinkFuncionalidad12'>2 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+					//print_r($habitaciones);
 					
-				$aux_aux=str_replace("WHERE","WHERE habitaciones=3 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=3' class='LinkFuncionalidad12'>3 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+					if ($habitaciones['1']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=1' class='LinkFuncionalidad12'>1 habitación (".$habitaciones['1'].")</a></div>";	
+					if ($habitaciones['2']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=2' class='LinkFuncionalidad12'>2 habitaciones (".$habitaciones['2'].")</a></div>";	
+					if ($habitaciones['3']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=3' class='LinkFuncionalidad12'>3 habitaciones (".$habitaciones['3'].")</a></div>";	
+					if ($habitaciones['4']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=4' class='LinkFuncionalidad12'>4 habitaciones (".$habitaciones['4'].")</a></div>";	
+					if ($habitaciones['5']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=5' class='LinkFuncionalidad12'>5 habitaciones (".$habitaciones['5'].")</a></div>";	
+					if ($habitaciones['mas5']>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=mas5' class='LinkFuncionalidad12'>mas de 5 habitaciones (".$habitaciones['mas5'].")</a></div>";
 					
-				$aux_aux=str_replace("WHERE","WHERE habitaciones=4 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=4' class='LinkFuncionalidad12'>4 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
-					
-				$aux_aux=str_replace("WHERE","WHERE habitaciones=5 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=5' class='LinkFuncionalidad12'>5 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
-					
-				$aux_aux=str_replace("WHERE","WHERE habitaciones>5 AND",$aux);
-				$query_aux=operacionSQL($aux_aux);
-				if (mysql_num_rows($query_aux)>0)
-					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=mas5' class='LinkFuncionalidad12'>mas de 5 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+				}
+				else
+				{
+					$aux_aux=str_replace("WHERE","WHERE habitaciones=1 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=1' class='LinkFuncionalidad12'>1 habitación (".mysql_num_rows($query_aux).")</a></div>";					
 						
+					$aux_aux=str_replace("WHERE","WHERE habitaciones=2 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=2' class='LinkFuncionalidad12'>2 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+						
+					$aux_aux=str_replace("WHERE","WHERE habitaciones=3 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=3' class='LinkFuncionalidad12'>3 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+						
+					$aux_aux=str_replace("WHERE","WHERE habitaciones=4 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=4' class='LinkFuncionalidad12'>4 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+						
+					$aux_aux=str_replace("WHERE","WHERE habitaciones=5 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=5' class='LinkFuncionalidad12'>5 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+						
+					$aux_aux=str_replace("WHERE","WHERE habitaciones>5 AND",$aux);
+					$query_aux=operacionSQL($aux_aux);
+					if (mysql_num_rows($query_aux)>0)
+						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&hab=mas5' class='LinkFuncionalidad12'>mas de 5 habitaciones (".mysql_num_rows($query_aux).")</a></div>";
+				}
 						
 				echo '</div></div>';
 			
@@ -845,9 +1015,21 @@ function validar(e) {
 		}
 		else
 		{
-			$query_anio=operacionSQL($aux_anio);
+			if (isset($_GET['buscar']))
+			{
+				$anios=$resul['anios'];
+				$cuenta=count($anios);
+			}
+			else
+			{
+				$query_anio=operacionSQL($aux_anio);
+				$cuenta=mysql_num_rows($query_anio);
+			}
+			
+			
+			
 			$scroll='';
-			if (mysql_num_rows($query_anio)>8)
+			if ($cuenta>8)
 				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';
 			
 			
@@ -855,11 +1037,15 @@ function validar(e) {
 			echo '<div style="margin-bottom:20px;">
 				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Año</strong></div>
 				<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
-					
-					
+				
 			
-			for ($i=0;$i<mysql_num_rows($query_anio);$i++)
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&anio=".mysql_result($query_anio,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_anio,$i,0)." (".mysql_result($query_anio,$i,1).")</a></div>";
+					
+			if (isset($_GET['buscar']))
+				foreach ( $anios as $doc => $docinfo )
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&anio=".$doc."' class='LinkFuncionalidad12'>".$doc." (".$docinfo.")</a></div>";
+			else
+				for ($i=0;$i<mysql_num_rows($query_anio);$i++)
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&anio=".mysql_result($query_anio,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_anio,$i,0)." (".mysql_result($query_anio,$i,1).")</a></div>";
 						
 		
 			echo '</div></div>';
@@ -885,9 +1071,22 @@ function validar(e) {
 		}
 		else
 		{			
-			$query_marca=operacionSQL($aux_marca);
+			if (isset($_GET['buscar']))
+			{
+				$marcas=$resul['marcas'];
+				$cuenta=count($marcas);
+			}
+			else
+			{
+				$query_marca=operacionSQL($aux_marca);
+				$cuenta=mysql_num_rows($query_marca);
+			}
+			
+			
+			
+			
 			$scroll='';
-			if (mysql_num_rows($query_marca)>8)
+			if ($cuenta>8)
 				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';
 			
 			
@@ -895,9 +1094,12 @@ function validar(e) {
 				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Marca</strong></div>
 				<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
 			
-			
-			for ($i=0;$i<mysql_num_rows($query_marca);$i++)
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&marca=".mysql_result($query_marca,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_marca,$i,0)." (".mysql_result($query_marca,$i,1).")</a></div>";
+			if (isset($_GET['buscar']))
+				foreach ( $marcas as $doc => $docinfo )
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&marca=".$doc."' class='LinkFuncionalidad12'>".$doc." (".$docinfo.")</a></div>";
+			else
+				for ($i=0;$i<mysql_num_rows($query_marca);$i++)
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&marca=".mysql_result($query_marca,$i,0)."' class='LinkFuncionalidad12'>".mysql_result($query_marca,$i,0)." (".mysql_result($query_marca,$i,1).")</a></div>";
 		
 				
 			echo '</div></div>';
@@ -921,9 +1123,19 @@ function validar(e) {
 		}
 		else
 		{			
-			$query_modelo=operacionSQL($aux_modelo);
+			if (isset($_GET['buscar']))
+			{
+				$modelos=$resul['modelos'];
+				$cuenta=count($modelos);
+			}
+			else
+			{
+				$query_modelo=operacionSQL($aux_modelo);
+				$cuenta=mysql_num_rows($query_modelo);
+			}
+			
 			$scroll='';
-			if (mysql_num_rows($query_modelo)>8)
+			if ($cuenta>8)
 				$scroll='overflow:scroll; overflow-x:hidden; height:200px;';		
 			
 			
@@ -932,11 +1144,19 @@ function validar(e) {
 				<div style="'.$scroll.' border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';			
 				
 			
-			for ($i=0;$i<mysql_num_rows($query_modelo);$i++)
-			{	
-				$url=$url_actual."&modelo=".mysql_result($query_modelo,$i,0);				
-				echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_modelo,$i,0)." (".mysql_result($query_modelo,$i,1).")</a></div>";			
-			}				
+			
+			if (isset($_GET['buscar']))
+				foreach ( $modelos as $doc => $docinfo )
+				{	
+					$url=$url_actual."&modelo=".$doc;				
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".$doc." (".$docinfo.")</a></div>";			
+				}	
+			else
+				for ($i=0;$i<mysql_num_rows($query_modelo);$i++)
+				{	
+					$url=$url_actual."&modelo=".mysql_result($query_modelo,$i,0);				
+					echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url."' class='LinkFuncionalidad12'>".mysql_result($query_modelo,$i,0)." (".mysql_result($query_modelo,$i,1).")</a></div>";			
+				}				
 		
 			
 			echo '</div></div>';

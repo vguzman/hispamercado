@@ -619,16 +619,13 @@ class Anuncio
 		
 		
 		$palabras_urbanizacion=desglosarPalabrasS($urbanizacion);
-		$palabras_marca=desglosarPalabrasS($marca);
+		/*$palabras_marca=desglosarPalabrasS($marca);
 		$palabras_modelo=desglosarPalabrasS($modelo);
-		$palabras_anio=desglosarPalabrasS($anio);
+		$palabras_anio=desglosarPalabrasS($anio);*/
 		
 		
 		
 		$urbanizacion="";
-		$marca="";
-		$modelo="";
-		$anio="";
 		$ciudad="";
 		$titulo="";
 		$descripcion="";
@@ -644,14 +641,14 @@ class Anuncio
 		for ($i=0;$i<count($palabras_urbanizacion);$i++)
 			$urbanizacion.=$palabras_urbanizacion[$i]." ";
 			
-		for ($i=0;$i<count($palabras_marca);$i++)
+		/*for ($i=0;$i<count($palabras_marca);$i++)
 			$marca.=$palabras_marca[$i]." ";
 		
 		for ($i=0;$i<count($palabras_modelo);$i++)
 			$modelo.=$palabras_modelo[$i]." ";
 			
 		for ($i=0;$i<count($palabras_anio);$i++)
-			$anio.=$palabras_anio[$i]." ";
+			$anio.=$palabras_anio[$i]." ";*/
 			
 		
 			
