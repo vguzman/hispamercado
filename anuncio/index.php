@@ -624,7 +624,7 @@ function validarContacto()
       </td>
       <td width="300" valign="top">
       
-      <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
+      <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
       <div style="width:300px; margin-left:20px; ">
       	<?
 				$cate=new Categoria($anuncio->id_categoria);
@@ -653,7 +653,7 @@ function validarContacto()
 						$colorete="#F2F7E6";
 					
 					
-					echo '<table width="300" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#999 1px solid; background-color:'.$colorete.'; ">
+					echo '<table width="305" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#C8C8C8 1px solid; background-color:'.$colorete.'; ">
 						  <tr>
 							<td width="50" align="center">
 							<a href="../'.$conver->armarEnlace().'" target="_blank">
@@ -661,7 +661,7 @@ function validarContacto()
 								<img src="https://graph.facebook.com/'.$usuario->fb_nick.'/picture" border=0 alt="'.$conver->titulo.'" title="'.$conver->titulo.'" width="30" heigth="30" /> 
 							</a>
 							</td>
-							<td width="250" style="padding-bottom:5px; padding-top:5px;">
+							<td width="255" style="padding-bottom:5px; padding-top:5px;">
 							
 							<div>
 								<a href="../'.$conver->armarEnlace().'" class="tituloAnuncioChico" target="_blank">'.(substr($conver->titulo,0,150)).'</a>
@@ -677,15 +677,8 @@ function validarContacto()
 							
 				}
 				
-				
-				
-				
-				
-				
-				
-		
 		?>
-        <table width="300" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#999 1px solid;">
+        <table width="305" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#C8C8C8 1px solid;">
 	<tr>
 		<td align="center" style="padding-bottom:10px; padding-top:10px; "><a href="../conversaciones/publicar.php" class="LinkFuncionalidad17" target="_blank">
         <strong><< Iniciar Conversación >></strong></a></td>
