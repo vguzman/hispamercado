@@ -130,7 +130,7 @@ function procesar()
 <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
       <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;">
-      <a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
+      <a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
   </tr>
 </table>
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -338,11 +338,15 @@ function procesar()
 				
 				echo '<table width="380" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#C8C8C8 1px solid; background-color:'.$colorete.';">
 					  <tr>
-						<td width="100">&nbsp;</td>
-						<td width="280" style="padding-bottom:5px; padding-top:5px;">
+						<td width="80" align="center">
+						<a href="'.$anuncio->armarEnlace().'">
+							<img src="lib/img.php?tipo=mini&anuncio='.$anuncio->id.'&foto=1" border=0 alt="'.$anuncio->titulo.'" title="'.$anuncio->titulo.'"> </img>
+						</a>
+						</td>
+						<td width="300" style="padding-bottom:5px; padding-top:5px;">
 						
 						<div>
-							<a href="" class="tituloAnuncioChico">'.ucwords(strtolower(substr($anuncio->titulo,0,150))).'</a>
+							<a href="'.$anuncio->armarEnlace().'" class="tituloAnuncioChico">'.ucwords(strtolower(substr($anuncio->titulo,0,150))).'</a>
 						</div>
 						
 						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
@@ -360,7 +364,52 @@ function procesar()
        </div>
        
        
-       <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; margin-top:30px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
+       <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; margin-top:40px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
+       <div>
+        
+        <?
+			$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
+			
+			
+			for ($i=0;$i<mysql_num_rows($query);$i++)
+			{
+				$conver=new Conversacion(mysql_result($query,$i,0));
+				$usuario=new Usuario($conver->id_usuario);
+				
+				if (($i%2)==0)
+					$colorete="#F2F7E6";			
+				else
+					$colorete="#FFFFFF";
+				
+				
+				echo '<table width="380" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#C8C8C8 1px solid; background-color:'.$colorete.';">
+					  <tr>
+						<td width="80" align="center">
+						<a href="'.$conver->armarEnlace().'">
+							
+							<img src="https://graph.facebook.com/'.$usuario->fb_nick.'/picture" border=0 alt="'.$conver->titulo.'" title="'.$conver->titulo.'" /> 
+						
+						</a>
+						</td>
+						<td width="300" style="padding-bottom:5px; padding-top:5px;">
+						
+						<div>
+							<a href="'.$conver->armarEnlace().'" class="tituloAnuncioChico">'.(substr($conver->titulo,0,150)).'</a>
+						</div>
+						
+						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
+							<em>'.mysql_result($query,$i,1).' comentarios</em>
+						</div>
+						
+						</td>
+					  </tr>
+					</table>';		
+				
+			}
+        
+		
+		?>
+       </div>
        
     
     </td>

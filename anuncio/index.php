@@ -1,23 +1,11 @@
 <?
-	session_start();
-	
-	include "../lib/class.php";	
-	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
-	
-	cookieSesion(session_id(),$_SERVER['HTTP_HOST']);			
-	
-	$barra=barraPrincipal("../");
-	$barraLogueo=barraLogueo();
-	$barraPaises= barraPaises($id_pais);
+	include "../lib/class.php";
+	$sesion=checkSession();
 	
 	
 	
-	
-	
-	$url=$_SERVER['REQUEST_URI'];
-		
+	//REDIRECCIONANDO A FRIENDLY URL
+	$url=$_SERVER['REQUEST_URI'];		
 	if (substr_count($url,"/anuncio/?id=")>0)
 	{
 		$aux=explode("id=",$url);
@@ -26,30 +14,20 @@
 		echo "<SCRIPT LANGUAGE='JavaScript'>		
 				document.location.href='http://www.hispamercado.com.ve/".$anuncio->armarEnlace()."';			
 			</SCRIPT>";
-			
 		exit;
-		
 	}
 	
 
 	//---ANUNCIO INEXISTENTE
-	if (isset($_SESSION['nick_gestion'])==false)
-	{
-		$query=operacionSQL("SELECT * FROM Anuncio WHERE id=".$_GET['id']);
-		if (mysql_num_rows($query)==0)
-			echo "<SCRIPT LANGUAGE='JavaScript'>		
-				document.location.href='../index.php';			
-			</SCRIPT>";
-	}
-	else
+	$query=operacionSQL("SELECT * FROM Anuncio WHERE id=".$_GET['id']);
+	if (mysql_num_rows($query)==0)
 		echo "<SCRIPT LANGUAGE='JavaScript'>		
-				document.location.href='http://www.hispamercado.com.ve/admin/anuncio/gestion_index.php?id=".$_GET['id']."';			
-			</SCRIPT>";
-		
+			document.location.href='../index.php';			
+		</SCRIPT>";
+	
 	
 
 	
-//---------------------------------------------------------	
 	
 	$id_anuncio=$_GET['id'];	
 	
@@ -74,13 +52,6 @@
 		$nombre=$usuario->nombre;
 		$telefonos=$usuario->telefonos;
 	}
-	if ($anuncio->id_provincia=="")
-		$provincia="";
-	else
-	{	
-		$provincia=new Provincia($anuncio->id_provincia);
-		$provincia=$provincia->nombre;
-	}
 	$categoria=new Categoria($anuncio->id_categoria);
 //---------------------------------------------------------------------------------------------------------
 
@@ -97,42 +68,14 @@
 
 
 //---------------------------INFORMACION DE VISITA---------------------------------------------------
-
-	$sesion=session_id();
-	$query=operacionSQL("SELECT * FROM AnuncioVisita WHERE id_anuncio=".$id_anuncio." AND id_sesion='".$sesion."'");
+	$query=operacionSQL("SELECT * FROM AnuncioVisita WHERE id_anuncio=".$id_anuncio." AND id_sesion='".session_id()."'");
 	if (mysql_num_rows($query)==0)
-		operacionSQL("INSERT INTO AnuncioVisita VALUES (".$id_anuncio.",'".$sesion."',NOW())");
-
-
+		operacionSQL("INSERT INTO AnuncioVisita VALUES (".$id_anuncio.",'".session_id()."',NOW())");
 //---------------------------------------------------------------------------------------------------
 
 
 
 
-
-//----------------------------------------BARRA DE ADMINISTRADOR------------------------------------------------------
-	$barra_gestion="";
-	if (isset($_SESSION['nick_gestion']))
-	{
-		$barra_gestion="<table width='800' border='0' align='center' cellpadding='0' cellspacing='0' bgcolor='#CCCC33'>
-							  <tr>
-								<td>
-								  Status revisión: <br /><br />
-								  
-									<input type='button' name='button' id='button' value='Reprobar revisión' %enabled% onClick='document.location.href=".chr(34)."../admin/anuncios/procesarIndividual.php?accion=reprobar&id_anuncio=".$anuncio->id.chr(34)."' />&nbsp;&nbsp;&nbsp;
-									<input type='button' name='button2' id='button2' value='Aprobar revisión' %enabled% onClick='document.location.href=".chr(34)."../admin/anuncios/procesarIndividual.php?accion=aprobar&id_anuncio=".$anuncio->id.chr(34)."' />&nbsp;&nbsp;&nbsp;
-									<a href=".chr(34)."../admin/anuncios/redirect.php?codigo=".$anuncio->codigo_verificacion.chr(34)."' target='_blank'>Editar anuncio</a>
-								</td>
-							  </tr>
-							</table> ";
-			
-		if ($anuncio->status_revision!="Revision")
-			$barra_gestion=str_replace("%enabled%","disabled",$barra_gestion);
-		else
-			$barra_gestion=str_replace("%enabled%","",$barra_gestion);
-			
-	}
-//-------------------------------------------------------------------------------------------------------------------
 
 	$url_completa="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	
@@ -369,81 +312,129 @@ function validarContacto()
 </SCRIPT>
 </head>
 <body>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="295" align="left"><a href="../"><img src="../img/logo_290.JPG" alt="Home" width="290" height="46" border="0"></a></td>
-    <td width="280" align="left" valign="bottom" class="arial13Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></td>
-    <td width="225" align="right" valign="top" class="arial11Negro"><a href="javascript:window.alert('Sección en construcción')" class="LinkFuncionalidad">T&eacute;rminos</a> | <a href="../sugerencias.php" class="LinkFuncionalidad">Sugerencias</a></td>
+    <td width="730" align="left" valign="top" ><div style="width:100%;"> <img src="../img/logo_original.jpg" alt="" width="360" height="58" /> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
+    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+      <?
+	
+	//echo "*****".$sesion."*******";
+	if ($sesion!=false)
+		$user=new Usuario($sesion);
+	
+	
+	 ?>
+      <table width="270" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
+          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="cuenta/index.php?d=<? echo time() ?>" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+        </tr>
+      </table>
+    </div>
+      <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
+        <div style="width:160px; height:26px; float:right; background-image:url(img/fondo_fb.png); background-repeat:repeat;" align="left">
+          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
+        </div>
+        <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
+      </div></td>
   </tr>
 </table>
-<div style="margin:0 auto 0 auto; width:800px; margin-top:30px;">
-	<? echo $barra; ?>
-</div>
-
-<div style="margin:0 auto 0 auto; width:800px;">
-	<input type="hidden" name="foto_1_w" id="foto_1_w" value="<? if ($anuncio->foto1=="SI") $medidas=$anuncio->tamanoFoto("1"); echo $medidas["w"];  ?>">
-          <input type="hidden" name="foto_1_h" id="foto_1_h" value="<? if ($anuncio->foto1=="SI") $medidas=$anuncio->tamanoFoto("1"); echo $medidas["h"];  ?>">
-          <input type="hidden" name="foto_2_w" id="foto_2_w" value="<? if ($anuncio->foto2=="SI") $medidas=$anuncio->tamanoFoto("2"); echo $medidas["w"];  ?>">
-          <input type="hidden" name="foto_2_h" id="foto_2_h" value="<? if ($anuncio->foto2=="SI") $medidas=$anuncio->tamanoFoto("2"); echo $medidas["h"];  ?>">
-          <input type="hidden" name="foto_3_w" id="foto_3_w" value="<? if ($anuncio->foto3=="SI") $medidas=$anuncio->tamanoFoto("3"); echo $medidas["w"];  ?>">
-          <input type="hidden" name="foto_3_h" id="foto_3_h" value="<? if ($anuncio->foto3=="SI") $medidas=$anuncio->tamanoFoto("3"); echo $medidas["h"];  ?>">
-          <input type="hidden" name="foto_4_w" id="foto_4_w" value="<? if ($anuncio->foto4=="SI") $medidas=$anuncio->tamanoFoto("4"); echo $medidas["w"];  ?>">
-          <input type="hidden" name="foto_4_h" id="foto_4_h" value="<? if ($anuncio->foto4=="SI") $medidas=$anuncio->tamanoFoto("4"); echo $medidas["h"];  ?>">
-          <input type="hidden" name="foto_5_w" id="foto_5_w" value="<? if ($anuncio->foto5=="SI") $medidas=$anuncio->tamanoFoto("5"); echo $medidas["w"];  ?>">
-          <input type="hidden" name="foto_5_h" id="foto_5_h" value="<? if ($anuncio->foto5=="SI") $medidas=$anuncio->tamanoFoto("5"); echo $medidas["h"];  ?>">
-          <input type="hidden" name="foto_6_w" id="foto_6_w" value="<? if ($anuncio->foto6=="SI") $medidas=$anuncio->tamanoFoto("6"); echo $medidas["w"];  ?>">
-          <input type="hidden" name="foto_6_h" id="foto_6_h" value="<? if ($anuncio->foto6=="SI") $medidas=$anuncio->tamanoFoto("6"); echo $medidas["h"];  ?>">
-          
-          <input type="hidden" name="id_anuncio" id="id_anuncio" value="<? echo $_GET['id'] ?>">
-          <input name="num_fotos" type="hidden" id="num_fotos" value="<? echo $anuncio->numeroFotos() ?>">
-</div>
-
-<div style="margin:0 auto 0 auto; width:800px;">
-	<? echo $barra_gestion ?>
-</div>
-
-<div style="margin:0 auto 0 auto; width:800px; margin-bottom:20px; margin-top:40px; <? if ($categoria->patriarca()==160) echo 'display:none;' ?>" align="center">
-		  <script type="text/javascript"><!--
-        google_ad_client = "ca-pub-8563690485788309";
-        /* Hispamercado Anuncio Top */
-        google_ad_slot = "3487409011";
-        google_ad_width = 728;
-        google_ad_height = 90;
-        //-->
-        </script>
-        <script type="text/javascript"
-        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-        </script>
-        &nbsp; 
-</div>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; margin-top:40px; ">
+<div style="margin-top:50px;">
+  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td width="537" align="left" valign="bottom" class="arial13Negro"><a href="../" class="LinkFuncionalidad13"><b>Inicio</b></a> &raquo; <?
-	 $arbol=$categoria->arbolDeHoja();
-	 for ($i=(count($arbol)-1);$i>=0;$i--)
-	 {	
-		$categoria_aux=new Categoria($arbol[$i]['id']);		
-		echo "<a href='../listado.php?id_cat=".$arbol[$i]['id']."' class='LinkFuncionalidad13'><b>".$categoria_aux->nombre."</b></a> &raquo; ";		
-	 }
-	 echo "<b>".$anuncio->tipo_categoria."</b>";
-	  ?></td>
-      <td width="263" align="right" valign="bottom" class="arial11Negro">&nbsp;</td>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
     </tr>
-</table>
-  <table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor="#C8C8C8">
-  <tr>
-    <td height="1"></td>
-  </tr>
-</table>
-  <form name="Forma" method="post" action="">
-    <table width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:0px; margin-top:40px;">
+  </table>
+  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href='publicar/'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" />
+        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" /></td>
+      <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
+        <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado" />
+        &nbsp;
+        <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+          <option selected="selected" value="todas">Todas las categor&iacute;as</option>
+          <?
+	  	$aux="SELECT id,nombre FROM Categoria WHERE id<>160 AND id_categoria IS NULL";
+		$query=operacionSQL($aux);
+		$total=mysql_num_rows($query);	
+		
+		for ($i=0;$i<$total;$i++)
+		{
+			$categoria=new Categoria(mysql_result($query,$i,0));
+			
+			//if ($categoria->anunciosActivos()>0)
+			echo "<option value='".mysql_result($query,$i,0)."'style='font-size:13px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,1)."</option>";
+			
+			
+		}
+		?>
+        </select>
+        &nbsp;
+        <select name="ciudades" id="ciudades" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+          <option selected="selected" value='todas' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
+          <option value='Fuera del pa&iacute;s'style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Fuera del pa&iacute;s</option>
+          <?
+		
+		//-----EXCLUYENDO CATEGORIA ADULTOS
+	$cat=new Categoria(160);
+	$hijos=$cat->hijos();
+	
+	$parche="";
+	for ($i=0;$i<count($hijos);$i++)
+		$parche.=" AND id_categoria<>".$hijos[$i];
+	//-----------
+		
+		
+	  	$query=operacionSQL("SELECT ciudad,COUNT(*) FROM Anuncio WHERE status_general='Activo' AND ciudad<>'Fuera del pa&iacute;s' ".$parche." GROUP BY ciudad ORDER BY ciudad ASC");
+				
+		for ($i=0;$i<mysql_num_rows($query);$i++)
+			echo "<option value='".mysql_result($query,$i,0)."' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,0)."</option>";
+		
+	  ?>
+        </select>
+        &nbsp;
+        <label>
+          <input type="button" name="button" id="button" value="Buscar" onClick="listarRecientes()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;" />
+        </label>
+      </div></td>
+    </tr>
+  </table>
+</div>
+<div style=" margin:0 auto 0 auto; margin-top:50px; border-collapse:collapse; border-bottom:#C8C8C8 1px solid; width:1000px; padding-left:5px;  ">
+
+  <a href="/" class="LinkFuncionalidad15"><b>Inicio</b></a> &raquo;  <?
+
+				$categoria=new Categoria($anuncio->id_categoria);
+				$arbol=$categoria->arbolDeHoja();
+				$niveles=count($arbol);
+				
+				for ($i=($niveles-1);$i>=0;$i--)
+				{
+					$cat=new Categoria($arbol[$i]['id']);
+					$enlace=$cat->armarEnlace();
+					
+					echo "<a class='LinkFuncionalidad15' href='".$enlace."'><b>".$arbol[$i]['nombre']."</b></a>";
+					if ($i>0)
+						echo " &raquo; ";
+				}
+
+	  ?>
+  
+</div>
+
+  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
+    <tr>
+      <td width="700">
+      
+      		  <table width="700" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:0px; margin-top:40px;">
       <tr>
-        <td width="631"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+        <td width="394"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
     <div style="float:left;"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div></td>
-    <td width="169" valign="bottom" align="right"><span class="arial13Negro"><em>Publicado hace <? echo $anuncio->tiempoHace(); ?></em></span></td>
+    <td width="256" valign="bottom" align="right"><span class="arial13Negro"><em>Publicado hace <? echo $anuncio->tiempoHace(); ?></em></span></td>
       </tr>
     </table>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style="border-collapse:collapse ">
+    <table width="700" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style="border-collapse:collapse ">
   <tr>
     <td>
       <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:10px;">
@@ -456,9 +447,9 @@ function validarContacto()
     <td align="center" class="arial17Negro">&nbsp;</td>
   </tr>
 </table>
-    <table width="800" height="400" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
+    <table width="700" height="400" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
   <tr>
-    <td width="400" valign="center">
+    <td width="363" valign="center">
     
     	<div id="foto" align="center">
         	<a href="javascript:verFotoGrande(<? echo $id_anuncio; ?>,1,<? $medidas=$anuncio->tamanoFoto("1"); echo $medidas['w']; ?>,<? echo $medidas['h'] ?>)" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=1" border="0"></a>
@@ -519,7 +510,7 @@ function validarContacto()
     
     </td>
     
-    <td width="400" valign="top">
+    <td width="337" valign="top">
     
    <div class="arial15RojoPrecio" style=" margin-top:10px; width:94%; float:right;"><strong><? if ((trim($anuncio->precio)!="")&&($anuncio->precio>0)) echo "Bs ".number_format($anuncio->precio,2,',','.') ?></strong></div>
         <?
@@ -604,64 +595,111 @@ function validarContacto()
       <tr>
         <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13"><img src="../img/Mail_32x32.png" alt="" width="32" height="30" border="0"></a></td>
         <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
-        <td align="left" id="favorito_<? echo $anuncio->id ?>"><a href='javascript:aFavoritos(<? echo $anuncio->id ?>,"../")'><img src='../img/favorito0.gif' title='A&ntilde;adir a favoritos' width='26' height='25' border='0'></a></td>
-        <td align="left" class="arial13Negro">Favoritos</td>
-      </tr>
+        </tr>
       <tr>
         <td width="10%" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)"><img src="../img/amigo.jpg" alt="" width="30" height="23" border="0"></a></td>
         <td width="45%" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="recomendar2">Recomendar a un amigo</a></td>
-        <td width="8%" align="left">&nbsp;</td>
-        <td width="27%" align="left">&nbsp;</td>
-      </tr>
+        </tr>
     </table>
     
     </td>
   </tr>
     </table>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
+    <table width="700" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
       <tr>
         <td>&nbsp;<? echo $anuncio->descripcion ?></td>
       </tr>
     </table>
-    <div style="margin:0 auto 0 auto; width:800px; margin-top:15px; <? if ($categoria->patriarca()==160) echo 'display:none;' ?>">
-      <script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8563690485788309";
-		/* Hispamercado__Anuncio */
-		google_ad_slot = "8673209427";
-		google_ad_width = 800;
-		google_ad_height = 90;
-		//-->
-		</script>
-	  <script type="text/javascript"
-		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script>&nbsp;
-	</div>
-    <table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-    <td><hr width="800"></td>
-  </tr>
-</table>
-
-<table width="800px" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#F4F9E8">
+   
+<table width="700" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#F4F9E8">
       <tr bgcolor="#F4F9E8">
         <td align="left" class="arial13Negro" height="40"><strong>Comentarios recibidos</strong></td>
     </tr>
       <tr>
-        <td valign="top"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#xfbml=1"></script><fb:comments href="<? echo $url_completa ?>" num_posts="5" width="800"></fb:comments></td>
+        <td valign="top"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#xfbml=1"></script><fb:comments href="<? echo $url_completa ?>" num_posts="5" width="700"></fb:comments></td>
     </tr>
     </table> 
-</form>  
-  <table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>
+
+      
+      </td>
+      <td width="300" valign="top">
+      
+      <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
+      <div style="width:300px; margin-left:20px; ">
+      	<?
+				$cate=new Categoria($anuncio->id_categoria);
+				$hijos=$cate->hijos();
+				
+				$bloque="(";
+				for ($i=0;$i<count($hijos);$i++)
+				{
+					if ((count($hijos)-1)==$i)
+						$bloque.="id_categoria=".$hijos[$i].") ";
+					else
+						$bloque.="id_categoria=".$hijos[$i]." OR ";
+				}
+				
+				$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND ".$bloque." AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
+				
+				
+				for ($i=0;$i<mysql_num_rows($query);$i++)
+				{
+					$conver=new Conversacion(mysql_result($query,$i,0));
+					$usuario=new Usuario($conver->id_usuario);
+					
+					if (($i%2)==0)
+						$colorete="#FFFFFF";			
+					else
+						$colorete="#F2F7E6";
+					
+					
+					echo '<table width="300" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#999 1px solid; background-color:'.$colorete.'; ">
+						  <tr>
+							<td width="50" align="center">
+							<a href="../'.$conver->armarEnlace().'" target="_blank">
+								
+								<img src="https://graph.facebook.com/'.$usuario->fb_nick.'/picture" border=0 alt="'.$conver->titulo.'" title="'.$conver->titulo.'" width="30" heigth="30" /> 
+							</a>
+							</td>
+							<td width="250" style="padding-bottom:5px; padding-top:5px;">
+							
+							<div>
+								<a href="../'.$conver->armarEnlace().'" class="tituloAnuncioChico" target="_blank">'.(substr($conver->titulo,0,150)).'</a>
+							</div>
+							
+							<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
+								<em>'.mysql_result($query,$i,1).' comentarios</em>
+							</div>
+							
+							</td>
+						  </tr>
+						</table>';
+							
+				}
+				
+				
+				
+				
+				
+				
+				
+		
+		?>
+        <table width="300" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#999 1px solid;">
+	<tr>
+		<td align="center" style="padding-bottom:10px; padding-top:10px; "><a href="../conversaciones/publicar.php" class="LinkFuncionalidad17" target="_blank">
+        <strong><< Iniciar Conversación >></strong></a></td>
+	</tr>
+	</table>
+      </div>
+      
+      </td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+
 </body>
 </html>
 <script type="text/javascript">

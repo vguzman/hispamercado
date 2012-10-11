@@ -369,13 +369,13 @@ class Anuncio
 					</div>";
 			
 		
-		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:700px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
+		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:650px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
 	
-					<table width='700' border='0' cellspacing='0' cellpadding='0' align='center'>
+					<table width='650' border='0' cellspacing='0' cellpadding='0' align='center'>
 					  <tr>
 						<td width='130' height='120' align='center' valign='middle' style='padding-bottom:7px; padding-top:7px;'><a href='".$enlace."'><img src='lib/img.php?tipo=lista&anuncio=".$this->id."&foto=1' border='0' alt='".$this->titulo."' title='".$this->titulo."' /></a></td>
-						<td width='580'>
-								<table width='570' height='120' border='0' cellspacing='0' cellpadding='0'>
+						<td width='520'>
+								<table width='520' height='120' border='0' cellspacing='0' cellpadding='0'>
 								  <tr>
 									<td height='40' valign='top'>
 									
@@ -945,6 +945,13 @@ class Categoria
 
 	}
 	
+	function padre()
+	{
+		$query=operacionSQL("SELECT id_categoria FROM Categoria WHERE id=".$this->id);
+		
+		return mysql_result($query,0,0);
+	}
+	
 	
 }
 
@@ -1040,15 +1047,14 @@ class Conversacion
 		$query=operacionSQL($aux);
 		
 		$this->id=$id;
-		$this->id_usuario=mysql_result($query,0,1);
-		$this->id_categoria=mysql_result($query,0,2);
-		$this->fecha=mysql_result($query,0,3);
-		$this->anunciante_nombre=mysql_result($query,0,4);
-		$this->anunciante_email=mysql_result($query,0,5);
-		$this->titulo=mysql_result($query,0,6);
-		$this->descripcion=mysql_result($query,0,7);
-		$this->notificaciones=mysql_result($query,0,8);
-		$this->status=mysql_result($query,0,9);
+		$this->hash=mysql_result($query,0,1);
+		$this->id_usuario=mysql_result($query,0,2);
+		$this->id_categoria=mysql_result($query,0,3);
+		$this->fecha=mysql_result($query,0,4);
+		$this->titulo=mysql_result($query,0,5);
+		$this->descripcion=mysql_result($query,0,6);
+		$this->notificaciones=mysql_result($query,0,7);
+		$this->status=mysql_result($query,0,8);
 	}
 	
 	function tiempoHace()
@@ -1091,6 +1097,12 @@ class Conversacion
 		return $enlace;
 	}
 	
+	function comentariosRecibidos()
+	{
+		$query=operacionSQL("SELECT COUNT(*) FROM ConversacionComentario WHERE id_conversacion=".$this->id);
+		
+		return mysql_result($query,0,0);
+	}
 	
 }
 

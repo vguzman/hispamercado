@@ -186,14 +186,6 @@
             <div style="float:left; width:auto; display:none;" class="arial11Negro" id="div_9"></div></td>
     </tr>
     <tr>
-      <td align="left" class="arial13Negro">Tu nombre <span class="arial13Rojo">*</span></td>
-      <td align="left"><input name="nombre" type="text" id="nombre" size="40" maxlength="255" value="<? echo $pre_nombre ?>" ></td>
-    </tr>
-    <tr>
-      <td align="left" class="arial13Negro">Tu e-mail <span class="arial13Rojo">*</span></td>
-      <td align="left"><input name="email" type="text" id="email" size="40" maxlength="255" value="<? echo $pre_email ?>"></td>
-    </tr>
-    <tr>
       <td align="left" class="arial13Negro"> T&iacute;tulo <span class="arial13Rojo">*</span></td>
       <td align="left"><input name="titulo" type="text" id="titulo" size="100" maxlength="150" ><br />
         <span class="arial13Gris">¡Haz una pregunta o una afirmación sobre el tema de tu inter&eacute;s!</span></td>
@@ -203,8 +195,14 @@
       <td width="776" align="left"><textarea name="content" cols="77" rows="5" id="content"></textarea><br />
 	  <span class="arial13Gris">Si con el título de la conversación se entiende tu idea puedes dejar este campo vacío</span></td>
     </tr>
-</table>
-    <div align="center" style="margin-top:20px;">
+    </table>
+    <div align="center" class="arial11Negro" style="margin-top:20px;">
+    
+    <input type="checkbox" name="notificaciones" id="notificaciones" value="SI">
+    Recibir una notificaci&oacute;n por e-mail cada vez que se reciba un nuevo comentario
+    
+    </div>
+    <div align="center" style="margin-top:10px;">
       <input type="button" name="Submit" value="Iniciar conversaci&oacute;n" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">
     </div>
   </div>

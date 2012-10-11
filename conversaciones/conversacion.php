@@ -39,12 +39,13 @@
 	$user_conver=new Usuario($conver->id_usuario);
 		
 ?>
-<base href="http://www.hispamercado.com.ve/conversaciones/" />
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+
+<base href="http://www.hispamercado.com.ve/conversaciones/" />
 
 
 <meta name="description" content="Publicar aviso clasificado gratis en cualquier ciudad de venezuela con fotos y videos. Publique su anuncio en solo 1 minuto">
@@ -191,14 +192,14 @@
 		 ?></td>
         <td width="27" align="right" valign="bottom">&nbsp;</td>
       </tr>
-    </table>
+  </table>
 </div>
 
 <div style="width:1000px; margin:40px auto 0 auto">
 
-<div style="width:700px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; margin-bottom:0px;">
+<div style="width:650px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; margin-bottom:0px;">
 	<div id="contenedor_conversacion" style="padding:20px;">  
-      <table width="670" border="0" cellspacing="0" cellpadding="0">
+      <table width="620" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td width="130" align="center" valign="top">
           
@@ -219,7 +220,7 @@
       </table>
 	</div>
 
-<div class="fb-comments" data-href="http://www.hispamercado.com.ve/<? echo $conver->armarEnlace() ?>" notify="true" data-num-posts="100000" data-width="700" style="margin-top:15px;"></div>
+<div class="fb-comments" data-href="http://www.hispamercado.com.ve/<? echo $conver->armarEnlace() ?>" notify="true" data-num-posts="100000" data-width="650" style="margin-top:15px;"></div>
 
 
 
@@ -229,10 +230,89 @@
 
 
 
-<div style="width:270px; float:left; margin-left:25px;">
+<div style="width:320px; float:left; margin-left:25px;">
 
 
-<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:270px; border:#999 1px solid; border-bottom:0px;"><strong><span class="arial15Negro">Anuncios relacionados</span></strong></div>
+<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;"><strong><span class="arial15Negro">Anuncios relacionados</span></strong></div>
+
+
+
+<div style="border-left:#999 1px solid; border-right:#999 1px solid;">
+        
+        <?
+			$resul=buscarSphinx($conver->titulo,$conver->id_categoria,"NO","NO","NO","NO","NO","NO","NO","ANY");
+			$anuncios=$resul['anuncios'];
+				
+			if (count($resul)==0)
+			{
+				$cate=new Categoria($conver->id_categoria);
+				$hijos=$cate->hijos();
+					
+				$bloque="(";
+				for ($i=0;$i<count($hijos);$i++)
+				{
+					if ((count($hijos)-1)==$i)
+						$bloque.="id_categoria=".$hijos[$i].") ";
+					else
+						$bloque.="id_categoria=".$hijos[$i]." OR ";
+				}
+					
+				$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND ".$bloque." AND (B.id_categoria<>3820 AND B.id_categoria<>164 AND B.id_categoria<>165) GROUP BY id_anuncio ORDER BY C DESC LIMIT 5");
+					
+				$anuncios=array();
+				for ($i=0;$i<mysql_num_rows($query);$i++)
+					array_push($anuncios,mysql_result($query,$i,0));
+				
+			}
+			
+			if (count($anuncios)>5)
+				$top=5;
+			else
+				$top=count($anuncios);
+			for ($i=0;$i<$top;$i++)
+			{
+				$anuncio=new Anuncio($anuncios[$i]);
+				
+				if (($i%2)==0)
+					$colorete="#FFFFFF";			
+				else
+					$colorete="#F2F7E6";
+				
+				
+				echo '<table width="318" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#999 1px solid; background-color:'.$colorete.';">
+					  <tr>
+						<td width="78" align="center">
+						<a href="../'.$anuncio->armarEnlace().'" target="_blank">
+							<img src="../lib/img.php?tipo=mini&anuncio='.$anuncio->id.'&foto=1" border=0 alt="'.$anuncio->titulo.'" title="'.$anuncio->titulo.'"> </img>
+						</a>
+						</td>
+						<td width="240" style="padding-bottom:5px; padding-top:5px;">
+						
+						<div>
+							<a href="../'.$anuncio->armarEnlace().'" class="tituloAnuncioChico" target="_blank">'.ucwords(strtolower(substr($anuncio->titulo,0,150))).'</a>
+						</div>
+						
+						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
+							<em>'.mysql_result($query,$i,1).' visitas</em>
+						</div>
+						
+						</td>
+					  </tr>
+					</table>';		
+				
+			}
+        
+		
+		?>
+        
+        <table width="318" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#999 1px solid;">
+		  <tr>
+			<td align="center" style="padding-bottom:10px; padding-top:10px; "><a href="../publicar/" class="LinkFuncionalidad17" target="_blank">
+               <strong><< Publicar Anuncio >></strong></a></td>
+			</tr>
+		</table>
+        
+       </div>
 
 
 

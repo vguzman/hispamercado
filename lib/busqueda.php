@@ -36,6 +36,9 @@
 		//TIPO DE MATCHING
 		if ($match=="ALL")
 			$cl->SetMatchMode( SPH_MATCH_ALL );
+		if ($match=="ANY")
+			$cl->SetMatchMode( SPH_MATCH_ANY );
+
 			
 			
 		

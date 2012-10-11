@@ -11,8 +11,29 @@
 	else
 		$id_usuario="NULL";
 		
+	$id_sesion=session_id();
+	$hoy=getdate();
+	$fecha2=$hoy['year'].$hoy['mon'].$hoy['mday'].$hoy['hours'].$hoy['minutes'].$hoy['seconds'];	
+	$verificacion=codigo_verificacion($fecha2,$id_sesion);
 	
-	operacionSQL("INSERT INTO Conversacion VALUES (null,".$id_usuario.",".trim($_POST['categoria']).",'".trim($_POST['nombre'])."','".trim($_POST['email'])."','".trim($_POST['titulo'])."','".trim($_POST['content'])."',1)");
+	if (isset($_POST['notificaciones']))
+		$noti=1;
+	else
+		$noti=0;
+	
+	
+	$query=operacionSQL("SELECT MAX(id) FROM Conversacion");
+	$id_nuevo=mysql_result($query,0,0)+1;
+	
+	
+	$aux="INSERT INTO Conversacion VALUES (".$id_nuevo.",'".$verificacion."',".$id_usuario.",".trim($_POST['categoria']).",NOW(),'".trim($_POST['titulo'])."','".trim($_POST['content'])."',1,".$noti.")";
+	operacionSQL($aux);
+	
+	$conver=new Conversacion($id_nuevo);
+	
+	echo "<script type='text/javascript'>
+			document.location.href='../".$conver->armarEnlace()."';
+		</script>";
 	
 	
 

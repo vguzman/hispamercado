@@ -564,16 +564,11 @@ function validar(e) {
     </tr>
   </table>
 </div>
-
-
-
-
-
 <div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1000px; clear:both">
-
-
-
-<div style="width:274px; margin-right:15px; margin-top:23px; float:left; display:table;">
+  
+  
+  
+  <div style="width:324px; margin-right:15px; margin-top:23px; float:left; display:table;">
 
 <?
 
@@ -644,6 +639,43 @@ function validar(e) {
 		//Existen hijos inmediatos?
 		$cate=new Categoria($_GET['id_cat']);
 		
+		
+		
+		echo '<div style="margin-bottom:20px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
+		
+		if ($cate->esPadre()==false)	
+			$url=str_replace("id_cat=".$_GET['id_cat'],"id_cat=".$cate->padre(),$url_actual);
+		else
+		{
+			$url=str_replace("id_cat=".$_GET['id_cat'],"",$url_actual);
+			
+			if (isset($_GET['tipo']))
+				$url=str_replace("tipo=".$_GET['tipo'],"",$url);
+				
+			
+		}
+		
+		if (isset($_GET['m2']))
+			$url=str_replace("m2=".$_GET['m2'],"",$url);
+			
+		if (isset($_GET['hab']))
+			$url=str_replace("hab=".$_GET['hab'],"",$url);
+				
+		if (isset($_GET['marca']))
+			$url=str_replace("marca=".$_GET['marca'],"",$url);
+		
+		if (isset($_GET['modelo']))
+			$url=str_replace("modelo=".$_GET['modelo'],"",$url);
+		
+		if (isset($_GET['anio']))
+			$url=str_replace("anio=".$_GET['anio'],"",$url);
+			
+					
+		echo "<strong>Categoría: ".$categoria->nombre." <a href='".$url."'><img src='img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong></div></div>";
+				
+		
+		
 		if ($cate->esHoja()==false)
 		{
 			echo '<div style="margin-bottom:20px;">
@@ -683,6 +715,7 @@ function validar(e) {
 			
 			echo '</div></div>';
 		}
+		
 		
 	}
 	
@@ -1171,9 +1204,81 @@ function validar(e) {
 
 
 
-</div>
+<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px; margin-top:20px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
 
-<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:700px; float:left; ">
+<div>
+        <?
+			if (isset($_GET['id_cat'])==false)
+				$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
+			else
+			{
+				$cate=new Categoria($_GET['id_cat']);
+				$hijos=$cate->hijos();
+				
+				$bloque="(";
+				for ($i=0;$i<count($hijos);$i++)
+				{
+					if ((count($hijos)-1)==$i)
+						$bloque.="id_categoria=".$hijos[$i].") ";
+					else
+						$bloque.="id_categoria=".$hijos[$i]." OR ";
+				}
+				
+				$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND ".$bloque." AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
+				
+			}
+			
+			
+			for ($i=0;$i<mysql_num_rows($query);$i++)
+			{
+				$conver=new Conversacion(mysql_result($query,$i,0));
+				$usuario=new Usuario($conver->id_usuario);
+				
+				if (($i%2)==0)
+					$colorete="#FFFFFF";			
+				else
+					$colorete="#F2F7E6";
+				
+				
+				echo '<table width="323" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#999 1px solid; background-color:'.$colorete.';">
+					  <tr>
+						<td width="70" align="center">
+						<a href="'.$conver->armarEnlace().'" target="_blank">
+							
+							<img src="https://graph.facebook.com/'.$usuario->fb_nick.'/picture" border=0 alt="'.$conver->titulo.'" title="'.$conver->titulo.'" width="50" heigth="50" /> 
+						</a>
+						</td>
+						<td width="253" style="padding-bottom:5px; padding-top:5px;">
+						
+						<div>
+							<a href="'.$conver->armarEnlace().'" class="tituloAnuncioChico" target="_blank">'.(substr($conver->titulo,0,150)).'</a>
+						</div>
+						
+						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
+							<em>'.mysql_result($query,$i,1).' comentarios</em>
+						</div>
+						
+						</td>
+					  </tr>
+					</table>';
+						
+			}
+				
+		?>
+    </div>
+   <table width="323" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#999 1px solid;">
+	<tr>
+		<td align="center" style="padding-bottom:10px; padding-top:10px; "><a href="conversaciones/publicar.php" class="LinkFuncionalidad17" target="_blank">
+        <strong><< Iniciar Conversación >></strong></a></td>
+	</tr>
+	</table>
+
+
+
+
+  </div>
+
+<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:650px; float:left; ">
   
   		
         
@@ -1217,58 +1322,72 @@ function validar(e) {
         ?>
         </div>
         
-        <div style=" margin-top:10px;" align="center">
+        <div style=" margin-top:20px;" align="center">
           <?
 		
 	if (count($anuncios)>0)
 	{			
 		$total=count($anuncios);
 		$resto=$total%$factor;
-		$entero=(int)($total/$factor);		
+		$entero=(int)($total/$factor);	
 		
-		//if ($_GET['id_cat']!="")
-			//$actual="listado.php?id_cat=".$id_cat; 
+		
+		$bloques=$entero;
+		if ($resto>0)
+			$bloques++;
+		
 		$actual=$url_actual;
 		
 		//cuando aparece el link anterior
-		if ((($entero>1)||(($entero==1)&&($resto>0)))&&($parte!="1"))
-			echo "<a href='".$actual."&parte=".($parte-1)."&factor=".$factor."' class='LinkFuncionalidad12'><< Anterior</a> | ";
+		if ($parte > 1)
+			echo "<a href='".$actual."&parte=".($parte-1)."&factor=".$factor."' class='LinkFuncionalidad15'><strong><< Anterior</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		
-		for ($i=0;$i<$entero;$i++)
+		
+		if ($parte>=5)
 		{
-			$primero=($i*$factor)+1;
-			$ultimo=($i+1)*$factor;
-			
-			$mostrar_aux=($i+1)."_".$factor;
-						
-			if (($i+1)!=$parte)
-				echo "<a href='".$actual."&parte=".($i+1)."&factor=".$factor."' class='LinkFuncionalidad12'>".$primero." - ".$ultimo."</a>";
-			else
-				echo "<span class='arial12Negro'>".$primero." - ".$ultimo."</span>";
-			
-			if (!(($resto==0)&&(($i+1)==$entero)))
-				echo " | ";
+			$from=$parte-4;
+			$to=$parte+4;
+		}
+		else
+		{
+			$from=1;
+			$to=10;
 		}
 		
-		if ($resto>0)
-		{	
-			$primero=($i)*($factor+1);
-			$ultimo=$total;
+		
+		
+		if ($to>$bloques)
+			$to=$bloques;
 			
-			$mostrar_aux=($i+1)."_".$mostrar['factor'];
-						
-			if (($i+1)!=$parte)
-				echo "<a href='".$actual."&parte=".($i+1)."&factor=".$factor."' class='LinkFuncionalidad12'>".$primero." - ".$ultimo."</a>";
+		if (($to-$from)<8)
+			if ($to-8>0)
+				$from=$to-8;
 			else
-				echo "<span class='arial12Negro'>".$primero." - ".$ultimo."</span>";
+				$from=1;
+			
+		//echo "*****".($to-$from)."*****";
+		
+		
+		
+		
+		
+		for ($i=$from;$i<=$to;$i++)
+		{
+			if ($i!=$parte)
+				echo "<a href='".$actual."&parte=".$i."&factor=".$factor."' class='LinkFuncionalidad15'><strong>".$i."</strong></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			else
+				echo "<span class='arial15Negro'><strong>".$i."</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			
+			
 		}
+		
+		
 	}
 	
-	if ($parte<($i))
-		echo " | <a href='".$actual."&parte=".($parte+1)."&factor=".$factor."' class='LinkFuncionalidad12'>Siguiente >></a>";
+	if ( $parte < $to )
+		echo "<a href='".$actual."&parte=".($parte+1)."&factor=".$factor."' class='LinkFuncionalidad15'><strong>Siguiente >></strong></a>";
 	
-	?>
-        </div>
+	?></div>
         
 </div>
 
