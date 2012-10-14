@@ -297,7 +297,11 @@
 						
 						
 					$anuncio=new Anuncio(mysql_result($query,$i,0));
-					echo $anuncio->armarAnuncio($colorete);
+					$armado=$anuncio->armarAnuncio($colorete);
+					
+					
+					$armado=str_replace('<a href','<a target="_blank" href',$armado);
+					echo $armado;
 				
 				}
 			

@@ -46,9 +46,9 @@
 
 
 <base href="http://www.hispamercado.com.ve/conversaciones/" />
+<meta name="description" content="<? echo $conver->textoDescripcion() ?>">
 
 
-<meta name="description" content="Publicar aviso clasificado gratis en cualquier ciudad de venezuela con fotos y videos. Publique su anuncio en solo 1 minuto">
 
 <LINK REL="stylesheet" TYPE="text/css" href="../lib/css/basicos.css">
 
@@ -57,23 +57,6 @@
 <script language="javascript" type="text/javascript" src="../lib/js/conversaciones.js"> </script>
 
 
-
-
-
-<script language="javascript" type="text/javascript">
-
-	
-
-
-</script>
-
-
-
-
-
-
-
-        
 
 <title><? echo $conver->titulo ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -197,6 +180,25 @@
 
 <div style="width:1000px; margin:40px auto 0 auto">
 
+<div>
+
+	 <div style="float:left; ">
+            <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+            </div>
+            
+            
+            <div class="fb-send" style="margin-left:15px; margin-right:15px; float:left;" data-href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>"></div>
+            
+            
+            <div class="g-plusone" data-size="medium" data-annotation="none" style="float:left;"></div>
+           
+            
+            <div style="float:left;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="hispamercado" data-lang="es">Twittear</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+
+</div>
+
+<div style="clear:both">
 <div style="width:650px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; margin-bottom:0px;">
 	<div id="contenedor_conversacion" style="padding:20px;">  
       <table width="620" border="0" cellspacing="0" cellpadding="0">
@@ -319,8 +321,18 @@
 </div>
 
 </div>
+</div>
 
 
+<script type="text/javascript">
+	  window.___gcfg = {lang: 'es'};
+	
+	  (function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	  })();
+	</script>
 
 </body>
 </html>

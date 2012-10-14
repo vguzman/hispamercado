@@ -35,10 +35,19 @@
 
 
 
+
+
 <SCRIPT LANGUAGE="JavaScript">
 
 
-
+jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loadingImage : 'lib/facebox/src/loading.gif',
+        closeImage   : 'lib/facebox/src/closelabel.png'
+      })
+    })
+	
+	
 
 
 function processStateChange()
@@ -52,12 +61,6 @@ function processStateChange()
 		else 
 			alert("Problema");      
 	}
-}
-
-
-function procesar()
-{
-	
 }
 
 
@@ -321,7 +324,7 @@ function procesar()
     
     <td width="380" valign="top">
     
-    	<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px;"><strong><span class="arial15Negro">Anuncios mas visitados</span></strong></div>
+    	<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px;"><strong><span class="arial15Negro">Anuncios mas visitados en los &uacute;ltimos 7 d&iacute;as</span></strong></div>
         <div>
         
         <?

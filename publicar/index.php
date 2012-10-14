@@ -12,6 +12,7 @@
 	$pre_descripcion="";
 	$pre_ciudad="";
 	$pre_precio="";
+	$pre_youtube="";
 	
 	//CASOS USUARIO REGISTRADO
 	if ($sesion!=false)
@@ -62,6 +63,8 @@
 			$pre_descripcion=$anuncio->descripcion;
 			$pre_ciudad=$anuncio->ciudad;
 			$pre_precio=$anuncio->precio;
+			$pre_youtube=$anuncio->video_youtube;
+			
 			
 			
 			$cate=new Categoria($anuncio->id_categoria);
@@ -385,6 +388,9 @@ function accionAnuncio(accion,code)
 		document.location.href="gestionAccion.php?accion="+accion+"&code="+code;
 }
 
+
+
+
 </script>
 
 
@@ -702,9 +708,16 @@ theme_advanced_resizing : true,
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Video <img src="../img/youtube.png" width="16" height="16"></td>
-      <td align="left" class="arial13Negro" style="padding-top:8px;"><input name="youtube" type="text" id="youtube" size="72" maxlength="255" onChange="probarYoutube()">
-        <input name="estado_yutub" type="hidden" id="estado_yutub" value="X">
-      <em>(opcional)</em><br>
+      <td align="left" class="arial13Negro" style="padding-top:8px;"><input name="youtube" type="text" id="youtube" size="72" maxlength="255" onChange="probarYoutube()" value="<? echo $pre_youtube ?>"><? if ($pre_youtube=="") 
+	  echo '<span id="verificar_youtube"><input type="button" name="button3" id="button3" value="Verificar" onClick="probarYoutube()"></span>
+         <input name="estado_yutub" type="hidden" id="estado_yutub" value="X">';
+		 else
+		 	echo '<span id="verificar_youtube"><img src="../img/checked.png" width="24" height="24"></span>
+         <input name="estado_yutub" type="hidden" id="estado_yutub" value="SI">';
+			
+			
+			
+			 ?><br>
           <span class="arial11Gris">Introducir url del video de YouTube (ejemplo: http://www.youtube.com/watch?v=DZRXe1wtC)</span></td>
     </tr>
   </table>

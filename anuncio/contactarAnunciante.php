@@ -3,11 +3,6 @@
 	
 	include "../lib/class.php";	
 	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
-	
-	cookieSesion(session_id(),$_SERVER['HTTP_HOST']);			
-
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

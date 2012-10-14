@@ -30,7 +30,6 @@
 	
 	
 	$id_anuncio=$_GET['id'];	
-	
 	$anuncio=new Anuncio($id_anuncio);
 	
 	
@@ -39,19 +38,7 @@
 					document.location.href='../index.php';			
 				</SCRIPT>";
 	
-	if ($anuncio->id_usuario=="")
-	{
-		$email=$anuncio->anunciante_email;
-		$nombre=$anuncio->anunciante_nombre;
-		$telefonos=$anuncio->anunciante_telefonos;
-	}
-	else
-	{
-		$usuario=new Usuario($anuncio->id_usuario);
-		$email=$usuario->email;
-		$nombre=$usuario->nombre;
-		$telefonos=$usuario->telefonos;
-	}
+
 	$categoria=new Categoria($anuncio->id_categoria);
 //---------------------------------------------------------------------------------------------------------
 
@@ -75,11 +62,7 @@
 
 
 
-
-
 	$url_completa="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	
-	
 	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -102,6 +85,11 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="description" content="<? echo $anuncio->textoDescripcion() ?>">
+
+<meta property="og:type" content="product" />
+<link rel="image_src" href="http://www.hispamercado.com.ve/lib/img.php?tipo=anuncio&anuncio=<? echo $anuncio->id ?>&foto=1" />
+
+
 <meta property="fb:admins" content="{684722409}"/>
 
 
@@ -308,10 +296,73 @@ function validarContacto()
 }
 
 
+//-------------------------------------------------------SECCION FB---------------------------------------------------------------------
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '119426148153054', // App ID
+      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+	FB.Event.subscribe('comment.create',
+    function(response) {
+		
+		var url="ajax_nuevoComentarioFB.php?url="+response.href;
+		//window.alert(url);
+		req=getXMLHttpRequest();
+		req.onreadystatechange=nuevoComentario;
+		req.open("GET",url,true);
+		req.send(null);
+		
+    });
+	
+	FB.Event.subscribe('comment.remove',
+    function(response) {
+		
+        var url="ajax_borrarComentarioFB.php?url="+response.href;
+		req=getXMLHttpRequest();
+		req.onreadystatechange=nuevoComentario;
+		req.open("GET",url,true);
+		req.send(null);
+		
+    });
+	
+	function nuevoComentario()
+	{
+		if (req.readyState==4)
+		{
+			if (req.status==200)
+			{		
+				//window.alert(req.responseText);	
+			} 
+			else
+				window.alert("Ha ocurrido un problema");      
+		}
+	}
+	
+  };
+  
+ (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+
+
+
+
 
 </SCRIPT>
 </head>
 <body>
+<form name="Forma" method="post" action="">
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="730" align="left" valign="top" ><div style="width:100%;"> <img src="../img/logo_original.jpg" alt="" width="360" height="58" /> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
@@ -414,24 +465,58 @@ function validarContacto()
 					$cat=new Categoria($arbol[$i]['id']);
 					$enlace=$cat->armarEnlace();
 					
-					echo "<a class='LinkFuncionalidad15' href='".$enlace."'><b>".$arbol[$i]['nombre']."</b></a>";
+					echo "<a class='LinkFuncionalidad15' href='../".$enlace."'><b>".$arbol[$i]['nombre']."</b></a>";
 					if ($i>0)
 						echo " &raquo; ";
 				}
 
 	  ?>
   
-</div>
-
+  <span style="margin:0 auto 0 auto; width:800px;">
+  <input type="hidden" name="foto_1_w" id="foto_1_w" value="<? if ($anuncio->foto1=="SI") $medidas=$anuncio->tamanoFoto("1"); echo $medidas["w"];  ?>">
+  <input type="hidden" name="foto_1_h" id="foto_1_h" value="<? if ($anuncio->foto1=="SI") $medidas=$anuncio->tamanoFoto("1"); echo $medidas["h"];  ?>">
+  <input type="hidden" name="foto_2_w" id="foto_2_w" value="<? if ($anuncio->foto2=="SI") $medidas=$anuncio->tamanoFoto("2"); echo $medidas["w"];  ?>">
+  <input type="hidden" name="foto_2_h" id="foto_2_h" value="<? if ($anuncio->foto2=="SI") $medidas=$anuncio->tamanoFoto("2"); echo $medidas["h"];  ?>">
+  <input type="hidden" name="foto_3_w" id="foto_3_w" value="<? if ($anuncio->foto3=="SI") $medidas=$anuncio->tamanoFoto("3"); echo $medidas["w"];  ?>">
+  <input type="hidden" name="foto_3_h" id="foto_3_h" value="<? if ($anuncio->foto3=="SI") $medidas=$anuncio->tamanoFoto("3"); echo $medidas["h"];  ?>">
+  <input type="hidden" name="foto_4_w" id="foto_4_w" value="<? if ($anuncio->foto4=="SI") $medidas=$anuncio->tamanoFoto("4"); echo $medidas["w"];  ?>">
+  <input type="hidden" name="foto_4_h" id="foto_4_h" value="<? if ($anuncio->foto4=="SI") $medidas=$anuncio->tamanoFoto("4"); echo $medidas["h"];  ?>">
+  <input type="hidden" name="foto_5_w" id="foto_5_w" value="<? if ($anuncio->foto5=="SI") $medidas=$anuncio->tamanoFoto("5"); echo $medidas["w"];  ?>">
+  <input type="hidden" name="foto_5_h" id="foto_5_h" value="<? if ($anuncio->foto5=="SI") $medidas=$anuncio->tamanoFoto("5"); echo $medidas["h"];  ?>">
+  <input type="hidden" name="foto_6_w" id="foto_6_w" value="<? if ($anuncio->foto6=="SI") $medidas=$anuncio->tamanoFoto("6"); echo $medidas["w"];  ?>">
+  <input type="hidden" name="foto_6_h" id="foto_6_h" value="<? if ($anuncio->foto6=="SI") $medidas=$anuncio->tamanoFoto("6"); echo $medidas["h"];  ?>">
+  <input type="hidden" name="id_anuncio" id="id_anuncio" value="<? echo $_GET['id'] ?>">
+  <input name="num_fotos" type="hidden" id="num_fotos" value="<? echo $anuncio->numeroFotos() ?>">
+</span></div>
+<div id="fb-root"></div>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
     <tr>
       <td width="700">
       
       		  <table width="700" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:0px; margin-top:40px;">
       <tr>
-        <td width="394"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
-    <div style="float:left;"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hispamercado" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div></td>
-    <td width="256" valign="bottom" align="right"><span class="arial13Negro"><em>Publicado hace <? echo $anuncio->tiempoHace(); ?></em></span></td>
+        <td width="506">
+        
+        
+    <div style="float:left; ">
+    <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
+    </div>
+    
+    
+    <div class="fb-send" style="margin-left:15px; margin-right:15px; float:left;" data-href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>"></div>
+    
+    
+    <div class="g-plusone" data-size="medium" data-annotation="none" style="float:left;"></div>
+   
+    
+    <div style="float:left;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="hispamercado" data-lang="es">Twittear</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+    
+    
+    
+    
+    </td>
+    <td width="194" valign="bottom" align="right">&nbsp;</td>
       </tr>
     </table>
     <table width="700" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style="border-collapse:collapse ">
@@ -447,7 +532,7 @@ function validarContacto()
     <td align="center" class="arial17Negro">&nbsp;</td>
   </tr>
 </table>
-    <table width="700" height="400" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
+    <table width="700" height="320" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
   <tr>
     <td width="363" valign="center">
     
@@ -573,11 +658,11 @@ function validarContacto()
     <table width="95%" border="0" cellspacing="4" cellpadding="0" align="right" style="margin-top:10px; clear:both;">
       <tr>
         <td width="25%" class="arial13Negro"><em>Anunciante</em></td>
-        <td width="75%" class="arial13Negro"><span class="arial13Negro"><? echo $nombre; ?></span></td>
+        <td width="75%" class="arial13Negro"><span class="arial13Negro"><? echo $anuncio->anunciante_nombre ?></span></td>
       </tr>
       <tr>
         <td class="arial13Negro"><em>Ubicaci&oacute;n</em></td>
-        <td><span class="arial13Negro"><? echo $anuncio->ciudad.", ".$provincia ?></span></td>
+        <td><span class="arial13Negro"><? echo $anuncio->ciudad ?></span></td>
       </tr>
       <tr>
         <td class="arial13Negro"><em>Tel&eacute;fonos</em></td>
@@ -585,9 +670,20 @@ function validarContacto()
       </tr>
     </table>
     
-    <table width="95%" border="0" cellspacing="0" cellpadding="0" align="right" style="clear:left;">
+    
+     <table width="95%" border="0" cellspacing="4" cellpadding="0" align="right" style="margin-top:10px; clear:both;">
+      <tr>
+        <td class="arial11Negro" ><strong><em>Publicado hace <? echo $anuncio->tiempoHace(); ?></em></strong></td>
+      </tr>
+      <tr>
+        <td class="arial11Negro"><strong><em><? echo $anuncio->visitas() ?> visitas recibidas</em></strong></td>
+      </tr>
+    </table>
+    
+    
+    <table width="95%" border="0" cellspacing="0" cellpadding="0" align="right" style="clear:both;">
   <tr>
-    <td><div style="margin:0 auto 0 auto; width:100%; border-bottom:#D2D2D2 dashed 2px; margin-bottom:5px; margin-top:15px;"></div></td>
+    <td><div style="margin:0 auto 0 auto; width:100%; border-bottom:#D2D2D2 dashed 2px; margin-bottom:5px; margin-top:15px;"><span class="arial13Negro"></div></td>
   </tr>
 </table>
     
@@ -607,14 +703,26 @@ function validarContacto()
     </table>
     <table width="700" border="0" align="center" cellpadding="0" cellspacing="3" bgcolor="#F4F9E8">
       <tr>
-        <td>&nbsp;<? echo $anuncio->descripcion ?></td>
+        <td><div style="overflow:scroll; width:695px; overflow-y:hidden;"><?  
+		
+		$descripcion=$anuncio->descripcion;
+		$descripcion=str_replace("<script>","",$descripcion);
+		$descripcion=str_replace("<style>","",$descripcion);
+		$descripcion=str_replace("<iframe>","",$descripcion);
+		$descripcion=str_replace("<?","",$descripcion);
+		$descripcion=str_replace("<?php","",$descripcion);
+		
+		echo $descripcion;
+		
+		
+		
+		
+		
+		 ?></div></td>
       </tr>
     </table>
    
 <table width="700" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#F4F9E8">
-      <tr bgcolor="#F4F9E8">
-        <td align="left" class="arial13Negro" height="40"><strong>Comentarios recibidos</strong></td>
-    </tr>
       <tr>
         <td valign="top"><div id="fb-root"></div><script src="http://connect.facebook.net/es_ES/all.js#xfbml=1"></script><fb:comments href="<? echo $url_completa ?>" num_posts="5" width="700"></fb:comments></td>
     </tr>
@@ -689,9 +797,19 @@ function validarContacto()
       </td>
     </tr>
   </table>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
+
+</form>
+
+
+ <script type="text/javascript">
+	  window.___gcfg = {lang: 'es'};
+	
+	  (function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	  })();
+	</script>
 
 </body>
 </html>

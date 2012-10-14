@@ -26,7 +26,11 @@
 	$foto4=$_POST['foto4'];
 	$foto5=$_POST['foto5'];
 	$foto6=$_POST['foto6'];
-	$youtube=$_POST['youtube'];
+	
+	if ($_POST['estado_yutub']=="SI")
+		$youtube=$_POST['youtube'];
+	else
+		$youtube="";
 	
 	//Del cliente
 	$email=$_POST['email'];
@@ -38,6 +42,13 @@
 	$titulo=$_POST['titulo'];
 	$precio=$_POST['precio'];
 	$moneda=$_POST['moneda'];
+	
+	//CUIDANDO TITULO
+	$titulo=str_replace("<script>","",$titulo);
+	$titulo=str_replace("<style>","",$titulo);
+	$titulo=str_replace("<iframe>","",$titulo);
+	$titulo=str_replace("<?","",$titulo);
+	$titulo=str_replace("<?php","",$titulo);
 	
 	
 	$ciudad=$_POST['ciudad'];
@@ -199,6 +210,7 @@
 	error_reporting(1);
 	
 	
+	
 	//POR SI EL EMAIL ES DE UN USUARIO REGISTRADO
 	$query=operacionSQL("SELECT id FROM Usuario WHERE email='".$email."'");
 	if (mysql_num_rows($query)>0)
@@ -208,8 +220,11 @@
 	}
 	
 	
+	//CHEQUEANDO SI EL EMAIL YA HA SIDO CONFIRMADO
+	$query9=operacionSQL("SELECT * FROM EmailConfirmados WHERE email='".trim($email)."'");
+			
 	//-----Aquí envío mail de activación de anuncio
-	if ($id_usuario=="NULL")
+	if (($id_usuario=="NULL")&&(mysql_num_rows($query9)==0))
 	{
 		$contenido="<div align='center'>
 				<table border='0' width='800' id='table1'>
@@ -247,6 +262,8 @@
 
 	$anuncio=new Anuncio($id_anuncio);
 	$anuncio->metainformacion();
+	
+	
 	
 	$enlace="http://www.hispamercado.com.ve/".$anuncio->armarEnlace();
 
@@ -364,7 +381,7 @@
           <td align="left" class="arial13Negro" style="padding:15px;">
           
           <p><strong>&iexcl;Felicidades!</strong> <strong>Tu anuncio fue recibido correctamente</strong>
-          <? if ($id_usuario=="NULL") echo "<br>Ahora solo debes activarlo ingresando al link que enviamos a tu e-mail</p>" ?>
+          <? if (($id_usuario=="NULL")&&(mysql_num_rows($query9)==0)) echo "<br>Ahora solo debes activarlo ingresando al link que enviamos a tu e-mail</p>" ?>
             
           <p>Podras ver publicado tu anuncio en el siguiente link: <a href="http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?>">http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?></a></p>
           

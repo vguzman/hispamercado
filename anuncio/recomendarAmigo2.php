@@ -1,10 +1,7 @@
 <?
 	session_start();
-	
 	include "../lib/class.php";	
 	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
 	
 	$id_anuncio=$_POST['id_anuncio'];	
 	$anuncio=new Anuncio($id_anuncio);
@@ -21,7 +18,7 @@
 		</script>";
 	else
 		echo "<script type='text/javascript'>
-			window.alert('Ha ocurrido un problema, intente mas tarde');
+			//window.alert('Ha ocurrido un problema, intente mas tarde');
 			document.location.href='index.php?id=".$id_anuncio."';
 		</script>";
 

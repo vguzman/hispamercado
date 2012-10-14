@@ -49,6 +49,11 @@
 	$ciudad=$_POST['ciudad'];
 	
 	
+	if ($_POST['estado_yutub']=="SI")
+		$youtube=$_POST['youtube'];
+	else
+		$youtube="";
+	
 	
 	
 	if ($precio=="")
@@ -122,7 +127,7 @@
 	$precio=str_replace(",",".",$precio);
 	
 	
-	$aux="UPDATE Anuncio SET id_categoria=".$id_cat.", tipo_categoria='".trim($tipo)."', titulo='".addslashes(trim($titulo))."', descripcion='".addslashes($texto)."', precio='".trim($precio)."', moneda='".$moneda."', ciudad='".trim($ciudad)."', foto1='".$foto1."', foto2='".$foto2."',  foto3='".$foto3."',  foto4='".$foto4."',  foto5='".$foto5."',  foto6='".$foto6."', video_youtube='".trim($youtube)."', anunciante_email='".addslashes(trim($email))."', anunciante_nombre='".addslashes(trim($nombre))."', anunciante_telefonos='".addslashes(trim($telefonos))."' WHERE id=".$id_anuncio;
+	$aux="UPDATE Anuncio SET id_categoria=".$id_cat.", tipo_categoria='".trim($tipo)."', titulo='".addslashes(trim($titulo))."', descripcion='".addslashes($texto)."', precio='".trim($precio)."', moneda='".$moneda."', ciudad='".trim($ciudad)."', foto1='".$foto1."', foto2='".$foto2."',  foto3='".$foto3."',  foto4='".$foto4."',  foto5='".$foto5."',  foto6='".$foto6."', video_youtube=".trim($youtube).", anunciante_email='".addslashes(trim($email))."', anunciante_nombre='".addslashes(trim($nombre))."', anunciante_telefonos='".addslashes(trim($telefonos))."' WHERE id=".$id_anuncio;
 	
 	operacionSQL($aux);
 	

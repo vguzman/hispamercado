@@ -683,6 +683,7 @@ class Anuncio
 	function textoDescripcion()
 	{
 		$texto=$this->descripcion;
+		$descripcion="";
 		for ($i=0;$i<strlen($texto);$i++)
 		{
 			if ($texto[$i]!='<')
@@ -1103,6 +1104,23 @@ class Conversacion
 		
 		return mysql_result($query,0,0);
 	}
+	
+	function textoDescripcion()
+	{
+		$texto=$this->descripcion;
+		$descripcion="";
+		for ($i=0;$i<strlen($texto);$i++)
+		{
+			if ($texto[$i]!='<')
+				$descripcion.=$texto[$i];
+			else
+				while ($texto[$i]!='>')
+					$i++;
+		}
+		
+		return $descripcion;
+	}
+	
 	
 }
 

@@ -3,9 +3,6 @@
 	
 	include "../lib/class.php";	
 	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
-	
 	$id_anuncio=$_POST['id_anuncio'];
 	$anuncio=new Anuncio($id_anuncio);
 	
@@ -36,7 +33,7 @@
 	
 	_______<br><a href='http://".$_SERVER['HTTP_HOST']."'>Hispamercado ".$pais->nombre."</a><br>¡Tu Clasificado GRATIS en 1 minuto!";
 	
-	$resul=email("Hispamercado ".$pais->nombre,$_POST['tu_email'],$anuncio->anunciante_nombre,$anuncio->anunciante_email,"Has recibido un mensaje sobre tu anuncio",$contenido);
+	$resul=email("Hispamercado",$_POST['tu_email'],$anuncio->anunciante_nombre,$anuncio->anunciante_email,"Has recibido un mensaje sobre tu anuncio",$contenido);
 
 
 

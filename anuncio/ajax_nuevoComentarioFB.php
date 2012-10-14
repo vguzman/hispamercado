@@ -15,8 +15,8 @@
 	$url=$_GET['url'];
 	
 	//SACANDO EL ID DE LA CONVERSACION
-	$id_conversacion=explode("conversacion-",$url);
-	$conversacion=new Conversacion($id_conversacion[1]);
+	$id_conversacion=explode("anuncio-",$url);
+	$anuncio=new Anuncio($id_conversacion[1]);
 	
 	
 	
@@ -52,9 +52,9 @@
 			
 		
 		//PRIMERO COMRUEBO QUE NO SE HAYA CARGADO
-		$query=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$fb_id."'");
+		$query=operacionSQL("SELECT id FROM Anuncio_Comentario WHERE id_fb='".$fb_id."'");
 		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO ConversacionComentario VALUES (null,".$conversacion->id.",'".$fb_id."',".$id_usuario.",NULL,('".$hora."' - INTERVAL 270 MINUTE),'".$mensaje."','".$de_nombre."','".$de_id."',1)");
+			operacionSQL("INSERT INTO Anuncio_Comentario VALUES (null,".$anuncio->id.",'".$fb_id."',".$id_usuario.",NULL,('".$hora."' - INTERVAL 270 MINUTE),'".$mensaje."','".$de_nombre."','".$de_id."',1)");
 		
 		
 		if (isset($comentarios[$i]->comments->data))
@@ -78,7 +78,7 @@
 				$hora=$aux[0];
 				
 				//BUSCANDO EL ID DEL PADRE
-				$query=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$comentarios[$i]->id."'");
+				$query=operacionSQL("SELECT id FROM Anuncio_Comentario WHERE id_fb='".$comentarios[$i]->id."'");
 				$id_padre=mysql_result($query,0,0);
 				
 				
@@ -89,9 +89,9 @@
 					
 				
 				//PRIMERO COMRUEBO QUE NO SE HAYA CARGADO
-				$query=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$fb_id."'");
+				$query=operacionSQL("SELECT id FROM Anuncio_Comentario WHERE id_fb='".$fb_id."'");
 				if (mysql_num_rows($query)==0)
-					operacionSQL("INSERT INTO ConversacionComentario VALUES (null,".$conversacion->id.",'".$fb_id."',".$id_usuario.",".$id_padre.",('".$hora."' - INTERVAL 270 MINUTE),'".$mensaje."','".$de_nombre."','".$de_id."',1)");
+					operacionSQL("INSERT INTO Anuncio_Comentario VALUES (null,".$anuncio->id.",'".$fb_id."',".$id_usuario.",".$id_padre.",('".$hora."' - INTERVAL 270 MINUTE),'".$mensaje."','".$de_nombre."','".$de_id."',1)");
 				
 			}
 			
@@ -99,16 +99,12 @@
 	}
 	
 	
-	if ($conversacion->notificaciones==1)
-	{
-		$usuario2=new Usuario($conversacion->id_usuario);
-		$mensaje='<p>Hola '.$usuario2->nombre.',</p>
-				<p>Has recibido un comentario en la conversacion que iniciaste en Hispamercado (<em>'.$conversacion->titulo.'</em>).</p>
-				<p>Para ver y responder a todos tus comentarios ve directamente a link de la conversacion que te dejamos a continuacion</p>
-				<p><a href="http://www.hispamercado.com.ve/'.$conversacion->armarEnlace().'">http://www.hispamercado.com.ve/'.$conversacion->armarEnlace().'</a></p>
+	$mensaje='<p>Hola '.$anuncio->anunciante_nombre.',</p>
+				<p>Has recibido un comentario en tu anuncio Hispamercado (<em>'.$anuncio->titulo.'</em>).</p>
+				<p>Para ver y responder a todos tus comentarios ve directamente a link de tu anuncio</p>
+				<p><a href="http://www.hispamercado.com.ve/'.$anuncio->armarEnlace().'">http://www.hispamercado.com.ve/'.$anuncio->armarEnlace().'</a></p>
 				<p>Gracias por usar Hispamercado!</p>';
-		email("Hispamercado","info@hispamercado.com.ve",$usuario2->nombre,$usuario2->email,utf8_decode("Has recibido un nuevo comentario en tu conversación"),$mensaje);
-	}
+		email("Hispamercado","info@hispamercado.com.ve",$anuncio->anunciante_nombre,$anuncio->anunciante_email,utf8_decode("Has recibido un nuevo comentario en tu anuncio"),$mensaje);
 	
 	
 
