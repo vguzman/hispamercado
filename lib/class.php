@@ -994,6 +994,49 @@ class Usuario
 		else
 			return false;
 	}
+	
+	function predatos()
+	{
+		$query=operacionSQL("SELECT * FROM UsuarioPreferenciasPublicacion WHERE id_usuario=".$this->id);
+		if (mysql_num_rows($query)==0)
+		{
+			$email=$this->email;
+			$nombre=$this->nombre;
+			$telefonos="";
+			$ciudad="";
+			
+			
+			operacionSQL("INSERT INTO UsuarioPreferenciasPublicacion VALUES (".$this->id.",'".$email."','".$nombre."','','')");
+			
+		}
+		else
+		{
+			$email=mysql_result($query,0,1);
+			$nombre=mysql_result($query,0,2);
+			$telefonos=mysql_result($query,0,3);
+			$ciudad=mysql_result($query,0,4);
+		}
+		
+		$resul['email']=$email;
+		$resul['nombre']=$nombre;
+		$resul['telefonos']=$telefonos;
+		$resul['ciudad']=$ciudad;
+		
+		
+		return $resul;
+	}
+	
+	function opciones()
+	{
+		$query=operacionSQL("SELECT * FROM UsuarioOpciones WHERE id_usuario=".$this->id);
+		
+		$resul['fb_anuncio']=mysql_result($query,0,1);
+		$resul['fb_conversacion']=mysql_result($query,0,2);
+		$resul['tw_anuncio']=mysql_result($query,0,3);
+		$resul['tw_conversacion']=mysql_result($query,0,4);
+		
+		return $resul;
+	}
 }
 
 

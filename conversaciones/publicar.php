@@ -23,6 +23,48 @@
 		exit;
 	}
 	
+	
+	$pre_titulo="";
+	$pre_descripcion="";
+	$pre_cate="";
+	$pre_notif="";
+	$pre_hash="";
+	
+	$pre_categoria="";
+	$pre_categoria_aux="";
+	
+	if (isset($_GET['edit']))
+	{
+		$query=operacionSQL("SELECT id FROM Conversacion WHERE hash='".$_GET['edit']."'");
+		if (mysql_num_rows($query)==0)
+		{
+			echo "<SCRIPT LANGUAGE='JavaScript'>		
+				document.location.href='../';			
+			</SCRIPT>";
+			exit;
+		}
+		$id_conversacion=mysql_result($query,0,0);
+		
+		$conversacion=new Conversacion($id_conversacion);
+		$pre_titulo=$conversacion->titulo;
+		$pre_descripcion=$conversacion->descripcion;
+		$pre_cate='onLoad="armarCategoria('.$conversacion->id_categoria.')"';
+		
+		if ($conversacion->notificaciones=="1")
+			$pre_notif="checked";
+			
+		$pre_categoria=$conversacion->id_categoria;
+		$pre_categoria_aux="SI";
+		$pre_hash=$conversacion->hash;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -47,7 +89,7 @@
 
 <title>Iniciar conversacion</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<body>
+<body <? echo $pre_cate ?>>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="http://www.hispamercado.com.ve/"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
@@ -156,11 +198,11 @@
     <table width="950" border="0" align="center" cellpadding="2" cellspacing="4">
     <tr>
       <td align="left" class="arial13Negro">Categor&iacute;a <span class="arial13Rojo">*
-        <input type="hidden" name="categoria" id="categoria">
+        <input type="hidden" name="categoria" id="categoria" value="<? echo $pre_categoria ?>" />
         <strong>
-        <input type="hidden" name="categoriaux" id="categoriaux" />
+        <input type="hidden" name="categoriaux" id="categoriaux" value="<? echo $pre_categoria_aux ?>" />
         </strong></span></td>
-      <td align="left">
+      <td align="left" id="contenido_categoria">
       
       		<div style="float:left; width:auto; display:table;" class="arial11Negro" id="div_1">
             
@@ -187,23 +229,37 @@
     </tr>
     <tr>
       <td align="left" class="arial13Negro"> T&iacute;tulo <span class="arial13Rojo">*</span></td>
-      <td align="left"><input name="titulo" type="text" id="titulo" size="100" maxlength="150" ><br />
+      <td align="left"><input name="titulo" type="text" id="titulo" value="<? echo $pre_titulo ?>" size="100" maxlength="150" ><br />
         <span class="arial13Gris">¡Haz una pregunta o una afirmación sobre el tema de tu inter&eacute;s!</span></td>
     </tr>
     <tr>
       <td width="154" align="left" valign="top" class="arial13Negro">Descripci&oacute;n (<em>opcional</em>)</td>
-      <td width="776" align="left"><textarea name="content" cols="77" rows="5" id="content"></textarea><br />
+      <td width="776" align="left"><textarea name="content" cols="77" rows="5" id="content"><? echo $pre_descripcion ?></textarea><br />
 	  <span class="arial13Gris">Si con el título de la conversación se entiende tu idea puedes dejar este campo vacío</span></td>
     </tr>
     </table>
     <div align="center" class="arial11Negro" style="margin-top:20px;">
     
-    <input type="checkbox" name="notificaciones" id="notificaciones" value="SI">
+    <input type="checkbox" name="notificaciones" id="notificaciones" value="SI" <? echo $pre_notif ?>>
     Recibir una notificaci&oacute;n por e-mail cada vez que se reciba un nuevo comentario
     
     </div>
     <div align="center" style="margin-top:10px;">
-      <input type="button" name="Submit" value="Iniciar conversaci&oacute;n" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">
+      <input type="hidden" name="hash" id="hash" value="<? echo $pre_hash ?>">
+      <input type="hidden" name="tipo" id="tipo" value="<?
+	  	if (isset($_GET['edit']))
+			echo "edit";
+		else
+			echo "new";
+	  
+	   ?>">
+      <input type="button" name="Submit" value="<?
+	  	if (isset($_GET['edit']))
+			echo "Editar conversaci&oacute;n";
+		else
+			echo "Iniciar conversaci&oacute;n";
+	  
+	   ?>" onClick="colocar()" style="font-size:18px; font-family:Arial, Helvetica, sans-serif;">
     </div>
   </div>
 </form>

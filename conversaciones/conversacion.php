@@ -178,7 +178,7 @@
   </table>
 </div>
 
-<div style="width:1000px; margin:40px auto 0 auto">
+<div style="width:1000px; margin:60px auto 0 auto">
 
 <div>
 

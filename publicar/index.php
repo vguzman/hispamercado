@@ -18,9 +18,13 @@
 	if ($sesion!=false)
 	{
 		$usuario=new Usuario($sesion);
+		$datos=$usuario->predatos();
 		
-		$pre_email=$usuario->email;
-		$pre_nombre=$usuario->nombre;	
+		
+		$pre_email=$datos['email'];
+		$pre_nombre=$datos['nombre'];
+		$pre_telefonos=$datos['telefonos'];
+		$pre_ciudad=$datos['ciudad'];
 	}
 	
 	
@@ -686,8 +690,10 @@ theme_advanced_resizing : true,
       <td align="left" class="arial13Negro">Precio </td>
       <td align="left" class="arial13Negro" style="padding-top:8px;"><label for="moneda"></label>
         <select name="moneda" id="moneda">
-          <option <? if ($anuncio->moneda=="Bs") echo "selected" ?>>Bs</option>
-          <option <? if ($anuncio->moneda=="US$") echo "selected" ?>>US$</option>
+          <option <? if (isset($_GET['edit']))
+		  				if ($anuncio->moneda=="Bs") echo "selected" ?>>Bs</option>
+          <option <? if (isset($_GET['edit']))
+		  					if ($anuncio->moneda=="US$") echo "selected" ?>>US$</option>
         </select>
         <input name="precio" type="text" id="precio" size="16" value="<? echo $pre_precio ?>">
         <em>(opcional)</em><br>
@@ -756,7 +762,7 @@ theme_advanced_resizing : true,
   </p>
       <table width="400" border="0" align="center" cellpadding="0" cellspacing="1">
         <tr>
-          <td><input type="hidden" name="referencia" id="referencia" value="<? echo $_GET['precarga'] ?>"></td>
+          <td><input type="hidden" name="referencia" id="referencia" value="<? if (isset( $_GET['precarga'])) echo $_GET['precarga'] ?>"></td>
         </tr>
         <tr>
           <td id="campo_prueba">&nbsp;</td>

@@ -22,12 +22,25 @@
 		$noti=0;
 	
 	
-	$query=operacionSQL("SELECT MAX(id) FROM Conversacion");
-	$id_nuevo=mysql_result($query,0,0)+1;
+	if ($_POST['tipo']=="new")
+	{
+	
+		$query=operacionSQL("SELECT MAX(id) FROM Conversacion");
+		$id_nuevo=mysql_result($query,0,0)+1;
+		
+		
+		$aux="INSERT INTO Conversacion VALUES (".$id_nuevo.",'".$verificacion."',".$id_usuario.",".trim($_POST['categoria']).",NOW(),'".trim($_POST['titulo'])."','".trim($_POST['content'])."',".$noti.",1)";
+		operacionSQL($aux);
+	}
+	else
+	{
+		$query=operacionSQL("SELECT id FROM Conversacion WHERE hash='".$_POST['hash']."'");
+		$id_nuevo=mysql_result($query,0,0);
+		
+		operacionSQL("UPDATE Conversacion SET id_categoria=".trim($_POST['categoria']).", titulo='".trim($_POST['titulo'])."', descripcion='".trim($_POST['content'])."', notificaciones=".$noti." WHERE id=".$id_nuevo);
+	}
 	
 	
-	$aux="INSERT INTO Conversacion VALUES (".$id_nuevo.",'".$verificacion."',".$id_usuario.",".trim($_POST['categoria']).",NOW(),'".trim($_POST['titulo'])."','".trim($_POST['content'])."',1,".$noti.")";
-	operacionSQL($aux);
 	
 	$conver=new Conversacion($id_nuevo);
 	

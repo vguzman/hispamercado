@@ -17,10 +17,10 @@
 <ul class="miCuentaMenu">
 
 	<li style="width:90px;" class="miCuentaMenuSeleccion" id="menu1"><a href="cuenta/anuncios.php?status=A&d=<? echo time() ?>" class="arial13Negro" target="iframe" onclick="selecMenu('menu1')" id="menu1_link"><strong>Anuncios</strong></a></li>
-    <li style="width:140px;" class="miCuentaMenuNoSeleccion" id="menu2"><a href="conversaciones.php" class="LinkmiCuentaMenu" target="iframe" onclick="selecMenu('menu2')" id="menu2_link"><strong>Conversaciones</strong></a></li>
+    <li style="width:140px;" class="miCuentaMenuNoSeleccion" id="menu2"><a href="cuenta/conversaciones.php?status=A&d=<? echo time() ?>" class="LinkmiCuentaMenu" target="iframe" onclick="selecMenu('menu2')" id="menu2_link"><strong>Conversaciones</strong></a></li>
     <li style="width:80px;" class="miCuentaMenuNoSeleccion" id="menu3"><a href="cuenta/tienda.php" class="LinkmiCuentaMenu" target="iframe" onclick="selecMenu('menu3')" id="menu3_link"><strong>Tienda</strong></a></li>
-    <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu4"><a href="asd" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu4')" id="menu4_link"><strong>Créditos</strong></a></li>
-    <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu5"><a href="asdasdas" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu5')" id="menu5_link"><strong>Generales</strong></a></li>
+    <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu4"><a href="cuenta/sociales.php" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu4')" id="menu4_link"><strong>Sociales</strong></a></li>
+    <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu5"><a href="cuenta/generales.php" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu5')" id="menu5_link"><strong>Generales</strong></a></li>
 
 </ul>
 
