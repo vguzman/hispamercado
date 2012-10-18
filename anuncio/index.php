@@ -243,6 +243,12 @@ function recomendarAmigo(id)
 	dialog(400,190,"recomendarAmigo.php?id_anuncio="+id+"&hora="+fecha);
 }
 
+function denunciar(id)
+{
+	fecha = now();
+	dialog(400,450,"denunciar.php?id_anuncio="+id+"&hora="+fecha);
+}
+
 function contactarAnunciante(id)
 {
 	fecha = now();
@@ -632,7 +638,7 @@ window.fbAsyncInit = function() {
 			</table>";
 	
 	
-	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
+	if (($id_cat==11)||($id_cat==12)||($id_cat==13))
 		echo "<table width='95%' border='0' align='right' cellpadding='0' cellspacing='4' style='margin-top:10px; clear:both;'>
 			  <tr>
 				<td width='25%' align='left' class='arial13Negro'><em>Marca</em></td>
@@ -648,7 +654,7 @@ window.fbAsyncInit = function() {
 			  </tr>
 			   <tr>			
 				<td align='left' class='arial13Negro'><em>Kilometraje</em></td>
-				<td align='left' class='arial13Negro'>".$arreglo['kms']."</td>
+				<td align='left' class='arial13Negro'>".number_format($arreglo['kms'],0,".",".")."</td>
 			  </tr>
 			</table>";
 	
@@ -687,15 +693,19 @@ window.fbAsyncInit = function() {
   </tr>
 </table>
     
-    <table width="95%" border="0" cellspacing="0" cellpadding="0" align="right" style="clear:both;">
+    <table width="250" border="0" cellspacing="0" cellpadding="0" align="left" style="clear:both; margin-left:25px;">
       <tr>
-        <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13"><img src="../img/Mail_32x32.png" alt="" width="32" height="30" border="0"></a></td>
-        <td align="left"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
+        <td align="left" width="35"><img src="../img/Email-icon.png" width="32" height="32"></td>
+        <td align="left" width="215" style="padding-left:10px;"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
         </tr>
       <tr>
-        <td width="10%" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)"><img src="../img/amigo.jpg" alt="" width="30" height="23" border="0"></a></td>
-        <td width="45%" align="left"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="recomendar2">Recomendar a un amigo</a></td>
+        <td  align="left"><img src="../img/email-to-friend-icon.png" width="32" height="32"></td>
+        <td  align="left" style="padding-left:10px;"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="recomendar2">Recomendar a un amigo</a></td>
         </tr>
+      <tr>
+        <td align="left"><img src="../img/Sign-Alert-icon.png" width="32" height="32"></td>
+        <td align="left" style="padding-left:10px;"><a href="javascript:denunciar(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="denunciar">Denunciar este anuncio</a></td>
+      </tr>
     </table>
     
     </td>

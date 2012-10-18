@@ -1,5 +1,6 @@
 <?	
 	include "../lib/class.php";
+	require '../lib/facebook/src/facebook.php';
 	$sesion=checkSession();	
 
 	//CASOS USUARIO REGISTRADO
@@ -40,9 +41,27 @@
 		operacionSQL("UPDATE Conversacion SET id_categoria=".trim($_POST['categoria']).", titulo='".trim($_POST['titulo'])."', descripcion='".trim($_POST['content'])."', notificaciones=".$noti." WHERE id=".$id_nuevo);
 	}
 	
-	
-	
 	$conver=new Conversacion($id_nuevo);
+	
+	$opciones=$usuario->opciones();
+		
+	if ($opciones['fb_conversacion']=="1")
+	{
+			
+		$facebook = new Facebook(array(
+		  'appId'  => '119426148153054',
+		  'secret' => '213d854b0e677a7e5b72b16ec8297325',
+		));
+		
+	$result = $facebook->api( 
+			'/me/feed/', 'post' ,
+			array('access_token' => $usuario->fb_token, 'message' => "He iniciado una conversacion en Hispamercado. Participa!" , 'link' => 'http://www.hispamercado.com.ve/'.$conver->armarEnlace() , 'picture' => 'https://graph.facebook.com/'.$usuario->fb_nick.'/picture' ) 
+		);
+		
+		
+	}
+	
+	
 	
 	echo "<script type='text/javascript'>
 			document.location.href='../".$conver->armarEnlace()."';

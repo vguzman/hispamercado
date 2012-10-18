@@ -60,15 +60,15 @@
        
     
      
-     <div style="margin:0 auto 0 auto; width:90%; border-bottom:dashed 1px #333; margin-top:30px;">
-       <table width="300" border="0" cellspacing="0" cellpadding="0">
+     <div style="margin:0 auto 0 auto; width:90%; border-bottom:dashed 1px #333; margin-top:30px; display:none;">
+       <table width="300" border="0" cellspacing="0" cellpadding="0" style="display:none;">
          <tr>
            <td width="40"><img src="../img/social-twitter-box-blue-icon.png" width="32" height="32" /></td>
            <td width="260"><strong>Twitter</strong></td>
          </tr>
        </table>
     </div>
-     <div style="margin:0 auto 0 auto; width:90%; margin-top:5px;">
+     <div style="margin:0 auto 0 auto; width:90%; margin-top:5px; display:none;">
      		<input type="checkbox" name="tw_anuncio" id="tw_anuncio" <? if ($datos['tw_anuncio']=="1") echo "checked" ?> />
        <label for="tw_anuncio">Compartir en Twitter cuando publique un anuncio</label><br />
        

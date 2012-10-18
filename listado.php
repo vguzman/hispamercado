@@ -1031,7 +1031,7 @@ function validar(e) {
 
 		
 	if (isset($_GET['id_cat']))
-	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
+	if (($id_cat==11)||($id_cat==12)||($id_cat==13))
 	{
 		$anios="";				
 		

@@ -45,9 +45,12 @@
 				$aux="INSERT INTO Usuario VALUES (null,".$fb_id.",'".$fb_nick."','".$nombre."','".$email."','".$access_token."',NOW()+INTERVAL ".$expires_token." SECOND,'".$cookie."','A')";
 				operacionSQL($aux);
 				
-				
+				//BUSCANDO USUARIO NUEVO				
 				$query2=operacionSQL("SELECT id FROM Usuario WHERE fb_id=".$fb_id);
 				$id_usuario=mysql_result($query2,0,0);
+				
+				//INSERTANDO LAS OPCIONES
+				operacionSQL("INSERT INTO UsuarioOpciones VALUES (".$id_usuario.",1,1,0,0)");
 				
 				
 				

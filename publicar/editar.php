@@ -151,13 +151,14 @@
 		operacionSQL("INSERT INTO Anuncio_Detalles_Inmuebles VALUES (".$id_anuncio.",'".trim($_POST['urbanizacion'])."',".trim($superficie).",NULL)");
 	}
 	
-	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
+	if (($id_cat==11)||($id_cat==12)||($id_cat==13))
 	{
 		operacionSQL("DELETE FROM Anuncio_Detalles_Vehiculos WHERE id_anuncio=".$id_anuncio);
 		
 		
-		$marca=ucwords(strtolower(addslashes(trim($_POST['marca']))));
-		$modelo=ucwords(strtolower(addslashes(trim($_POST['modelo']))));
+		$query_marca=operacionSQL("SELECT marca FROM ConfigMarca WHERE id=".$_POST['marca']);
+		$marca=mysql_result($query_marca,0,0);
+		$modelo=$_POST['modelo'];
 		
 		
 		operacionSQL("INSERT INTO Anuncio_Detalles_Vehiculos VALUES (".$id_anuncio.",'".trim($marca)."','".trim($modelo)."',".trim($_POST['kms']).",".trim($_POST['anio']).")");

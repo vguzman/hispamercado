@@ -1,5 +1,6 @@
 <?
 	include "../lib/class.php";
+	require '../lib/facebook/src/facebook.php';
 	$sesion=checkSession();
 	
 	
@@ -150,10 +151,11 @@
 		operacionSQL("INSERT INTO Anuncio_Detalles_Inmuebles VALUES (".$id_anuncio.",'".trim($_POST['urbanizacion'])."',".trim($superficie).",NULL)");
 	}
 	
-	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
+	if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13))
 	{
-		$marca=ucwords(strtolower(addslashes(trim($_POST['marca']))));
-		$modelo=ucwords(strtolower(addslashes(trim($_POST['modelo']))));
+		$query_marca=operacionSQL("SELECT marca FROM ConfigMarca WHERE id=".$_POST['marca']);
+		$marca=mysql_result($query_marca,0,0);
+		$modelo=$_POST['modelo'];
 		
 		
 		operacionSQL("INSERT INTO Anuncio_Detalles_Vehiculos VALUES (".$id_anuncio.",'".trim($marca)."','".trim($modelo)."',".trim($_POST['kms']).",".trim($_POST['anio']).")");
@@ -262,6 +264,29 @@
 
 	$anuncio=new Anuncio($id_anuncio);
 	$anuncio->metainformacion();
+	
+	
+	if ($id_usuario!="NULL")
+	{
+		$usuario=new Usuario($id_usuario);
+		$opciones=$usuario->opciones();
+		
+		if ($opciones['fb_anuncio']=="1")
+		{
+			
+			$facebook = new Facebook(array(
+		  'appId'  => '119426148153054',
+		  'secret' => '213d854b0e677a7e5b72b16ec8297325',
+		));
+		
+		$result = $facebook->api( 
+			'/me/feed/', 'post' ,
+			array('access_token' => $usuario->fb_token, 'message' => "Mira el anuncio que acabo de publicar en Hispamercado!" , 'link' => 'http://www.hispamercado.com.ve/'.$anuncio->armarEnlace() , 'picture' => 'http://www.hispamercado.com.ve/lib/img.php?tipo=real&anuncio='.$anuncio->id.'&foto=1' ) 
+			);
+		
+		
+		}
+	}
 	
 	
 	
