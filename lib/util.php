@@ -206,7 +206,7 @@ function aaaammdd_ddmmaaaa($fecha)
 
 function categorias_principales()
 {
-	$query=operacionSQL("SELECT id,nombre FROM Categoria WHERE id_categoria IS NULL");
+	$query=operacionSQL("SELECT id,nombre FROM Categoria WHERE id_categoria IS NULL ORDER BY orden");
 	$total=mysql_num_rows($query);	
 		
 	for ($i=0;$i<$total;$i++)

@@ -198,7 +198,7 @@ function processStateChange()
     
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:50px;">
   <tr>
-  <td width="320">
+  <td width="320" valign="top">
     	
         <? $padre=new Categoria("1"); ?>	
          <ul style="list-style:none; margin:0px; padding:0px;">
@@ -219,8 +219,9 @@ function processStateChange()
         
         
         
-        <? $padre=new Categoria("112"); ?>	
+        
          <ul style="list-style:none; margin-top:25px; padding:0px;">
+         	<? $padre=new Categoria("112"); ?>	
         	<li><a href="<? echo $padre->armarEnlace() ?>" class="LinkFuncionalidad17"><strong><? echo $padre->nombre ?> (<? echo $padre->anunciosActivosCache() ?>)</strong></a></li>
         	<?	
 				$aux="SELECT id FROM Categoria WHERE id_categoria=".$padre->id;
@@ -237,9 +238,28 @@ function processStateChange()
         
         
         
-        <? $padre=new Categoria("160"); ?>	
+        	
          <ul style="list-style:none; margin-top:25px; padding:0px;">
+         	<? $padre=new Categoria("3787"); ?>
         	<li><a href="<? echo $padre->armarEnlace() ?>" class="LinkFuncionalidad17"><strong><? echo $padre->nombre ?> (<? echo $padre->anunciosActivosCache() ?>)</strong></a></li>
+        	<?	
+				$aux="SELECT id FROM Categoria WHERE id_categoria=".$padre->id;
+				$query=operacionSQL($aux);
+				//echo mysql_num_rows($query);
+				for ($i=0;$i<mysql_num_rows($query);$i++)
+				{
+					$hijo=new Categoria(mysql_result($query,$i,0));
+					echo '<li style="padding-left:7px; padding-top:5px;"><a href="'.$hijo->armarEnlace().'" class="LinkFuncionalidad14">'.$hijo->nombre.' ('.$hijo->anunciosActivosCache().')</a></li>';
+					
+				}
+			?>
+        </ul>
+        
+        
+        
+        <ul style="list-style:none; margin-top:25px; padding:0px;">
+           <? $padre=new Categoria("160"); ?>
+           <li><a href="<? echo $padre->armarEnlace() ?>" class="LinkFuncionalidad17"><strong><? echo $padre->nombre ?> (<? echo $padre->anunciosActivosCache() ?>)</strong></a></li>
         	<?	
 				$aux="SELECT id FROM Categoria WHERE id_categoria=".$padre->id;
 				$query=operacionSQL($aux);
@@ -277,8 +297,9 @@ function processStateChange()
         </ul>
     
 
-		<? $padre=new Categoria("127"); ?>	
-         <ul style="list-style:none; margin-top:25px; padding:0px;">
+			
+      <ul style="list-style:none; margin-top:25px; padding:0px;">
+   	<? $padre=new Categoria("5000"); ?>
         	<li><a href="<? echo $padre->armarEnlace() ?>" class="LinkFuncionalidad17"><strong><? echo $padre->nombre ?> (<? echo $padre->anunciosActivosCache() ?>)</strong></a></li>
         	<?	
 				$aux="SELECT id FROM Categoria WHERE id_categoria=".$padre->id;
@@ -294,9 +315,10 @@ function processStateChange()
         </ul>
 
 
-		<? $padre=new Categoria("3787"); ?>	
+		
          <ul style="list-style:none; margin-top:25px; padding:0px;">
-        	<li><a href="<? echo $padre->armarEnlace() ?>" class="LinkFuncionalidad17"><strong><? echo $padre->nombre ?> (<? echo $padre->anunciosActivosCache() ?>)</strong></a></li>
+           <? $padre=new Categoria("127"); ?>
+           <li><a href="<? echo $padre->armarEnlace() ?>" class="LinkFuncionalidad17"><strong><? echo $padre->nombre ?> (<? echo $padre->anunciosActivosCache() ?>)</strong></a></li>
         	<?	
 				$aux="SELECT id FROM Categoria WHERE id_categoria=".$padre->id;
 				$query=operacionSQL($aux);

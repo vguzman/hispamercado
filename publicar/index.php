@@ -420,7 +420,7 @@ tinyMCE.init({
 // General options
 mode : "textareas",
 theme : "advanced",
-height : "450px",
+height : "300px",
 language : "es",
 plugins : "table,inlinepopups,preview",
 
@@ -658,37 +658,23 @@ theme_advanced_resizing : true,
     </tr>
     <tr>
       <td width="150" align="left" valign="top" class="arial13Negro">Descripci&oacute;n</td>
-      <td width="850" align="left"><textarea id="content" name="content" rows="10" style="width:100%" ><? echo $pre_descripcion ?>
+      <td width="850" align="left"><textarea id="content" name="content" rows="5" style="width:90%" ><? echo $pre_descripcion ?>
 	</textarea></td>
-    </tr>
-  </table>
-    <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
-    <tr>
-      <td id="barra_detalles_anuncio"></td>
     </tr>
   </table>
   <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
     <tr>
       <td width="150" align="left" class="arial13Negro">Ciudad</td>
-      <td width="830" align="left" style="padding-top:8px;">
-      
-     
-      
-      
-      <div  class="autocomplete" style="margin:0px; padding:0px;">
+      <td width="830" align="left" style="padding-top:8px;"><div  class="autocomplete" style="margin:0px; padding:0px;">
         <input name="ciudad" type="text" id="ciudad" size="40" maxlength="255" value="<? echo $pre_ciudad ?>"  data-source="suggest/search.php?search=">
       </div>
-      
-       <div class="arial11Gris">Si la ciudad introducida es distinta a cualquiera de las sugeridas el anuncio sera revisado antes de su activacion</div>
-      	
-       
-      
-      
-      </td>
+        <div class="arial11Gris">Si la ciudad introducida es distinta a cualquiera de las sugeridas el anuncio sera revisado antes de su activacion</div></td>
     </tr>
+</table>
+  <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8" id="barra_precio" >
     <tr>
-      <td align="left" class="arial13Negro">Precio </td>
-      <td align="left" class="arial13Negro" style="padding-top:8px;"><label for="moneda"></label>
+      <td width="150" align="left" class="arial13Negro">Precio </td>
+      <td width="830" align="left" class="arial13Negro" style="padding-top:8px;"><label for="moneda"></label>
         <select name="moneda" id="moneda">
           <option <? if (isset($_GET['edit']))
 		  				if ($anuncio->moneda=="Bs") echo "selected" ?>>Bs</option>
@@ -699,18 +685,25 @@ theme_advanced_resizing : true,
         <em>(opcional)</em><br>
         <span class="arial11Gris">Usar formato 999.99</span></td>
     </tr>
+  </table>
+    <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8">
+      <tr>
+      <td id="barra_detalles_anuncio"></td>
+    </tr>
+</table>
+  <table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
     <tr>
-      <td align="left" class="arial13Negro">Fotos (<a href="javascript:subirFoto()" class="LinkFuncionalidad13">subir foto</a>) </td>
-      <td align="left" style="padding-top:8px;"><table width="600" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8" style="border-collapse:collapse; ">
-          <tr>
-            <td width="100" height="81" align="center" class="arial13Negro" id="foto1">Foto 1</td>
-            <td width="100" align="center" class="arial13Negro" id="foto2">Foto 2</td>
-            <td width="100" align="center" class="arial13Negro" id="foto3">Foto 3</td>
-            <td width="100" align="center" class="arial13Negro" id="foto4">Foto 4</td>
-            <td width="100" align="center" class="arial13Negro"  id="foto5">Foto 5</td>
-            <td width="100" align="center" class="arial13Negro"  id="foto6">Foto 6</td>
+      <td width="150" align="left" class="arial13Negro">Fotos (<a href="javascript:subirFoto()" class="LinkFuncionalidad13">subir foto</a>) </td>
+      <td width="830" align="left" style="padding-top:8px;"><table width="600" border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#C8C8C8" style="border-collapse:collapse; ">
+        <tr>
+          <td width="100" height="81" align="center" class="arial13Negro" id="foto1">Foto 1</td>
+          <td width="100" align="center" class="arial13Negro" id="foto2">Foto 2</td>
+          <td width="100" align="center" class="arial13Negro" id="foto3">Foto 3</td>
+          <td width="100" align="center" class="arial13Negro" id="foto4">Foto 4</td>
+          <td width="100" align="center" class="arial13Negro"  id="foto5">Foto 5</td>
+          <td width="100" align="center" class="arial13Negro"  id="foto6">Foto 6</td>
           </tr>
-      </table></td>
+        </table></td>
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Video <img src="../img/youtube.png" width="16" height="16"></td>
@@ -731,7 +724,7 @@ theme_advanced_resizing : true,
     <tr>
       <td>&nbsp;</td>
     </tr>
-  </table>
+</table>
   <div align="center">
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="4">
       <tr>

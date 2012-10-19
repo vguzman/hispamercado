@@ -657,6 +657,36 @@ window.fbAsyncInit = function() {
 				<td align='left' class='arial13Negro'>".number_format($arreglo['kms'],0,".",".")."</td>
 			  </tr>
 			</table>";
+			
+	if (($id_cat>=5001)&&($id_cat<=5021))
+	{
+		if ($arreglo['jornada']=="completo")
+			$jornada="Tiempo completo";
+		else
+			$jornada="Medio tiempo";
+			
+		if ($arreglo['salario']=="")
+			$salario="no indicado";
+		else
+			$salario=$arreglo['salario'];
+			
+			
+		
+		echo "<table width='95%' border='0' align='right' cellpadding='0' cellspacing='4' style='margin-top:10px; clear:both;'>
+			  <tr>
+				<td width='25%' align='left' class='arial13Negro'><em>Jornada</em></td>
+				<td width='75%' align='left' class='arial13Negro'>".$jornada."</td>
+			  </tr>
+			   <tr>			
+				<td align='left' class='arial13Negro'><em>Experiencia</em></td>
+				<td align='left' class='arial13Negro'>".$arreglo['experiencia']." años</td>				
+			  </tr>
+			   <tr>			
+				<td align='left' class='arial13Negro'><em>Salario</em></td>
+				<td align='left' class='arial13Negro'>".number_format($salario,2,',','.')."</td>
+			  </tr>
+			</table>";
+	}
 	
 ?>
     

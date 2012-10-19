@@ -1,9 +1,6 @@
 <?
 	include "../lib/class.php";
 	
-	
-	
-	
 		
 	$id_cat=$_GET['id_cat'];
 	$cates=explode(";",$id_cat);
@@ -17,6 +14,9 @@
 	$modelo="";
 	$anio2="";
 	$kms="";
+	$jornada="";
+	$experiencia="";
+	$salario="";
 	
 	if ($_GET['id_anuncio']!="NULL")
 	{
@@ -50,6 +50,15 @@
 				$modelo=$detalles['modelo'];
 				$anio2=$detalles['anio'];
 				$kms=$detalles['kms'];
+			}
+			
+			if (($anuncio->id_categoria>=5001)&&($anuncio->id_categoria<=5021))
+			{
+				$detalles=$anuncio->detalles();
+				
+				$jornada=$detalles['jornada'];
+				$experiencia=$detalles['experiencia'];
+				$salario=$detalles['salario'];
 			}
 			
 			
@@ -165,7 +174,7 @@
 				<td width='150' align='left' class='arial13Negro'>Marca <span class='arial13Rojo'>*</span></td>
 				<td width='200' align='left'>".$selec_marca."<br><span class='arial11Gris'>Ejemplo: Chevrolet, Ford, Toyota</span></td>
 				<td width='80' align='left' class='arial13Negro'>Modelo <span class='arial13Rojo'>*</span></td>
-				<td width='170' align='left'>
+				<td width='170' align='left' id='espacio_modelo'>
 				
 				".$selec_modelo."
 				<br><span class='arial11Gris'>Ejemplo: Corolla, Aveo, Explorer</span></td>
@@ -178,4 +187,80 @@
 		</table>");
 
 	}
+	
+	
+	
+	
+	if (($id_cat>=5001)&&($id_cat<=5021))
+	{
+		if ($jornada=="completo")
+			$jornada_html='<option value="completo" selected="selected">Tiempo completo</option>
+					<option value="medio">Medio tiempo</option>';
+		if ($jornada=="medio")
+			$jornada_html='<option value="completo">Tiempo completo</option>
+					<option value="medio" selected="selected">Medio tiempo</option>';
+		if ($jornada=="")
+			$jornada_html='<option value="completo">Tiempo completo</option>
+					<option value="medio">Medio tiempo</option>';
+		
+		if ($experiencia!="")
+		{
+			$aux=explode('-',$experiencia);
+			$desde=$aux[0];
+			$hasta=$aux[1];
+		
+		}
+		$desde=0;
+		$hasta=0;
+		$exp_desde_html='';		$exp_hasta_html='';		
+		for ($i=1;$i<21;$i++)
+		{
+			if ($desde==$i)
+				$selected='selected';
+			else
+				$selected='';
+			
+			$exp_desde_html.='<option value="'.$i.'" '.$selected.'>'.$i.'</option>';
+		}
+		
+		for ($i=1;$i<21;$i++)
+		{
+			if ($hasta==$i)
+				$selected='selected';
+			else
+				$selected='';
+			
+			$exp_hasta_html.='<option value="'.$i.'" '.$selected.'>'.$i.'</option>';
+		}
+		
+		
+		echo '<table width="1000" border="0" align="center" cellpadding="2" cellspacing="4" bgcolor="#F4F9E8">
+				<tr>
+				  <td width="150" align="left" class="arial13Negro">Tipo de jornada</td>
+				  <td width="227" align="left" ><select name="jornada" id="jornada">
+					'.$jornada_html.'
+					</select></td>
+				  <td width="144" align="left" class="arial13Negro" >Experiencia (a&ntilde;os)</td>
+				  <td width="443" align="left" ><label for="exp_desde"></label>
+					<select name="exp_desde" id="exp_desde">
+					  '.$exp_desde_html.'
+					</select> 
+					-
+					<label for="exp_hasta"></label>
+					<select name="exp_hasta" id="exp_hasta">
+					'.$exp_hasta_html.'
+					</select></td>
+				</tr>
+				<tr>
+				  <td align="left" class="arial13Negro">Salario (mensual)</td>
+				  <td align="left" class="arial13Negro"><label for="salario"></label>
+					<input name="salario" type="text" id="salario" size="10" value="'.$salario.'"> 
+					<em>(opcional)</em><br><span class="arial11Gris">Usar formato 999.99</span></td></td>
+				  <td align="left" class="arial13Negro" >&nbsp;</td>
+				  <td align="left" >&nbsp;</td>
+				</tr>
+			  </table>';
+	}
+	
+	
 ?>

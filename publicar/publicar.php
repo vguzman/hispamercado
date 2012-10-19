@@ -161,6 +161,25 @@
 		operacionSQL("INSERT INTO Anuncio_Detalles_Vehiculos VALUES (".$id_anuncio.",'".trim($marca)."','".trim($modelo)."',".trim($_POST['kms']).",".trim($_POST['anio']).")");
 	}
 	
+	if (($id_cat>=5001)&&($id_cat<=5021))
+	{
+		$jornada=$_POST['jornada'];
+		
+		if (($_POST['exp_desde']) < ($_POST['exp_hasta']))
+			$experiencia=$_POST['exp_desde']."-".$_POST['exp_hasta'];
+		else
+			$experiencia=$_POST['exp_hasta']."-".$_POST['exp_desde'];
+		
+		
+		$salario=$_POST['salario'];
+		if (trim($salario)=="")
+			$salario="NULL";
+		
+		$aux="INSERT INTO Anuncio_Detalles_Empleos VALUES (".$id_anuncio.",'".trim($jornada)."','".trim($experiencia)."',".$salario.")";
+		operacionSQL($aux);
+
+	}
+	
 	
 	
 	

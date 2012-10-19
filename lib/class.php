@@ -513,6 +513,19 @@ class Anuncio
 			
 			return $arreglo;	
 		}
+		if (($this->id_categoria>=5001)&&($this->id_categoria<=5021))
+		{
+			$query=operacionSQL("SELECT * FROM Anuncio_Detalles_Empleos WHERE id_anuncio=".$this->id);
+			$arreglo['jornada']=mysql_result($query,0,1);
+			$arreglo['experiencia']=mysql_result($query,0,2);
+			$arreglo['salario']=mysql_result($query,0,3);
+			
+			return $arreglo;
+		}
+		
+		
+		
+		
 	}
 	
 	function comentarios()

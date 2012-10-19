@@ -50,7 +50,7 @@
 				$id_usuario=mysql_result($query2,0,0);
 				
 				//INSERTANDO LAS OPCIONES
-				operacionSQL("INSERT INTO UsuarioOpciones VALUES (".$id_usuario.",1,1,0,0)");
+				operacionSQL("INSERT INTO UsuarioOpciones VALUES (".$id_usuario.",0,0,0,0)");
 				
 				
 				
