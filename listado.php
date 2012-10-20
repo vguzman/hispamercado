@@ -374,79 +374,29 @@
 <meta name="description" content="<? echo $titulo ?>">
 
 <LINK REL="stylesheet" TYPE="text/css" href="lib/css/basicos.css">
+<link href="lib/facebox/src/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 
-
+<script src="lib/facebox/lib/jquery.js" type="text/javascript"></script>
+<script src="lib/facebox/src/facebox.js" type="text/javascript"></script>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/ajax.js"></SCRIPT>
-<SCRIPT LANGUAGE="JavaScript" src="lib/js/favoritos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="lib/js/basicos.js"></SCRIPT>
-<SCRIPT LANGUAGE="JavaScript" src="lib/js/InnerDivMod.js"></SCRIPT>
 
 <SCRIPT LANGUAGE="JavaScript" >
 
-function verMasCiudades()
-{
-	posicion=posicionElemento("listadoCiudades_html");
-	INNERDIV_MOD.newInnerDiv('listadoCiudades',posicion['left'],posicion['top']+15,200,140,document.getElementById('listaCiudades').value,'Ver todas las ciudades');
-}
-function verMasModelos()
-{
-	posicion=posicionElemento("listadoModelos_html");
-	INNERDIV_MOD.newInnerDiv('listadoModelos',posicion['left'],posicion['top']+15,200,140,document.getElementById('listaModelos').value,'Ver todos los modelos');
-}
-function verMasAnios()
-{
-	posicion=posicionElemento("listadoAnios_html");
-	INNERDIV_MOD.newInnerDiv('listadoAnios',posicion['left'],posicion['top']+15,200,140,document.getElementById('listaAnios').value,'Ver todos los años');
-}
-
-function verMasMarcas()
-{
-	posicion=posicionElemento("listadoMarcas_html");
-	INNERDIV_MOD.newInnerDiv('listadoMarcas',posicion['left'],posicion['top']+15,200,140,document.getElementById('listaMarcas').value,'Ver todos las marcas');
-}
-
-
-function accionBuscar()
-{
-	if ((document.getElementById("buscar").value=="¿Qué estas buscando?")||(document.getElementById("buscar").value==""))
-		window.alert("Debes indicar un término de búsqueda válido");
-	else
-	{
-		url=document.getElementById("url_actual").value;	
-
-		if (url.indexOf("buscar=")==-1)			
-			url=url+"&buscar="+document.getElementById("buscar").value
-		else
-			url=url.replace("buscar="+document.getElementById("busqueda_actual").value,"buscar="+document.getElementById("buscar").value)
-		
-		//window.alert(url);
-		document.location.href="http://www.hispamercado.com.ve/"+url;
-	}
-}
-
-function manejoBusqueda(donde)
-{
-	//window.alert(document.getElementById("buscar").value);
-	if (donde=="adentro")
-		if (document.getElementById("buscar").value=="¿Qué estas buscando?")
-			document.getElementById("buscar").value="";
+	jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loadingImage : 'lib/facebox/src/loading.gif',
+        closeImage   : 'lib/facebox/src/closelabel.png'
+      })
+    })
 	
-	if (donde=="afuera")
-		if (document.getElementById("buscar").value=="")
-			document.getElementById("buscar").value="¿Qué estas buscando?";
-}
-
-function validar(e) {
-  tecla = (document.all) ? e.keyCode : e.which;
-  if (tecla==13) accionBuscar();
-}
 
 </SCRIPT>
 </head>
 <body>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <img src="img/logo_original.jpg" alt="" width="360" height="58" /> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
+    <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="/"><img src="img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
     <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
       <?
 	
@@ -464,7 +414,7 @@ function validar(e) {
     </div>
       <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
         <div style="width:160px; height:26px; float:right; background-image:url(img/fondo_fb.png); background-repeat:repeat;" align="left">
-          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
+          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
         </div>
         <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
       </div></td>
@@ -473,22 +423,22 @@ function validar(e) {
 <div style="margin-top:50px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
     </tr>
   </table>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href='publicar/'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" />
-        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" /></td>
+      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href='../publicar/'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;">
+        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="document.location.href='../conversaciones/publicar.php'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;"></td>
       <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
-        <input name="buscar2" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar2" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado" />
+        <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event,'../')" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
         &nbsp;
         <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
-          <option selected="selected" value="todas">Todas las categor&iacute;as</option>
+          <option selected value="todas">Todas las categor&iacute;as</option>
           <?
 				$query=operacionSQL("SELECT id,nombre FROM Categoria WHERE id<>160 AND id_categoria IS NULL");
 				$total=mysql_num_rows($query);	
-		
+				
 				for ($i=0;$i<$total;$i++)
 				{
 					$categoria=new Categoria(mysql_result($query,$i,0));
@@ -502,7 +452,7 @@ function validar(e) {
         </select>
         &nbsp;
         <select name="ciudades" id="ciudades" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
-          <option selected="selected" value='todas' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
+          <option selected value='todas' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
           <option value='Fuera del pa&iacute;s'style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Fuera del pa&iacute;s</option>
           <?
 		
@@ -525,15 +475,12 @@ function validar(e) {
         </select>
         &nbsp;
         <label>
-          <input type="button" name="button2" id="button2" value="Buscar" onClick="listarRecientes()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;" />
+          <input type="button" name="button" id="button" value="Buscar" onClick="buscar('../')" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
         </label>
       </div></td>
     </tr>
   </table>
 </div>
-
-
-
 <div align="center" style="margin-top:50px;">
   <table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
     <tr>
@@ -877,7 +824,9 @@ function validar(e) {
 				}
 				else
 				{	
+					//echo "<br>";
 					$aux_aux=str_replace("WHERE","WHERE m2<50 AND",$aux);
+					//echo "<br>";
 					$query_aux=operacionSQL($aux_aux);
 					if (mysql_num_rows($query_aux)>0)
 						echo "<div style='margin-bottom:5px;'>&raquo; <a href='".$url_actual."&m2=menos50' class='LinkFuncionalidad12'>menos de 50 m2 (".mysql_num_rows($query_aux).")</a></div>";

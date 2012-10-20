@@ -70,14 +70,8 @@
 <html>
 <head>
 
-<? 
-	if (substr_count($_SERVER['HTTP_HOST'],"testhispamercado")==0)
-		echo '<base href="http://www.hispamercado.com.ve/anuncio/" />';
-	else
-		echo '<base href="http://www.testhispamercado.com/anuncio/" />';
-?>
 
-
+<base href="http://www.hispamercado.com.ve/anuncio/" />
 
 
 
@@ -86,332 +80,112 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="description" content="<? echo $anuncio->textoDescripcion() ?>">
 
-<meta property="og:type" content="product" />
+
 <link rel="image_src" href="http://www.hispamercado.com.ve/lib/img.php?tipo=anuncio&anuncio=<? echo $anuncio->id ?>&foto=1" />
 
 
-<meta property="fb:admins" content="{684722409}"/>
-
 
 <LINK REL="stylesheet" TYPE="text/css" href="../lib/css/basicos.css">
-<link href="../lib/windows_js_1.3/themes/default.css" rel="stylesheet" type="text/css"></link>
-<link href="../lib/windows_js_1.3/themes/alert.css" rel="stylesheet" type="text/css"></link>
+<link href="../lib/facebox/src/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 
 
-<script type="text/javascript" src="../lib/windows_js_1.3/javascripts/prototype.js"> </script> 
-<script type="text/javascript" src="../lib/windows_js_1.3/javascripts/effects.js"> </script>
-<script type="text/javascript" src="../lib/windows_js_1.3/javascripts/window.js"> </script>
+<script src="../lib/facebox/lib/jquery.js" type="text/javascript"></script>
+<script src="../lib/facebox/src/facebox.js" type="text/javascript"></script>
 <SCRIPT LANGUAGE="JavaScript" src="../lib/js/ajax.js"></SCRIPT>
-<SCRIPT LANGUAGE="JavaScript" src="../lib/js/favoritos.js"></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript" src="../lib/js/basicos.js"></SCRIPT>
-<SCRIPT LANGUAGE="JavaScript" src="../lib/js/InnerDiv.js"></SCRIPT>
-<script type="text/javascript" src="../lib/js/dialog.js"> </script>
+<SCRIPT LANGUAGE="JavaScript" src="../lib/js/anuncios.js"></SCRIPT>
 
-<SCRIPT LANGUAGE="JavaScript">	
 
-var fotoActual=1;
+<SCRIPT LANGUAGE="JavaScript">
 
-function verFoto(foto,anuncio)
-{
-	if (foto=="adelante")
-	{
-		foto=fotoActual+1;
-		document.getElementById("foto").innerHTML="<a href='javascript:verFotoGrande("+anuncio+","+foto+","+document.getElementById("foto_"+foto+"_w").value+","+document.getElementById("foto_"+foto+"_h").value+")' ><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
-		document.getElementById("foto"+foto).innerHTML="<b>"+foto+"</b>";
-		document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+anuncio+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
-		fotoActual=foto
-	}
-	else
-		if (foto=="atras")
-		{
-			foto=fotoActual-1;
-			document.getElementById("foto").innerHTML="<a href='javascript:verFotoGrande("+anuncio+","+foto+","+document.getElementById("foto_"+foto+"_w").value+","+document.getElementById("foto_"+foto+"_h").value+")' ><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
-			document.getElementById("foto"+foto).innerHTML="<b>"+foto+"</b>";
-			document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+anuncio+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
-			fotoActual=foto
-		}
-		else
-		{
-			document.getElementById("foto").innerHTML="<a href='javascript:verFotoGrande("+anuncio+","+foto+","+document.getElementById("foto_"+foto+"_w").value+","+document.getElementById("foto_"+foto+"_h").value+")' ><img src='../lib/img.php?tipo=anuncio&anuncio="+anuncio+"&foto="+foto+"' border='0'></a>";
-			document.getElementById("foto"+foto).innerHTML="<b>"+foto+"</b>";
-			document.getElementById("foto"+fotoActual).innerHTML="<a href='javascript:verFoto("+fotoActual+","+anuncio+")' class='LinkFuncionalidad13'>"+fotoActual+"</a>";
-			fotoActual=foto;
-		}
-	
-	var comilla=String.fromCharCode(34);
-	
-	if (fotoActual>1)
-		document.getElementById("atras").innerHTML="<a href='javascript:verFoto("+comilla+"atras"+comilla+","+anuncio+")' class='LinkFuncionalidad13'><<</a>";
-	else
-		if (document.Forma.num_fotos.value>1)
-			document.getElementById("atras").innerHTML="<<<";
-	
-	if (fotoActual<document.getElementById("num_fotos").value)
-		document.getElementById("adelante").innerHTML="<a href='javascript:verFoto("+comilla+"adelante"+comilla+","+anuncio+")' class='LinkFuncionalidad13'>>></a>";
-	else
-		if (document.Forma.num_fotos.value>1)
-			document.getElementById("adelante").innerHTML=">>";
+
+function validando(e,path) {
+  tecla = (document.all) ? e.keyCode : e.which;
+  if (tecla==13) buscando(path);
 }
 
-function accionAnuncio(tipo) 
-{	
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processStateChange;
-	req.open("GET","../lib/servicios/acciones_anuncio.php?tipo=requerir&que="+tipo, true);
-	req.send(null);	
-} 
- 
-function processStateChange()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			document.getElementById("ejecuta_accion").innerHTML=req.responseText;						
-		} 
-		else 
-			window.alert("Problema");      
-	}
-}
 
-function ejecutaAccionAnuncio(tipo,id_anuncio) 
-{	
-	req=getXMLHttpRequest();
-	req.onreadystatechange=processStateChange2;
-	req.open("POST","lib/servicios/acciones_anuncio.php?tipo=ejecutar&que="+tipo, true);
-	if (tipo=="amigo")
-	{
-		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-		req.send("tunombre="+document.Forma.tunombre.value+"&para="+document.Forma.para.value+"&id_anuncio="+id_anuncio+"&captcha="+document.Forma.captcha.value);
-		document.Forma.boton_enviar.disabled=true;
-		document.Forma.boton_enviar.value="Enviando";
-	}
-	if (tipo=="anunciante")
-	{
-		req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-		req.send("tunombre="+document.Forma.tunombre.value+"&tuemail="+document.Forma.tuemail.value+"&id_anuncio="+id_anuncio+"&captcha="+document.Forma.captcha.value+"&mensaje="+document.Forma.mensaje.value);
-		document.Forma.boton_enviar.disabled=true;
-		document.Forma.boton_enviar.value="Enviando";
-	}
+function buscando(path) 
+{		
+	//window.alert("adfsadjfhsdkjhfkjdshfjkdshfkjds");
+	
+	if (document.getElementById("buscar").value=="Buscar en Hispamercado")
+		document.getElementById("buscar").value="";
+	
+	categoria=document.getElementById("categorias");
+	ciudad=document.getElementById("ciudades");
+	buscar=document.getElementById("buscar");
 		
+	var url="listado.php?";
+	if (categoria.options[categoria.selectedIndex].value!="todas")
+		url=url+"id_cat="+categoria.options[categoria.selectedIndex].value;
+	if (ciudad.options[ciudad.selectedIndex].value!="todas")
+		url=url+"&ciudad="+ciudad.options[ciudad.selectedIndex].value;
+	if (trim(buscar.value)!="")
+		url=url+"&buscar="+trim(buscar.value);
+
+	
+	window.alert(path+url);
+	document.location.href=path+url;
 }
 
-function processStateChange2()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			if (req.responseText=="error captcha")
-			{
-				window.alert("Código de verificación errado");
-				
-				document.Forma.boton_enviar.disabled=false;
-				document.Forma.boton_enviar.value="Enviar";
-			}
-			else
-				if ((req.responseText=="Debe introducir su nombre")||(req.responseText=="Debe introducir su e-mail")
-					||(req.responseText=="Debe introducir un mensaje"))
-				{	
-					window.alert(req.responseText);
-					
-					document.Forma.boton_enviar.disabled=false;
-					document.Forma.boton_enviar.value="Enviar";
-				}
-				else
-					document.getElementById("ejecuta_accion").innerHTML=req.responseText;						
-		} 
-		else 
-		{
-			window.alert("Problema");      
-		
-			document.Forma.boton_enviar.disabled=false;
-			document.Forma.boton_enviar.value="Enviar";
-		}
-	}
-} 
-
-function dejarComentario(id)
-{
-	posicion=posicionElemento("recomendar");
-	INNERDIV.newInnerDiv('dejarComentario',500,posicion['top']-10,400,250,'dejarComentario.php?id_anuncio='+id+"&adsad=",'Realizar comentario');
-}
-
-function recomendarAmigo(id)
-{
-	fecha = now();
-	dialog(400,190,"recomendarAmigo.php?id_anuncio="+id+"&hora="+fecha);
-}
-
-function denunciar(id)
-{
-	fecha = now();
-	dialog(400,450,"denunciar.php?id_anuncio="+id+"&hora="+fecha);
-}
-
-function contactarAnunciante(id)
-{
-	fecha = now();
-	dialog(400,450,"contactarAnunciante.php?id_anuncio="+id+"&hora="+fecha);
+jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loadingImage : '../lib/facebox/src/loading.gif',
+        closeImage   : '../lib/facebox/src/closelabel.png'
+      })
+    })
 	
-}
-
-function verFotoGrande(anuncio,foto,w,h)
-{
-	fecha = now();
-	dialog(w+80,h+80,"verFoto.php?anuncio="+anuncio+"&foto="+foto+"&hora="+fecha);
-	
-}
-
-
-function verVideo(id)
-{
-	fecha = now();
-	dialog(600,500,"verVideo.php?id_video="+id+"&hora="+fecha);
-}
-
-function validarContacto()
-{
-	//EXPRESIONES REGULARES
-	var patron_email=/^[^@ ]+@[^@ ]+.[^@ .]+$/;
-	
-	document.Forma_Contacto.button.value="Enviando....";
-	document.Forma_Contacto.button.disabled=true;
-	
-	$good=false;
-	
-	if (trim(document.Forma_Contacto.tu_nombre.value)=="")
-		window.alert("Debes indicar tu nombre");
-	else
-		if (patron_email.test(trim(document.Forma_Contacto.tu_email.value))=="")
-			window.alert("Debes indicar un email valido");
-		else
-			if (trim(document.Forma_Contacto.comentario.value)=="")
-				window.alert("Debes ingresar el mensaje que va a recibir el anunciante");
-			else
-			{
-				document.Forma_Contacto.submit();
-				$good=true;
-			}
-	
-	if ($good==false)
-	{
-		document.Forma_Contacto.button.disabled=false;
-		document.Forma_Contacto.button.value="Enviar consulta";
-	}
-}
-
-
-//-------------------------------------------------------SECCION FB---------------------------------------------------------------------
-window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '119426148153054', // App ID
-      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
-    });
-
-    // Additional initialization code here
-	FB.Event.subscribe('comment.create',
-    function(response) {
-		
-		var url="ajax_nuevoComentarioFB.php?url="+response.href;
-		//window.alert(url);
-		req=getXMLHttpRequest();
-		req.onreadystatechange=nuevoComentario;
-		req.open("GET",url,true);
-		req.send(null);
-		
-    });
-	
-	FB.Event.subscribe('comment.remove',
-    function(response) {
-		
-        var url="ajax_borrarComentarioFB.php?url="+response.href;
-		req=getXMLHttpRequest();
-		req.onreadystatechange=nuevoComentario;
-		req.open("GET",url,true);
-		req.send(null);
-		
-    });
-	
-	function nuevoComentario()
-	{
-		if (req.readyState==4)
-		{
-			if (req.status==200)
-			{		
-				//window.alert(req.responseText);	
-			} 
-			else
-				window.alert("Ha ocurrido un problema");      
-		}
-	}
-	
-  };
-  
- (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-
-
-
-
-
 
 </SCRIPT>
+
+
 </head>
 <body>
-<form name="Forma" method="post" action="">
+<div id="fb-root"></div>
+
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <img src="../img/logo_original.jpg" alt="" width="360" height="58" /> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
-    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
-      <?
+    <tr>
+      <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="..//"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
+      <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+        <?
 	
-	//echo "*****".$sesion."*******";
 	if ($sesion!=false)
 		$user=new Usuario($sesion);
 	
 	
 	 ?>
-      <table width="270" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="cuenta/index.php?d=<? echo time() ?>" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
-        </tr>
-      </table>
-    </div>
-      <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
-        <div style="width:160px; height:26px; float:right; background-image:url(img/fondo_fb.png); background-repeat:repeat;" align="left">
-          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
-        </div>
-        <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
-      </div></td>
-  </tr>
-</table>
-<div style="margin-top:50px;">
-  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
-    <tr>
-      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
+        <table width="270" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
+            <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="../cuenta/index.php?d=<? echo time() ?>&path=../" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+          </tr>
+        </table>
+      </div>
+        <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
+          <div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
+            <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
+          </div>
+          <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
+        </div></td>
     </tr>
   </table>
-  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
-    <tr>
-      <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href='publicar/'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" />
-        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" /></td>
-      <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
-        <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado" />
-        &nbsp;
-        <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
-          <option selected="selected" value="todas">Todas las categor&iacute;as</option>
-          <?
+  <div style="margin-top:50px;">
+    <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="../gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
+      </tr>
+    </table>
+    <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onclick="document.location.href='../publicar/'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" />
+          <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onclick="document.location.href='../conversaciones/publicar.php'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;" /></td>
+        <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
+          <input name="buscar" type="text" onfocus="manejoBusqueda('adentro')" onblur="manejoBusqueda('afuera')" onkeypress="validar(event,'../')" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado" />
+          &nbsp;
+          <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+            <option selected="selected" value="todas">Todas las categor&iacute;as</option>
+            <?
 	  	$aux="SELECT id,nombre FROM Categoria WHERE id<>160 AND id_categoria IS NULL";
 		$query=operacionSQL($aux);
 		$total=mysql_num_rows($query);	
@@ -426,12 +200,12 @@ window.fbAsyncInit = function() {
 			
 		}
 		?>
-        </select>
-        &nbsp;
-        <select name="ciudades" id="ciudades" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
-          <option selected="selected" value='todas' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
-          <option value='Fuera del pa&iacute;s'style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Fuera del pa&iacute;s</option>
-          <?
+          </select>
+          &nbsp;
+          <select name="ciudades" id="ciudades" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
+            <option selected="selected" value='todas' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Todas las ciudades</option>
+            <option value='Fuera del pa&iacute;s'style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>Fuera del pa&iacute;s</option>
+            <?
 		
 		//-----EXCLUYENDO CATEGORIA ADULTOS
 	$cat=new Categoria(160);
@@ -449,16 +223,17 @@ window.fbAsyncInit = function() {
 			echo "<option value='".mysql_result($query,$i,0)."' style='font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C'>".mysql_result($query,$i,0)."</option>";
 		
 	  ?>
-        </select>
-        &nbsp;
-        <label>
-          <input type="button" name="button" id="button" value="Buscar" onClick="listarRecientes()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;" />
-        </label>
-      </div></td>
-    </tr>
-  </table>
-</div>
-<div style=" margin:0 auto 0 auto; margin-top:50px; border-collapse:collapse; border-bottom:#C8C8C8 1px solid; width:1000px; padding-left:5px;  ">
+          </select>
+          &nbsp;
+          <label>
+            <input type="button" name="button" id="button" value="Buscar" onclick="buscar('../')" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;" />
+          </label>
+        </div></td>
+      </tr>
+    </table>
+  </div>
+  <form name="Forma" method="post" action="">
+  <div style=" margin:0 auto 0 auto; margin-top:50px; border-collapse:collapse; border-bottom:#C8C8C8 1px solid; width:1000px; padding-left:5px;  ">
 
   <a href="/" class="LinkFuncionalidad15"><b>Inicio</b></a> &raquo;  <?
 
@@ -494,7 +269,6 @@ window.fbAsyncInit = function() {
   <input type="hidden" name="id_anuncio" id="id_anuncio" value="<? echo $_GET['id'] ?>">
   <input name="num_fotos" type="hidden" id="num_fotos" value="<? echo $anuncio->numeroFotos() ?>">
 </span></div>
-<div id="fb-root"></div>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
     <tr>
       <td width="700">
@@ -504,6 +278,8 @@ window.fbAsyncInit = function() {
         <td width="506">
         
         
+       <div style="float:left; margin-right:15px;"><div class="g-plusone" data-size="medium" data-annotation="none"></div></div> 
+        
     <div style="float:left; ">
     <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
     </div>
@@ -512,8 +288,7 @@ window.fbAsyncInit = function() {
     <div class="fb-send" style="margin-left:15px; margin-right:15px; float:left;" data-href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>"></div>
     
     
-    <div class="g-plusone" data-size="medium" data-annotation="none" style="float:left;"></div>
-   
+      
     
     <div style="float:left;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="hispamercado" data-lang="es">Twittear</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
@@ -542,9 +317,38 @@ window.fbAsyncInit = function() {
   <tr>
     <td width="363" valign="center">
     
-    	<div id="foto" align="center">
-        	<a href="javascript:verFotoGrande(<? echo $id_anuncio; ?>,1,<? $medidas=$anuncio->tamanoFoto("1"); echo $medidas['w']; ?>,<? echo $medidas['h'] ?>)" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=1" border="0"></a>
+    	
+        
+        
+        <div id="fotofoto1" align="center" >
+        	<a href="verFoto.php?anuncio=<? echo $id_anuncio; ?>&foto=1" rel="facebox" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=1" border="0"></a>
         </div>
+        
+        
+        <div style="display:none;" id="fotofoto2" align="center">
+        	<a href="verFoto.php?anuncio=<? echo $id_anuncio; ?>&foto=2" rel="facebox" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=2" border="0"></a>
+           </div>
+           
+        <div style="display:none;" id="fotofoto3" align="center">
+            <a href="verFoto.php?anuncio=<? echo $id_anuncio; ?>&foto=3" rel="facebox" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=3" border="0"></a>
+            </div>
+            
+        <div style="display:none;" id="fotofoto4" align="center">
+            <a href="verFoto.php?anuncio=<? echo $id_anuncio; ?>&foto=4" rel="facebox" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=4" border="0"></a>
+            </div>
+            
+        <div style="display:none;" id="fotofoto5" align="center">
+            <a href="verFoto.php?anuncio=<? echo $id_anuncio; ?>&foto=5" rel="facebox" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=5" border="0"></a>
+            </div>
+            
+        <div style="display:none;" id="fotofoto6" align="center">
+            <a href="verFoto.php?anuncio=<? echo $id_anuncio; ?>&foto=6" rel="facebox" ><img src="../lib/img.php?tipo=anuncio&anuncio=<? echo $id_anuncio; ?>&foto=6" border="0"></a>            
+        </div>
+        
+        
+        
+        
+        
         
         <div align="center" style="margin-top:5px;">
         	<?	
@@ -719,22 +523,22 @@ window.fbAsyncInit = function() {
     
     <table width="95%" border="0" cellspacing="0" cellpadding="0" align="right" style="clear:both;">
   <tr>
-    <td><div style="margin:0 auto 0 auto; width:100%; border-bottom:#D2D2D2 dashed 2px; margin-bottom:5px; margin-top:15px;"><span class="arial13Negro"></div></td>
+    <td><div style="margin:0 auto 0 auto; width:100%; border-bottom:#D2D2D2 dashed 2px; margin-bottom:5px; margin-top:15px;"></div></td>
   </tr>
 </table>
     
     <table width="250" border="0" cellspacing="0" cellpadding="0" align="left" style="clear:both; margin-left:25px;">
       <tr>
-        <td align="left" width="35"><img src="../img/Email-icon.png" width="32" height="32"></td>
-        <td align="left" width="215" style="padding-left:10px;"><a href="javascript:contactarAnunciante(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
+        <td align="left" width="35"><a href="contactarAnunciante.php?id_anuncio=<? echo $id_anuncio ?>" rel="facebox"><img src="../img/Email-icon.png" width="32" height="32" border="0"></a></td>
+        <td align="left" width="215" style="padding-left:10px;"><a href="contactarAnunciante.php?id_anuncio=<? echo $id_anuncio ?>" rel="facebox" class="LinkFuncionalidad13">Contactar al anunciante</a></td>
         </tr>
       <tr>
-        <td  align="left"><img src="../img/email-to-friend-icon.png" width="32" height="32"></td>
-        <td  align="left" style="padding-left:10px;"><a href="javascript:recomendarAmigo(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="recomendar2">Recomendar a un amigo</a></td>
+        <td  align="left"><a href="recomendarAmigo.php?id_anuncio=<? echo $id_anuncio ?>" rel="facebox"><img src="../img/email-to-friend-icon.png" width="32" height="32" border="0"></a></td>
+        <td  align="left" style="padding-left:10px;"><a href="recomendarAmigo.php?id_anuncio=<? echo $id_anuncio ?>" class="LinkFuncionalidad13" id="recomendar2" rel="facebox">Recomendar a un amigo</a></td>
         </tr>
       <tr>
-        <td align="left"><img src="../img/Sign-Alert-icon.png" width="32" height="32"></td>
-        <td align="left" style="padding-left:10px;"><a href="javascript:denunciar(<? echo $id_anuncio ?>)" class="LinkFuncionalidad13" id="denunciar">Denunciar este anuncio</a></td>
+        <td align="left"><a href="denunciar.php?id_anuncio=<? echo $id_anuncio ?>" rel="facebox"><img src="../img/Sign-Alert-icon.png" width="32" height="32" border="0"></a></td>
+        <td align="left" style="padding-left:10px;"><a href="denunciar.php?id_anuncio=<? echo $id_anuncio ?>" rel="facebox" class="LinkFuncionalidad13" id="denunciar">Denunciar este anuncio</a></td>
       </tr>
     </table>
     
@@ -753,9 +557,6 @@ window.fbAsyncInit = function() {
 		$descripcion=str_replace("<?php","",$descripcion);
 		
 		echo $descripcion;
-		
-		
-		
 		
 		
 		 ?></div></td>

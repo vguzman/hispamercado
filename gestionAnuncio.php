@@ -10,11 +10,22 @@
 <head>
 
 <LINK REL="stylesheet" TYPE="text/css" href="lib/css/basicos.css">
+<link href="lib/facebox/src/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 
+<script src="lib/facebox/lib/jquery.js" type="text/javascript"></script>
+<script src="lib/facebox/src/facebox.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript" src="lib/js/basicos.js"> </script>
 <script language="javascript" type="text/javascript" src="lib/js/ajax.js"> </script>
 <script language="javascript" type="text/javascript">
 
+	jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loadingImage : 'lib/facebox/src/loading.gif',
+        closeImage   : 'lib/facebox/src/closelabel.png'
+      })
+    })
+	
+	
 	function procesar()
 	{
 		var patron_email=/^[^@ ]+@[^@ ]+.[^@ .]+$/;
@@ -23,6 +34,10 @@
 		else
 			document.Forma.submit();
 	}
+	
+
+
+	
 
 
 </script>
@@ -36,8 +51,8 @@
 <body>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <img src="img/logo_original.jpg" alt="" width="360" height="58"> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
-    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+    <td align="left" valign="top" ><div style="width:100%;"> <a href="/"><img src="img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
+    <td valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
       <?
 	
 	if ($sesion!=false)
@@ -48,13 +63,13 @@
       <table width="270" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="closeSession.php" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="cuenta/index.php?d=<? echo time() ?>" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
         </tr>
       </table>
     </div>
       <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
         <div style="width:160px; height:26px; float:right; background-image:url(img/fondo_fb.png); background-repeat:repeat;" align="left">
-          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
+          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
         </div>
         <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
       </div></td>
@@ -63,15 +78,15 @@
 <div style="margin-top:50px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="" class="LinkFuncionalidad17">Tiendas</a></td>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
     </tr>
   </table>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
       <td width="320"><input type="button" name="button2" id="button2" value="Publicar Anuncio" onClick="document.location.href='publicar/'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;">
-        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="listarRecientes()" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;"></td>
+        <input type="button" name="button2" id="button2" value="Iniciar conversaci&oacute;n" onClick="document.location.href='conversaciones/publicar.php'" style="font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; padding-top:4px; padding-bottom:4px;"></td>
       <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
-        <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
+        <input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event,'')" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
         &nbsp;
         <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
           <option selected value="todas">Todas las categor&iacute;as</option>
@@ -116,7 +131,7 @@
         </select>
         &nbsp;
         <label>
-          <input type="button" name="button" id="button" value="Buscar" onClick="listarRecientes()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
+          <input type="button" name="button" id="button" value="Buscar" onClick="buscar('')" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
         </label>
       </div></td>
     </tr>

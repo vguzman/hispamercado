@@ -34,11 +34,7 @@
 
 
 
-
-
-
 <SCRIPT LANGUAGE="JavaScript">
-
 
 jQuery(document).ready(function($) {
       $('a[rel*=facebox]').facebox({
@@ -47,24 +43,6 @@ jQuery(document).ready(function($) {
       })
     })
 	
-	
-
-
-function processStateChange()
-{
-	if (req.readyState==4)
-	{		
-		if (req.status==200)
-		{
-			document.getElementById("anuncios_recientes").innerHTML=req.responseText;						
-		} 
-		else 
-			alert("Problema");      
-	}
-}
-
-
-
 
 </SCRIPT>
 </head>
@@ -75,7 +53,7 @@ function processStateChange()
   <tr>
     <td width="730" align="left" valign="top" >
     <div style="width:100%;">
-    <img src="img/logo_original.jpg" width="360" height="58"> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span>
+    <a href="/"><img src="img/logo_original.jpg" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span>
     </div>
       
     </td>
@@ -141,7 +119,7 @@ function processStateChange()
         
         <td width="680"><div style="margin:0 auto 0 auto; width:100%; background-color:#D8E8AE; padding-top:3px; padding-bottom:3px; padding-left:5px;">
        
-<input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event)" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
+<input name="buscar" type="text" onFocus="manejoBusqueda('adentro')" onBlur="manejoBusqueda('afuera')" onKeyPress="validar(event,'')" id="buscar" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C; width:170px;" value="Buscar en Hispamercado">
       &nbsp;
       <select name="categorias" id="categorias" style="font-size:13px; font-family:Arial, Helvetica, sans-serif; color:#77773C">
         <option selected value="todas">Todas las categor&iacute;as</option>
@@ -186,7 +164,7 @@ function processStateChange()
       </select>
       &nbsp;
       <label>
-        <input type="button" name="button" id="button" value="Buscar" onClick="buscar()" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
+        <input type="button" name="button" id="button" value="Buscar" onClick="buscar('')" style="font-size:13px; font-family:Arial, Helvetica, sans-serif;">
       </label>
       </div>
      </td>

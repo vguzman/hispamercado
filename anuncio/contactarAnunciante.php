@@ -37,7 +37,7 @@
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Mensaje</td>
-      <td><textarea name="comentario" cols="30" rows="7" id="comentario"></textarea></td>
+      <td><textarea name="comentario" cols="27" rows="7" id="comentario"></textarea></td>
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Ingresa código</td>

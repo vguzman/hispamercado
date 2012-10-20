@@ -6,10 +6,8 @@
 </head>
 
 <body>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
-  <tr>
-    <td align="center"><img src="../lib/img.php?tipo=real&anuncio=<? echo $_GET['anuncio'] ?>&foto=<? echo $_GET['foto'] ?>" /></td>
-  </tr>
-</table>
+
+<img src="../lib/img.php?tipo=real&anuncio=<? echo $_GET['anuncio'] ?>&foto=<? echo $_GET['foto'] ?>" /></td>
+
 </body>
 </html>
