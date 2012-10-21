@@ -25,10 +25,6 @@
 		
 	}
 	
-	
-	
 	echo utf8_encode($result);
 	
-
-
 ?>

@@ -191,6 +191,9 @@ jQuery(document).ready(function($) {
 
 <div>
 
+		 <div style="float:left; margin-right:15px;"><div class="g-plusone" data-size="medium" data-annotation="none"></div></div> 
+         
+
 	 <div style="float:left; ">
             <script src="http://connect.facebook.net/es_ES/all.js#appId=119426148153054&amp;xfbml=1"></script><fb:like href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>" send="false" layout="button_count" width="110" show_faces="true" font="arial"></fb:like>
             </div>
@@ -198,8 +201,6 @@ jQuery(document).ready(function($) {
             
             <div class="fb-send" style="margin-left:15px; margin-right:15px; float:left;" data-href="http://<? echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']  ?>"></div>
             
-            
-            <div class="g-plusone" data-size="medium" data-annotation="none" style="float:left;"></div>
            
             
             <div style="float:left;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="hispamercado" data-lang="es">Twittear</a>
@@ -208,7 +209,7 @@ jQuery(document).ready(function($) {
 </div>
 
 <div style="clear:both">
-<div style="width:650px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; margin-bottom:0px;">
+<div style="width:650px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; margin-bottom:70px;">
 	<div id="contenedor_conversacion" style="padding:20px;">  
       <table width="620" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -332,6 +333,46 @@ jQuery(document).ready(function($) {
 </div>
 </div>
 
+<div style="margin:0 auto 0 auto; width:1000px;; margin-top:50px; padding-top:5px; margin-bottom:70px;" >
+
+ <table width="230" border="0" cellspacing="0" cellpadding="0" style="float:left; margin-left:470px;">
+                    <tr>
+                      <td  height="25" class="arial11Negro" ><strong>Danos tu opini&oacute;n sobre Hispamercado</strong></td>
+                    </tr>
+                  </table>
+
+<table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
+                    <tr>
+                      <td width="30"><img src="../img/social-facebook-box-blue-icon.png" alt="" width="25" height="25" /></td>
+                      <td width="70"><strong><a class="LinkFuncionalidad" href="http://www.facebook.com/Hispamercado" target="_blank">Facebook</a></strong></td>
+                    </tr>
+                  </table>
+                  
+                  <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;" >
+                     <tr>
+                       <td width="30"><img src="../img/social-twitter-box-blue-icon.png" width="25" height="25" /></td>
+                       <td width="70"><strong><a class="LinkFuncionalidad" href="http://twitter.com/hispamercado" target="_blank">Twitter</a></strong></td>
+                     </tr>
+                   </table>
+                   
+                   <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
+                     <tr>
+                       <td width="30"><img src="../img/Email-icon.png" width="25" height="25"></td>
+                       <td width="70"><strong><a class="LinkFuncionalidad" href="mailto:info@hispamercado.com.ve">E-mail</a></strong></td>
+                     </tr>
+                   </table>
+	
+</div>
+<div style="margin:0 auto 0 auto; width:1000px; padding-left:40px; padding-right:40px; padding-top:10px; border-top:1px solid #77773C; clear:both; text-align:justify;"class="arial11Gris">
+ <strong>En Hispamercado creemos que la compra y venta de productos y servicios es una experiencia social. Cuando queremos comprar o vender un producto solemos pedir la opini&oacute;n de amigos o familiares que pueden tener mas conocimientos sobre el tema. Con Hispamercado queremos llevar esa experiencia a Internet, no pretendemos ser un simple portal de clasificados en l&iacute;nea, queremos construir una comunidad de usuarios que interactuen alrededor de los anuncios. Anunciate en Hispamercado y comparte tus opiniones y dudas con la comunidad.</strong>
+ </div>
+
+
+
+</body>
+</html>
+
+
 
 <script type="text/javascript">
 	  window.___gcfg = {lang: 'es'};
@@ -343,8 +384,7 @@ jQuery(document).ready(function($) {
 	  })();
 	</script>
 
-</body>
-</html>
+
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

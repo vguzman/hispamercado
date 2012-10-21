@@ -110,7 +110,15 @@
 		email("Hispamercado","info@hispamercado.com.ve",$usuario2->nombre,$usuario2->email,utf8_decode("Has recibido un nuevo comentario en tu conversación"),$mensaje);
 	}
 	
-	
-
 
 ?>
+
+ <script type="text/javascript">
+	  window.___gcfg = {lang: 'es'};
+	
+	  (function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	  })();
+	</script>

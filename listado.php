@@ -1155,7 +1155,7 @@
 
 <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px; margin-top:20px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
 
-<div>
+<div style="border-left:#999 1px solid; border-right:#999 1px solid; margin-bottom:70px;">
         <?
 			if (isset($_GET['id_cat'])==false)
 				$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
@@ -1214,22 +1214,27 @@
 			}
 				
 		?>
+       
+    
+    <div align="center" style="background-color:#F2F7E6; border-bottom:#999 1px solid; padding-bottom:10px; padding-top:10px; ">
+    <a href="conversaciones/publicar.php" class="LinkFuncionalidad17" target="_blank">
+        <strong><< Iniciar Conversación >></strong></a>
     </div>
-   <table width="323" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#999 1px solid;">
-	<tr>
-		<td align="center" style="padding-bottom:10px; padding-top:10px; "><a href="conversaciones/publicar.php" class="LinkFuncionalidad17" target="_blank">
-        <strong><< Iniciar Conversación >></strong></a></td>
-	</tr>
-	</table>
+    
+    </div>
+  
 
 
 
 
   </div>
 
-<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:650px; float:left; ">
+<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:650px; float:left; display:table; ">
   
   		
+    
+        
+        
         
         
         <div align="right" style="margin-bottom:5px; padding-right:15px;" class="arial13Negro">
@@ -1246,8 +1251,21 @@
 	
 	?>
   		</div>
+        
+        
+        <div style="padding:8px; background-color:#D8E8AE;" align="left">
+	
+    
+    	<form name="form1" method="post" action="conversaciones/publicar.php">
+    
+	 <input name="titulo_conversacion" type="text" id="titulo_conversacion" maxlength="150" class="arial15Mostaza" style="width:440px; font-weight:bold;" value="¿Tienes algo que preguntar o decir sobre <? echo $categoria->nombre ?>?" onFocus="manejoConversa(this,'adentro','¿Tienes algo que preguntar o decir sobre <? echo $categoria->nombre ?>?')" onBlur="manejoConversa(this,'afuera','¿Tienes algo que preguntar o decir sobre <? echo $categoria->nombre ?>?')" > <input type="submit" name="button3" id="button3" value="Iniciar Conversación" class="arial15Negro" style="font-weight:bold;">
+     
+     <input type="hidden" name="categoria_conversacion" id="categoria_conversacion" value="<? echo $categoria->id ?>">
+    	</form>
+
+</div>   
   
-        <div>  
+        <div style="display:table;">  
           <?
             $medio=intval(31/2);
             for ($i=$primero;$i<$ultimo;$i++)
@@ -1271,7 +1289,7 @@
         ?>
         </div>
         
-        <div style=" margin-top:20px;" align="center">
+        <div style=" margin-top:20px; margin-bottom:70px;" align="center">
           <?
 		
 	if (count($anuncios)>0)
@@ -1346,8 +1364,50 @@
 </div>
 
 
+
+<div style="margin:0 auto 0 auto; width:1000px;; margin-top:70px; padding-top:5px;" >
+
+ <table width="230" border="0" cellspacing="0" cellpadding="0" style="float:left; margin-left:470px;">
+                    <tr>
+                      <td  height="25" class="arial11Negro" ><strong>Danos tu opini&oacute;n sobre Hispamercado</strong></td>
+                    </tr>
+                  </table>
+
+<table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
+                    <tr>
+                      <td width="30"><img src="img/social-facebook-box-blue-icon.png" alt="" width="25" height="25" /></td>
+                      <td width="70"><strong><a class="LinkFuncionalidad" href="http://www.facebook.com/Hispamercado" target="_blank">Facebook</a></strong></td>
+                    </tr>
+                  </table>
+                  
+                  <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;" >
+                     <tr>
+                       <td width="30"><img src="img/social-twitter-box-blue-icon.png" width="25" height="25" /></td>
+                       <td width="70"><strong><a class="LinkFuncionalidad" href="http://twitter.com/hispamercado" target="_blank">Twitter</a></strong></td>
+                     </tr>
+                   </table>
+                   
+                   <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
+                     <tr>
+                       <td width="30"><img src="img/Email-icon.png" width="25" height="25"></td>
+                       <td width="70"><strong><a class="LinkFuncionalidad" href="mailto:info@hispamercado.com.ve">E-mail</a></strong></td>
+                     </tr>
+                   </table>
+	
+</div>
+<div style="margin:0 auto 0 auto; width:1000px; padding-left:40px; padding-right:40px; padding-top:10px; border-top:1px solid #77773C; clear:both; text-align:justify;"class="arial11Gris">
+ <strong>En Hispamercado creemos que la compra y venta de productos y servicios es una experiencia social. Cuando queremos comprar o vender un producto solemos pedir la opini&oacute;n de amigos o familiares que pueden tener mas conocimientos sobre el tema. Con Hispamercado queremos llevar esa experiencia a Internet, no pretendemos ser un simple portal de clasificados en l&iacute;nea, queremos construir una comunidad de usuarios que interactuen alrededor de los anuncios. Anunciate en Hispamercado y comparte tus opiniones y dudas con la comunidad.</strong>
+ </div>
+
+
 </body>
 </html>
+
+
+
+
+
+
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

@@ -17,5 +17,4 @@
 			window.history.go(-1);
 			</SCRIPT>';
 	
-	
 ?>
