@@ -1,6 +1,6 @@
 <?	
 	include "../lib/class.php";
-	require '../lib/facebook/src/facebook.php';
+	require '../lib/facebook_api/facebook.php';
 	$sesion=checkSession();	
 
 	//CASOS USUARIO REGISTRADO
