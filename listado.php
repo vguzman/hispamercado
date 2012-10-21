@@ -1405,7 +1405,18 @@
 </html>
 
 
+<?
 
+	mysql_free_result($query);
+	mysql_free_result($query_anio);
+	mysql_free_result($query_aux);
+	mysql_free_result($query_cat);
+	mysql_free_result($query_ciudad);
+	mysql_free_result($query_marca);
+	mysql_free_result($query_modelo);
+	mysql_free_result($query_tipo);
+	
+ ?>
 
 
 

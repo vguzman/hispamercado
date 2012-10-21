@@ -8,9 +8,16 @@ function operacionSQL($aux)
 	$query=mysql_query($aux,$link);
 	
 	if (!($query))
+	{
 		echo $error=mysql_error();
+		mysql_close($link);
+	}
 	else
-		return $query;	
+	{	
+		mysql_close($link);
+		return $query;		
+	}
+	
 }
 
 
