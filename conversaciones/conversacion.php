@@ -57,6 +57,7 @@
 <script src="../lib/facebox/src/facebox.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript" src="../lib/js/conversaciones.js"> </script>
 <script src="../lib/js/basicos.js" type="text/javascript"></script>
+<script src="../lib/js/ajax.js" type="text/javascript"></script>
 <SCRIPT LANGUAGE="JavaScript">
 
 jQuery(document).ready(function($) {
