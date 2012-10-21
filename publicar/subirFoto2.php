@@ -1,4 +1,6 @@
-<? session_start(); ?>
+<?
+	$code=$_POST['code'];
+?>
 <title>Hispamercado <?php echo $nombre_pais; ?> - Subir foto</title>
 <?
 	
@@ -11,7 +13,7 @@
 	
 	if (($tipo=="image/x-png")||($tipo=="image/gif")||($tipo=="image/pjpeg")||($tipo=="image/jpeg"))
 	{       
-		$destino="../img/img_bank/temp/".session_id()."_".$foto;		
+		$destino="../img/img_bank/temp/".$code."_".$foto;		
 		if (copy($_FILES['ruta']['tmp_name'],$destino)) 
 		{
 			$status = "Archivo subido";

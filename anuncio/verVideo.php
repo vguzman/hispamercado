@@ -6,15 +6,10 @@
 </head>
 
 <body>
-<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
-  <tr>
-    <td align="center">
+
     
     <object width='480' height='385'><param name='movie' value='http://www.youtube.com/v/<? echo $_GET['id_video'] ?>&hl=en&fs=1&rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/<? echo $_GET['id_video'] ?>&hl=en&fs=1&rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='480' height='385'></embed></object>
     
-    
-    </td>
-  </tr>
-</table>
+ 
 </body>
 </html>

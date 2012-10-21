@@ -16,8 +16,6 @@ class Anuncio
 	var $precio;
 	var $moneda;
 	var $ciudad;
-	var $id_provincia;
-	var $id_pais;
 	var $foto1;
 	var $foto2;
 	var $foto3;
@@ -50,20 +48,18 @@ class Anuncio
 		$this->precio=mysql_result($query,0,8);
 		$this->moneda=mysql_result($query,0,9);
 		$this->ciudad=mysql_result($query,0,10);
-		$this->id_provincia=mysql_result($query,0,11);
-		$this->id_pais=mysql_result($query,0,12);
-		$this->foto1=mysql_result($query,0,13);
-		$this->foto2=mysql_result($query,0,14);
-		$this->foto3=mysql_result($query,0,15);
-		$this->foto4=mysql_result($query,0,16);
-		$this->foto5=mysql_result($query,0,17);
-		$this->foto6=mysql_result($query,0,18);
-		$this->video_youtube=mysql_result($query,0,19);
-		$this->anunciante_email=mysql_result($query,0,20);
-		$this->anunciante_nombre=mysql_result($query,0,21);
-		$this->anunciante_telefonos=mysql_result($query,0,22);
-		$this->status_general=mysql_result($query,0,23);
-		$this->status_revision=mysql_result($query,0,24);
+		$this->foto1=mysql_result($query,0,11);
+		$this->foto2=mysql_result($query,0,12);
+		$this->foto3=mysql_result($query,0,13);
+		$this->foto4=mysql_result($query,0,14);
+		$this->foto5=mysql_result($query,0,15);
+		$this->foto6=mysql_result($query,0,16);
+		$this->video_youtube=mysql_result($query,0,17);
+		$this->anunciante_email=mysql_result($query,0,18);
+		$this->anunciante_nombre=mysql_result($query,0,19);
+		$this->anunciante_telefonos=mysql_result($query,0,20);
+		$this->status_general=mysql_result($query,0,21);
+		$this->status_revision=mysql_result($query,0,22);
 		
 		//echo $this->id."<br>";
 	}
@@ -73,6 +69,8 @@ class Anuncio
 		$query=operacionSQL("SELECT TIMEDIFF(NOW(),'".$this->fecha."')");
 		$horas=substr(mysql_result($query,0,0),0,2);
 		
+		if ($horas<=0)
+			return "menos de una hora";
 		if ($horas<24)
 			return $horas." horas";
 		else
@@ -81,6 +79,23 @@ class Anuncio
 			$dias=mysql_result($query,0,0);
 			return $dias." dias";
 		}
+	}
+	
+	function visitas()
+	{
+		$query=operacionSQL("SELECT cuenta FROM AnuncioVisitaResumen WHERE id_anuncio=".$this->id);
+		if (mysql_num_rows($query)==0)
+			$visitas_archivo=0;
+		else
+			$visitas_archivo=mysql_result($query,0,0);
+			
+			
+		$query=operacionSQL("SELECT COUNT(*) FROM AnuncioVisita WHERE id_anuncio=".$this->id);
+		$visitas_recientes=mysql_result($query,0,0);
+
+
+		return $visitas_archivo+$visitas_recientes;			
+			
 	}
 	
 	function tamanoFoto($foto)
@@ -295,7 +310,7 @@ class Anuncio
 	function armarEnlace()
 	{
 		$titulo=limpiarEnies($this->titulo);
-		$palabras=desglosarPalabras($titulo);
+		$palabras=desglosarPalabrasS($titulo);
 		
 		$enlace="";
 		
@@ -311,25 +326,14 @@ class Anuncio
 		else
 			$enlace.="anuncio-".$this->id;
 		
-		
-		
-		
+				
 		return $enlace;
 	}
 	
 	
 	function armarAnuncio($color)
 	{
-		if ($this->id_provincia=="")
-			$provincia="";
-		else
-		{	
-			$provincia=new Provincia($this->id_provincia);
-			$provincia=$provincia->nombre;
-		}
-		
-		
-		//ARMANDO ENLADE
+		//ARMANDO ENLACE
 		$enlace=$this->armarEnlace();
 		
 		$medida=$this->tamanoFotoLista();
@@ -365,36 +369,41 @@ class Anuncio
 					</div>";
 			
 		
-		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:800px; height:150px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
+		$anuncio="<div style='margin:0 auto 0 auto; position:relative; width:650px; border-bottom:#C8C8C8 1px solid; background-color:".$color."; display:table; '>
 	
-					<div style='width:150px; height:140px; margin-top:5px; float:left;' align='center'>
-						<a href='".$enlace."'><img src='lib/img.php?tipo=lista&anuncio=".$this->id."&foto=1' border='0' alt='".$this->titulo."' title='".$this->titulo."' style='margin-top:".intval((140-$h)/2)."px;' /></a>
-					</div>
-					
-					<div style='width:640px; margin-left:5px; margin-top:5px; margin-right:5px; float:left; display:table; '>
-						<a href='".$enlace."' class='tituloAnuncio'>".$this->titulo."</a>
-					</div>
-					
-					<div style='width:640px; margin-left:5px; margin-top:5px; margin-right:5px; float:left; display:table; '>
-						<span class='arial13Negro'><em>".$detalles."</em></span>
-					</div>
-					 
-					 <div style='width:640px; margin-left:5px; margin-top:8px; margin-right:5px; float:left; display:table;'>
-						<span class='arial13Negro'>".substr($this->descripcionLimpia(),0,150)."...</span>
-					</div>
-					
-					<div style='width:640px; position:absolute; bottom:10px; left:150px; margin-left:5px; margin-top:15px; margin-right:5px; float:left;'>
-						
-						".$video."
-						
-						<div>
-							<span class='arial15Negro' style='float:left;'><em>Publicado hace ".$this->tiempoHace()." en ".$this->ciudad.", ".$provincia."</em></span>
-							<span class='arial15RojoPrecio' style='float:right; padding-right:5px;'><strong>".$precio."</strong></span>
-						</div>
-					
-					</div>
-					
-				  
+					<table width='650' border='0' cellspacing='0' cellpadding='0' align='center'>
+					  <tr>
+						<td width='130' height='120' align='center' valign='middle' style='padding-bottom:7px; padding-top:7px;'><a href='".$enlace."'><img src='lib/img.php?tipo=lista&anuncio=".$this->id."&foto=1' border='0' alt='".$this->titulo."' title='".$this->titulo."' /></a></td>
+						<td width='520'>
+								<table width='520' height='120' border='0' cellspacing='0' cellpadding='0'>
+								  <tr>
+									<td height='40' valign='top'>
+									
+											<div style='margin-left:10px;' >
+												<a href='".$enlace."' class='tituloAnuncio'>".$this->titulo."</a>
+											</div>
+								
+											<div style='margin-left:10px; '>
+												<span class='arial13Negro'><em>".$detalles."</em></span>
+											</div>
+									</td>
+								  </tr>
+								  <tr>
+									<td height='25' valign='bottom'>
+											<div style='margin-left:10px; margin-top:35px;'>
+												".$video."
+											</div>
+										
+											<div style='margin-left:10px;'>
+												<span class='arial15Negro' style='float:left;'><em>Publicado hace ".$this->tiempoHace()." en ".$this->ciudad."</em></span>
+												<span class='arial15RojoPrecio' style='float:right; padding-right:5px;'><strong>".$precio."</strong></span>
+											</div>
+									</td>
+								  </tr>
+								</table>
+						</td>
+					  </tr>
+					</table>
 				</div>";
 				
 		return $anuncio;
@@ -504,6 +513,19 @@ class Anuncio
 			
 			return $arreglo;	
 		}
+		if (($this->id_categoria>=5001)&&($this->id_categoria<=5021))
+		{
+			$query=operacionSQL("SELECT * FROM Anuncio_Detalles_Empleos WHERE id_anuncio=".$this->id);
+			$arreglo['jornada']=mysql_result($query,0,1);
+			$arreglo['experiencia']=mysql_result($query,0,2);
+			$arreglo['salario']=mysql_result($query,0,3);
+			
+			return $arreglo;
+		}
+		
+		
+		
+		
 	}
 	
 	function comentarios()
@@ -564,76 +586,15 @@ class Anuncio
 	
 	
 	
-	function metainformacion2()
-	{
-		$palabras_titulo=desglosarPalabras($this->titulo);
-		//$palabras_titulo=filtrarConectivos($palabras_titulo);
-		
-		$palabras_descripcion=desglosarPalabras($this->descripcion);
-		//$palabras_descripcion=filtrarConectivos($palabras_descripcion);
-		
-		
-		
-		$detalles=$this->ciudad;
-		$pro=new Provincia($this->id_provincia);
-		$detalles.=" ".$pro->nombre;		
-		$id_cat=$this->id_categoria;
-		
-		
-		//CASO INMUEBLES
-		if (($id_cat==4)||($id_cat==3)||($id_cat==5)||($id_cat==6)||($id_cat==7)||($id_cat==8)||($id_cat==9)||($id_cat==10)||($id_cat==3707)||($id_cat==3707))
-		{
-			$aux=$this->detalles();
-			$detalles.=" ".$aux['urbanizacion'];
-			
-		}
-		//CASO VEHICULOS
-		if (($id_cat==11)||($id_cat==12)||($id_cat==16)||($id_cat==13)||($id_cat==14))
-		{
-			$aux=$this->detalles();
-			$detalles.=" ".$aux['marca'];
-			$detalles.=" ".$aux['modelo'];
-			$detalles.=" ".$aux['anio'];
-		}
-		
-		$palabras_detalles=desglosarPalabras($detalles);
-		$palabras_detalles=filtrarConectivos($palabras_detalles);
-		
-		
-		for ($i=0;$i<count($palabras_titulo);$i++)
-			$titulo.=$palabras_titulo[$i]." ";
-		
-		for ($i=0;$i<count($palabras_descripcion);$i++)
-			$descripcion.=$palabras_descripcion[$i]." ";
-		
-		for ($i=0;$i<count($palabras_detalles);$i++)
-			$detalles_aux.=$palabras_detalles[$i]." ";
-		
-		
-		$query=operacionSQL("SELECT * FROM AnuncioMetainformacion WHERE id_anuncio=".$this->id);
-		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO AnuncioMetainformacion VALUES (".$this->id.",'".$titulo."','".$descripcion."','".$detalles_aux."')");
-		else
-			operacionSQL("UPDATE AnuncioMetainformacion SET titulo='".$titulo."', descripcion='".$descripcion."', detalles='".$detalles_aux."' WHERE id_anuncio=".$this->id);
-
-		//return $titulo." ".$descripcion." ".$detalles_aux;
-	
-	}
 	
 	
 	function metainformacion()
 	{
-		$palabras_titulo=desglosarPalabras($this->titulo);
+		$palabras_titulo=desglosarPalabrasS($this->titulo);
 		$palabras_titulo=filtrarConectivos($palabras_titulo);
 		
-		$palabras_descripcion=desglosarPalabras($this->descripcion);
+		$palabras_descripcion=desglosarPalabrasS($this->descripcion);
 		$palabras_descripcion=filtrarConectivos($palabras_descripcion);
-		
-		
-		
-		$ciudad=$this->ciudad;
-		$pro=new Provincia($this->id_provincia);
-		$ciudad.=" ".$pro->nombre;		
 		
 		
 		
@@ -643,6 +604,8 @@ class Anuncio
 		$marca="";
 		$modelo="";
 		$anio="";
+		$superficie="NULL";
+		$habitaciones="NULL";
 		
 		
 		//CASO INMUEBLES
@@ -650,6 +613,11 @@ class Anuncio
 		{
 			$aux=$this->detalles();
 			$urbanizacion=$aux['urbanizacion'];
+			$superficie=$aux['m2'];
+			
+			if (isset($aux['habitaciones']))
+				$habitaciones=$aux['habitaciones'];
+				
 			
 		}
 		//CASO VEHICULOS
@@ -663,16 +631,17 @@ class Anuncio
 		
 		
 		
-		$palabras_urbanizacion=desglosarPalabras($urbanizacion);
-		$palabras_marca=desglosarPalabras($marca);
-		$palabras_modelo=desglosarPalabras($modelo);
-		$palabras_anio=desglosarPalabras($anio);
+		$palabras_urbanizacion=desglosarPalabrasS($urbanizacion);
+		/*$palabras_marca=desglosarPalabrasS($marca);
+		$palabras_modelo=desglosarPalabrasS($modelo);
+		$palabras_anio=desglosarPalabrasS($anio);*/
+		
 		
 		
 		$urbanizacion="";
-		$marca="";
-		$modelo="";
-		$anio="";
+		$ciudad="";
+		$titulo="";
+		$descripcion="";
 
 		
 		
@@ -685,14 +654,16 @@ class Anuncio
 		for ($i=0;$i<count($palabras_urbanizacion);$i++)
 			$urbanizacion.=$palabras_urbanizacion[$i]." ";
 			
-		for ($i=0;$i<count($palabras_marca);$i++)
+		/*for ($i=0;$i<count($palabras_marca);$i++)
 			$marca.=$palabras_marca[$i]." ";
 		
 		for ($i=0;$i<count($palabras_modelo);$i++)
 			$modelo.=$palabras_modelo[$i]." ";
 			
 		for ($i=0;$i<count($palabras_anio);$i++)
-			$anio.=$palabras_anio[$i]." ";
+			$anio.=$palabras_anio[$i]." ";*/
+			
+		
 			
 			
 		
@@ -701,11 +672,20 @@ class Anuncio
 		
 		$query=operacionSQL("SELECT * FROM AnuncioMetainformacion WHERE id_anuncio=".$this->id);
 		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO AnuncioMetainformacion VALUES (".$this->id.",'".$titulo."','".$descripcion."','".$ciudad."','".$urbanizacion."','".$marca."','".$modelo."','".$anio."')");
+		{
+			//echo "<br><br>";
+			$aux="INSERT INTO AnuncioMetainformacion VALUES (".$this->id.",".$this->id_categoria.",'".$this->tipo_categoria."','".$titulo."','".$descripcion."','".$this->ciudad."','".$urbanizacion."',".$superficie.",".$habitaciones.",'".$marca."','".$modelo."','".$anio."')";
+			//echo "<br><br>";
+			operacionSQL($aux);
+		}	
 		else
-			operacionSQL("UPDATE AnuncioMetainformacion SET titulo='".$titulo."', descripcion='".$descripcion."', ciudad='".$ciudad."', urbanizacion='".$urbanizacion."', marca='".$marca."', modelo='".$modelo."', anio='".$anio."' WHERE id_anuncio=".$this->id);
+		{
+			//echo "<br><br>";
+			$aux="UPDATE AnuncioMetainformacion SET titulo='".$titulo."', id_categoria=".$this->id_categoria.", tipo_categoria='".$this->tipo_categoria."', descripcion='".$descripcion."', ciudad='".$this->ciudad."', urbanizacion='".$urbanizacion."', superficie=".$superficie.", habitaciones=".$habitaciones.", marca='".$marca."', modelo='".$modelo."', anio='".$anio."' WHERE id_anuncio=".$this->id;
+			//echo "<br><br>";
+			operacionSQL($aux);
+		}
 
-		//return $titulo." ".$descripcion." ".$detalles_aux;
 	
 	}
 	
@@ -716,6 +696,7 @@ class Anuncio
 	function textoDescripcion()
 	{
 		$texto=$this->descripcion;
+		$descripcion="";
 		for ($i=0;$i<strlen($texto);$i++)
 		{
 			if ($texto[$i]!='<')
@@ -782,7 +763,6 @@ class Categoria
 	var $nombre;
 	var $id_categoria;
 	var $orden;
-	var $id_pais;
 	
 	function Categoria($id)
 	{
@@ -792,7 +772,6 @@ class Categoria
 		$this->nombre=mysql_result($query,0,1);
 		$this->id_categoria=mysql_result($query,0,2);
 		$this->orden=mysql_result($query,0,3);
-		$this->id_pais=mysql_result($query,0,4);		
 	}
 	
 	
@@ -806,7 +785,7 @@ class Categoria
 		{
 			$nombre_cat=$arbol[$i]['nombre'];
 			$nombre_cat=limpiarEnies($nombre_cat);
-			$palabras=desglosarPalabras($nombre_cat);
+			$palabras=desglosarPalabrasS($nombre_cat);
 			
 			for ($e=0;$e<count($palabras);$e++)
 			{
@@ -980,48 +959,10 @@ class Categoria
 
 	}
 	
-	
-}
-
-
-class Usuario
-{
-	var $id;
-	var $user;
-	var $email;
-	var $nombre;
-	var $telefonos;
-	var $provincia;
-	var $ciudad;
-	var $direccion;
-	var $validado;
-	var $fecha_registro;
-	var $pais;
-	var $web;
-
-
-	function Usuario($id)
+	function padre()
 	{
-		$query=operacionSQL("SELECT * FROM Usuario WHERE id=".$id);
+		$query=operacionSQL("SELECT id_categoria FROM Categoria WHERE id=".$this->id);
 		
-		$this->id=$id;
-		$this->user=mysql_result($query,0,1);
-		$this->email=mysql_result($query,0,2);
-		$this->nombre=mysql_result($query,0,3);
-		$this->telefonos=mysql_result($query,0,4);
-		$this->provincia=mysql_result($query,0,6);
-		$this->ciudad=mysql_result($query,0,7);
-		$this->direccion=mysql_result($query,0,8);	
-		$this->validado=mysql_result($query,0,9);
-		$this->fecha_registro=mysql_result($query,0,10);
-		$this->pais=mysql_result($query,0,11);
-		$this->web=mysql_result($query,0,12);		
-	}
-	
-	function numAnunciosActivos()
-	{
-		$aux="SELECT count(*) FROM Anuncio WHERE id_usuario='".$this->id."' AND status_general='Activo'";
-		$query=operacionSQL($aux);
 		return mysql_result($query,0,0);
 	}
 	
@@ -1029,69 +970,102 @@ class Usuario
 }
 
 
-//****************************************************************************************
-
-class Pais
+class Usuario
 {
 	var $id;
+	var $fb_id;
+	var $fb_nick;
 	var $nombre;
-	var $gmt;
-	var $dominio;
+	var $email;
+	var $fb_token;
+	var $fb_token_expires;
+	var $cookie;
 	var $status;
-		
-	
-	function Pais($id)
+
+
+	function Usuario($id)
 	{
-		$query=operacionSQL("SELECT * FROM Pais WHERE id='".$id."'");
+		$query=operacionSQL("SELECT * FROM Usuario WHERE id=".$id);
 		
 		$this->id=$id;
-		$this->nombre=mysql_result($query,0,1);
-		$this->gmt=mysql_result($query,0,2);
-		$this->dominio=mysql_result($query,0,3);
-		$this->status=mysql_result($query,0,3);
+		$this->fb_id=mysql_result($query,0,1);
+		$this->fb_nick=mysql_result($query,0,2);
+		$this->nombre=mysql_result($query,0,3);
+		$this->email=mysql_result($query,0,4);
+		$this->fb_token=mysql_result($query,0,5);
+		$this->fb_token_expires=mysql_result($query,0,6);
+		$this->cookie=mysql_result($query,0,7);	
+		$this->status=mysql_result($query,0,8);
 	}
 	
-	function monedas()
+	function idTienda()
 	{
-		$query=operacionSQL("SELECT moneda FROM Pais_Moneda WHERE id_pais='".$this->id."' ORDER BY orden ASC");
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-			$arreglo[$i]=mysql_result($query,$i,0);
-	
-		return $arreglo;
+		$query=operacionSQL("SELECT id FROM Tienda WHERE id_usuario=".$this->id);
+		
+		if (mysql_num_rows($query)>0)
+			return mysql_result($query,0,0);
+		else
+			return false;
 	}
-
+	
+	function predatos()
+	{
+		$query=operacionSQL("SELECT * FROM UsuarioPreferenciasPublicacion WHERE id_usuario=".$this->id);
+		if (mysql_num_rows($query)==0)
+		{
+			$email=$this->email;
+			$nombre=$this->nombre;
+			$telefonos="";
+			$ciudad="";
+			
+			
+			operacionSQL("INSERT INTO UsuarioPreferenciasPublicacion VALUES (".$this->id.",'".$email."','".$nombre."','','')");
+			
+		}
+		else
+		{
+			$email=mysql_result($query,0,1);
+			$nombre=mysql_result($query,0,2);
+			$telefonos=mysql_result($query,0,3);
+			$ciudad=mysql_result($query,0,4);
+		}
+		
+		$resul['email']=$email;
+		$resul['nombre']=$nombre;
+		$resul['telefonos']=$telefonos;
+		$resul['ciudad']=$ciudad;
+		
+		
+		return $resul;
+	}
+	
+	function opciones()
+	{
+		$query=operacionSQL("SELECT * FROM UsuarioOpciones WHERE id_usuario=".$this->id);
+		
+		$resul['fb_anuncio']=mysql_result($query,0,1);
+		$resul['fb_conversacion']=mysql_result($query,0,2);
+		$resul['tw_anuncio']=mysql_result($query,0,3);
+		$resul['tw_conversacion']=mysql_result($query,0,4);
+		
+		return $resul;
+	}
 }
+
 
 //****************************************************************************************
 
-class Provincia
-{
-	var $id;
-	var $id_pais;
-	var $nombre;
-	var $status;
-		
-	
-	function Provincia($id)
-	{
-		$query=operacionSQL("SELECT * FROM Provincia WHERE id='".$id."'");
-		
-		$this->id=$id;
-		$this->id_pais=mysql_result($query,0,1);		
-		$this->nombre=mysql_result($query,0,2);
-		$this->status=mysql_result($query,0,3);
-	}
 
-}
-
-//****************************************************************************************
 
 class Tienda
 {
 	var $id;
-	var $usuario;
+	var $id_usuario;
+	var $nick;
+	var $nombre;
+	var $descripcion;
 	var $logo;
-	var $descripción;
+	var $status;
 	
 	function Tienda($id)
 	{
@@ -1100,51 +1074,109 @@ class Tienda
 		
 		$this->id=$id;
 		$this->id_usuario=mysql_result($query,0,1);
-		$this->logo=mysql_result($query,0,2);
-		$this->descripcion=mysql_result($query,0,3);
+		$this->nick=mysql_result($query,0,2);
+		$this->nombre=mysql_result($query,0,3);
+		$this->descripcion=mysql_result($query,0,4);
+		$this->logo=mysql_result($query,0,5);
+		$this->status=mysql_result($query,0,6);
 	}	
+}
+
+
+
+
+class Conversacion
+{
+	var $id;
+	var $id_usuario;
+	var $id_categoria;
+	var $fecha;
+	var $anunciante_nombre;
+	var $anunciante_email;
+	var $titulo;
+	var $descripcion;
+	var $notificaciones;
+	var $status;
 	
-	function armaTienda()
+	function Conversacion($id)
 	{
-		$usuario=new Usuario($this->id_usuario);
-		
-		return "<table width='800' height='70'  border='0' align='center' cellpadding='0' cellspacing='0'>
-		  <tr>
-			<td width='150' valign='center' align='center'><a href='tienda.php?user=".strtolower($usuario->user)."'><img src='lib/logo.php?tienda=".strtolower($usuario->user)."' border='0'></a></td>
-			<td width='650' class='arial11Negro'><table width='640' border='0' align='center' cellpadding='0' cellspacing='3'>
-			  <tr>
-				<td><a href='tienda.php?user=".strtolower($usuario->user)."'><strong>".$usuario->nombre."</strong></a></td>
-			  </tr>
-			  <tr>
-				<td>".substr($this->descripcion,0,245)."...</td>
-			  </tr>
-			  <tr>
-				<td><b>".$usuario->ciudad.", ".$usuario->provincia."</b></td>
-			  </tr>
-			  <tr>
-				<td><div align='right'><span class='arial11Rojo'><b>".$usuario->numAnunciosActivos()." anuncios publicados</b></span></div></td>
-			  </tr>
-			</table></td>
-		  </tr>
-		</table>
-		<table cellpadding='0 'cellspacing='0' border='0' width='800' align='center' bgcolor='#C8C8C8'>
-			<tr>
-				<td height='1'></td>
-			</tr>
-		</table>";
-	}
-	
-	function politicas()
-	{
-		$arreglo=array();
-		$aux="SELECT * FROM Tienda_Politicas WHERE id_tienda=".$this->id;
+		$aux="SELECT * FROM Conversacion WHERE id=".$id;
 		$query=operacionSQL($aux);
 		
-		for ($i=0;$i<mysql_num_rows($query);$i++)
-			$arreglo[$i]=mysql_result($query,$i,1);
+		$this->id=$id;
+		$this->hash=mysql_result($query,0,1);
+		$this->id_usuario=mysql_result($query,0,2);
+		$this->id_categoria=mysql_result($query,0,3);
+		$this->fecha=mysql_result($query,0,4);
+		$this->titulo=mysql_result($query,0,5);
+		$this->descripcion=mysql_result($query,0,6);
+		$this->notificaciones=mysql_result($query,0,7);
+		$this->status=mysql_result($query,0,8);
+	}
+	
+	function tiempoHace()
+	{
+		$query=operacionSQL("SELECT TIMEDIFF(NOW(),'".$this->fecha."')");
+		$horas=substr(mysql_result($query,0,0),0,2);
 		
-		return $arreglo;
-	}	
+		if ($horas<=0)
+			return "menos de una hora";
+		if ($horas<24)
+			return $horas." horas";
+		else
+		{
+			$query=operacionSQL("SELECT DATEDIFF(NOW(),'".$this->fecha."')");
+			$dias=mysql_result($query,0,0);
+			return $dias." dias";
+		}
+	}
+	
+	function armarEnlace()
+	{
+		$titulo=limpiarEnies($this->titulo);
+		$palabras=desglosarPalabrasS($titulo);
+		
+		$enlace="";
+		
+		for ($j=0;$j<count($palabras);$j++)
+			$enlace.=$palabras[$j]."-";
+		
+		
+		$enlace=substr($enlace,0,200);
+		
+		$len=strlen($enlace);
+		if ($enlace[$len-1]!='-')
+			$enlace.="-conversacion-".$this->id;
+		else
+			$enlace.="conversacion-".$this->id;
+		
+				
+		return $enlace;
+	}
+	
+	function comentariosRecibidos()
+	{
+		$query=operacionSQL("SELECT COUNT(*) FROM ConversacionComentario WHERE id_conversacion=".$this->id);
+		
+		return mysql_result($query,0,0);
+	}
+	
+	function textoDescripcion()
+	{
+		$texto=$this->descripcion;
+		$descripcion="";
+		for ($i=0;$i<strlen($texto);$i++)
+		{
+			if ($texto[$i]!='<')
+				$descripcion.=$texto[$i];
+			else
+				while ($texto[$i]!='>')
+					$i++;
+		}
+		
+		return $descripcion;
+	}
+	
 	
 }
 

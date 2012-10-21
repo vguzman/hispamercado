@@ -10,12 +10,18 @@
 		$anuncio=new Anuncio(mysql_result($query,0,0));
 		$ciudad=$anuncio->ciudad;
 		
+		
+		//CHEQUEANDO Y GUARDANDO EMAIL
+		$query9=operacionSQL("SELECT * FROM EmailConfirmados WHERE email='".trim($anuncio->anunciante_email)."'");
+		if (mysql_num_rows($query9)==0)
+			operacionSQL("INSERT INTO EmailConfirmados VALUES ('".$anuncio->anunciante_email."')");
+		
+		
 		//ALERTA NUEVA CIUDAD
 		$aux="SELECT * FROM ConfigListaCiudades WHERE ciudad='".$ciudad."'";
 		$query2=operacionSQL($aux);
 		if (mysql_num_rows($query2)==0)
 		{
-			//operacionSQL("INSERT INTO Temporal VALUES ('nueva_ciudad','".$ciudad."','','','')");
 			operacionSQL("UPDATE Anuncio SET status_general='Int_Ciu' WHERE id=".$anuncio->id);
 			echo "<script type='text/javascript'>
 				window.alert('Tu anuncio se encuentra en proceso de revisión');
@@ -39,3 +45,4 @@
 		</script>";
 	}
 ?>
+

@@ -3,11 +3,6 @@
 	
 	include "../lib/class.php";	
 	
-	$id_pais=verificaPais();
-	$pais=new Pais($id_pais);
-	
-	cookieSesion(session_id(),$_SERVER['HTTP_HOST']);			
-
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -42,7 +37,7 @@
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Mensaje</td>
-      <td><textarea name="comentario" cols="30" rows="7" id="comentario"></textarea></td>
+      <td><textarea name="comentario" cols="27" rows="7" id="comentario"></textarea></td>
     </tr>
     <tr>
       <td align="left" class="arial13Negro">Ingresa código</td>
@@ -62,12 +57,3 @@
 
 </body>
 </html>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-3308629-2");
-pageTracker._trackPageview();
-} catch(err) {}</script>
