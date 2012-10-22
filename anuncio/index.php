@@ -604,12 +604,21 @@ jQuery(document).ready(function($) {
 						$bloque.="id_categoria=".$hijos[$i]." OR ";
 				}
 				
-				$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND ".$bloque." AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
+				$query=operacionSQL("SELECT id FROM Conversacion WHERE status=1 AND ".$bloque);
 				
-				
+				$resul=array();
 				for ($i=0;$i<mysql_num_rows($query);$i++)
 				{
 					$conver=new Conversacion(mysql_result($query,$i,0));
+					$resul[$conver->id]=$conver->comentariosRecibidos();
+				}
+				
+				arsort($resul);
+			
+			$z=0;
+				foreach ($resul as $key => $val) 
+				{
+					$conver=new Conversacion($key);
 					$usuario=new Usuario($conver->id_usuario);
 					
 					if (($i%2)==0)
@@ -633,12 +642,16 @@ jQuery(document).ready(function($) {
 							</div>
 							
 							<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
-								<em>'.mysql_result($query,$i,1).' comentarios</em>
+								<em>'.$conver->comentariosRecibidos().' comentarios</em>
 							</div>
 							
 							</td>
 						  </tr>
 						</table>';
+					
+					$z++;
+					if ($z>6)
+						break;
 							
 				}
 				
