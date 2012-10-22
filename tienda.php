@@ -160,9 +160,8 @@
 <div align="center" style="margin-top:50px;">
   <table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
     <tr>
-      <td width="347" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio</b></a> &raquo;
+      <td align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio</b></a> &raquo;
         <a href="tiendas/" class="LinkFuncionalidad15"><b>Tiendas</b></a> &raquo;     <a href="<? echo $tienda->nick ?>/" class="LinkFuncionalidad15"><b><? echo $tienda->nombre ?></b></a></td>
-      <td width="653" align="right" valign="bottom">&nbsp;</td>
     </tr>
   </table>
 </div>
