@@ -77,6 +77,10 @@ jQuery(document).ready(function($) {
 
 <body>
 
+
+<div id="wrapper">
+ <div id="header">
+
 <div id="fb-root"></div>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
@@ -166,6 +170,13 @@ jQuery(document).ready(function($) {
     </tr>
   </table>
 </div>
+
+</div>
+
+
+<div id="content">
+
+
 <div style="visibility:hidden; display:none;">
 <img src="../img/bigrotation2.gif" width="32" height="32" ></div>
 <div align="center" style="margin-top:50px;">
@@ -209,8 +220,8 @@ jQuery(document).ready(function($) {
 
 </div>
 
-<div style="clear:both">
-<div style="width:650px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; margin-bottom:70px;">
+<div style="clear:both; display:table;">
+<div style="width:650px; float:left; background-color:#F4F9E8; border-style:solid; border-color:#999; border-width:1px; ">
 	<div id="contenedor_conversacion" style="padding:20px;">  
       <table width="620" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -334,41 +345,13 @@ jQuery(document).ready(function($) {
 </div>
 </div>
 
-<div style="margin:0 auto 0 auto; width:1000px;; margin-top:50px; padding-top:5px; margin-bottom:70px;" >
 
- <table width="230" border="0" cellspacing="0" cellpadding="0" style="float:left; margin-left:470px;">
-                    <tr>
-                      <td  height="25" class="arial11Negro" ><strong>Danos tu opini&oacute;n sobre Hispamercado</strong></td>
-                    </tr>
-                  </table>
-
-<table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
-                    <tr>
-                      <td width="30"><img src="../img/social-facebook-box-blue-icon.png" alt="" width="25" height="25" /></td>
-                      <td width="70"><strong><a class="LinkFuncionalidad" href="http://www.facebook.com/Hispamercado" target="_blank">Facebook</a></strong></td>
-                    </tr>
-                  </table>
-                  
-                  <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;" >
-                     <tr>
-                       <td width="30"><img src="../img/social-twitter-box-blue-icon.png" width="25" height="25" /></td>
-                       <td width="70"><strong><a class="LinkFuncionalidad" href="http://twitter.com/hispamercado" target="_blank">Twitter</a></strong></td>
-                     </tr>
-                   </table>
-                   
-                   <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
-                     <tr>
-                       <td width="30"><img src="../img/Email-icon.png" width="25" height="25"></td>
-                       <td width="70"><strong><a class="LinkFuncionalidad" href="mailto:info@hispamercado.com.ve">E-mail</a></strong></td>
-                     </tr>
-                   </table>
-	
 </div>
-<div style="margin:0 auto 0 auto; width:1000px; padding-left:40px; padding-right:40px; padding-top:10px; border-top:1px solid #77773C; clear:both; text-align:justify;"class="arial11Gris">
- <strong>En Hispamercado creemos que la compra y venta de productos y servicios es una experiencia social. Cuando queremos comprar o vender un producto solemos pedir la opini&oacute;n de amigos o familiares que pueden tener mas conocimientos sobre el tema. Con Hispamercado queremos llevar esa experiencia a Internet, no pretendemos ser un simple portal de clasificados en l&iacute;nea, queremos construir una comunidad de usuarios que interactuen alrededor de los anuncios. Anunciate en Hispamercado y comparte tus opiniones y dudas con la comunidad.</strong>
- </div>
 
-
+    	<div id="footer" style=" margin-top:80px;">
+        <? echo footer() ?> 
+	</div>
+</div>
 
 </body>
 </html>

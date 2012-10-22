@@ -237,6 +237,48 @@ function validarEmail($email)
 }
 
 
+function footer()
+{
+	$cadena='<div id="footer_social" style="margin:0 auto 0 auto; width:1000px;; margin-top:80px; padding-top:5px;" >
+
+ <table width="230" border="0" cellspacing="0" cellpadding="0" style="float:left; margin-left:480px;">
+                    <tr>
+                      <td  height="25" class="arial11Negro" ><strong>Danos tu opini&oacute;n sobre Hispamercado</strong></td>
+                    </tr>
+                  </table>
+
+<table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
+                    <tr>
+                      <td width="30"><img src="http://www.hispamercado.com.ve/img/social-facebook-box-blue-icon.png" alt="" width="25" height="25" /></td>
+                      <td width="70"><strong><a class="LinkFuncionalidad" href="http://www.facebook.com/Hispamercado" target="_blank">Facebook</a></strong></td>
+                    </tr>
+                  </table>
+                  
+                  <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;" >
+                     <tr>
+                       <td width="30"><img src="http://www.hispamercado.com.ve/img/social-twitter-box-blue-icon.png" width="25" height="25" /></td>
+                       <td width="70"><strong><a class="LinkFuncionalidad" href="http://twitter.com/hispamercado" target="_blank">Twitter</a></strong></td>
+                     </tr>
+                   </table>
+                   
+                   <table width="81" border="0" cellspacing="0" cellpadding="0" style="float:left;">
+                     <tr>
+                       <td width="30"><img src="http://www.hispamercado.com.ve/img/Email-icon.png" width="25" height="25"></td>
+                       <td width="51"><strong><a class="LinkFuncionalidad" href="mailto:info@hispamercado.com.ve">E-mail</a></strong></td>
+                     </tr>
+                   </table>
+	
+</div>
+
+
+<div id="footer_vision" style="margin:0 auto 0 auto; width:1000px; padding-left:40px; padding-right:40px; padding-top:15px; padding-bottom:15px; background-color:#77773C; clear:both; text-align:justify;" class="arial13Blanco">
+  En Hispamercado creemos que la compra y venta de productos y servicios es una experiencia social. Cuando queremos comprar o vender un producto solemos pedir la opini&oacute;n de amigos o familiares que pueden tener mas conocimientos sobre el tema. Con Hispamercado queremos llevar esa experiencia a Internet, no pretendemos ser un simple portal de clasificados en l&iacute;nea, queremos construir una comunidad de usuarios que interactuen alrededor de los anuncios. Anunciate en Hispamercado y comparte tus opiniones y dudas con la comunidad.
+</div>';
+
+
+	return $cadena;
+	
+}
 
 
 

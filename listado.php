@@ -395,6 +395,9 @@
 </head>
 <body>
 
+<div id="wrapper">
+ <div id="header">
+
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="/"><img src="img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
@@ -482,6 +485,10 @@
     </tr>
   </table>
 </div>
+</div>
+
+
+<div id="content">
 <div align="center" style="margin-top:50px;">
   <table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
     <tr>
@@ -512,11 +519,11 @@
     </tr>
   </table>
 </div>
-<div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1000px; clear:both">
+<div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1000px; display:table;">
   
   
   
-  <div style="width:324px; margin-right:15px; margin-top:23px; float:left; display:table;">
+  <div style="width:330px; margin-right:15px; margin-top:23px; float:left; display:table;">
 
 <?
 
@@ -1156,7 +1163,7 @@
 
 <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px; margin-top:20px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
 
-<div style="border-left:#999 1px solid; border-right:#999 1px solid; margin-bottom:70px;">
+<div style="border-left:#999 1px solid; border-right:#999 1px solid;">
         <?
 			if (isset($_GET['id_cat'])==false)
 				$query=operacionSQL("SELECT id_conversacion,COUNT(*) AS C FROM ConversacionComentario A, Conversacion B WHERE B.status=1 AND A.id_conversacion=B.id GROUP BY id_conversacion ORDER BY C DESC LIMIT 5");
@@ -1230,7 +1237,7 @@
 
   </div>
 
-<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:650px; float:left; display:table; ">
+<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:650px; float:left; display:table;">
   
   		
     
@@ -1240,59 +1247,73 @@
         
         <div align="right" style="margin-bottom:5px; padding-right:15px;" class="arial13Negro">
   		  <?
+		  
+	if (isset($anuncios))
+	{
 	
-	$primero=$factor*($parte-1);
-	$ultimo=$primero+$factor;
-	
-	if ($ultimo>count($anuncios))
-		$ultimo=count($anuncios);	
+		$primero=$factor*($parte-1);
+		$ultimo=$primero+$factor;
 		
-		
-	echo ($primero+1)." - ".$ultimo. " de ".count($anuncios);
+		if ($ultimo>count($anuncios))
+			$ultimo=count($anuncios);	
+			
+			
+		echo ($primero+1)." - ".$ultimo. " de ".count($anuncios);
 	
+	}
 	?>
   		</div>
         
         
         <div style="padding:8px; background-color:#D8E8AE;" align="left">
+        
+        <? 
+				if (isset($_GET['id_cat']))
+				{
+					$leyenda="¿Tienes algo que preguntar o decir sobre ".$categoria->nombre."?";
+				}
+				else
+					$leyenda="¿Tienes algo que preguntar o decir?";
+		
+		?>
 	
     
     	<form name="form1" method="post" action="conversaciones/publicar.php">
     
-	 <input name="titulo_conversacion" type="text" id="titulo_conversacion" maxlength="150" class="arial15Mostaza" style="width:440px; font-weight:bold;" value="¿Tienes algo que preguntar o decir sobre <? echo $categoria->nombre ?>?" onFocus="manejoConversa(this,'adentro','¿Tienes algo que preguntar o decir sobre <? echo $categoria->nombre ?>?')" onBlur="manejoConversa(this,'afuera','¿Tienes algo que preguntar o decir sobre <? echo $categoria->nombre ?>?')" > <input type="submit" name="button3" id="button3" value="Iniciar Conversación" class="arial15Negro" style="font-weight:bold;">
+	 <input name="titulo_conversacion" type="text" id="titulo_conversacion" maxlength="150" class="arial15Mostaza" style="width:440px; " value="<? echo $leyenda ?>" onFocus="manejoConversa(this,'adentro','<? echo $leyenda ?>')" onBlur="manejoConversa(this,'afuera','<? echo $leyenda ?>')" > <input type="submit" name="button3" id="button3" value="Iniciar Conversación" class="arial15Negro" style="font-weight:bold;">
      
      <input type="hidden" name="categoria_conversacion" id="categoria_conversacion" value="<? echo $categoria->id ?>">
     	</form>
 
 </div>   
   
-        <div style="display:table;">  
+        <div>  
           <?
-            $medio=intval(31/2);
-            for ($i=$primero;$i<$ultimo;$i++)
-            {		
-                if (($i%2)==0)
-                    $colorete="#F2F7E6";			
-                else
-                    $colorete="#FFFFFF";
-                
-               	$anuncio=new Anuncio($anuncios[$i]);
-                echo $anuncio->armarAnuncio($colorete);		
-            }
             
-            if (count($anuncios)==0)
-                echo "<table width='800' border='0' align='center' cellspacing='0'>
-                      <tr>
-                        <td align='center' class='arial13Gris'><b>no se encontraron resultados para tu b&uacute;squeda</b></td>
-                      </tr>
-                    </table>";
+			if (isset($anuncios))
+			{
+				$medio=intval(31/2);
+				for ($i=$primero;$i<$ultimo;$i++)
+				{		
+					if (($i%2)==0)
+						$colorete="#F2F7E6";			
+					else
+						$colorete="#FFFFFF";
+					
+					$anuncio=new Anuncio($anuncios[$i]);
+					echo $anuncio->armarAnuncio($colorete);		
+				}
+			}
+            
+			if (!(isset($anuncios)))	         
+    	        echo "<div class='arial13Gris' align='center' style='margin-top:20px;'><strong>no se encontraron resultados para tu b&uacute;squeda</strong></div>";
             
         ?>
         </div>
         
-        <div style=" margin-top:20px; margin-bottom:70px;" align="center">
+        <div style="margin-top:20px; " align="center">
           <?
-		
+	if (isset($anuncios))
 	if (count($anuncios)>0)
 	{			
 		$total=count($anuncios);
@@ -1349,56 +1370,28 @@
 			
 		}
 		
-		
+		if ( $parte < $to )
+			echo "<a href='".$actual."&parte=".($parte+1)."&factor=".$factor."' class='LinkFuncionalidad15'><strong>Siguiente >></strong></a>";	
+	
 	}
 	
-	if ( $parte < $to )
-		echo "<a href='".$actual."&parte=".($parte+1)."&factor=".$factor."' class='LinkFuncionalidad15'><strong>Siguiente >></strong></a>";
+	
 	
 	?></div>
         
 </div>
-
-
+</div>
 
 
 </div>
 
-
-
-<div style="margin:0 auto 0 auto; width:1000px;; margin-top:70px; padding-top:5px;" >
-
- <table width="230" border="0" cellspacing="0" cellpadding="0" style="float:left; margin-left:470px;">
-                    <tr>
-                      <td  height="25" class="arial11Negro" ><strong>Danos tu opini&oacute;n sobre Hispamercado</strong></td>
-                    </tr>
-                  </table>
-
-<table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
-                    <tr>
-                      <td width="30"><img src="img/social-facebook-box-blue-icon.png" alt="" width="25" height="25" /></td>
-                      <td width="70"><strong><a class="LinkFuncionalidad" href="http://www.facebook.com/Hispamercado" target="_blank">Facebook</a></strong></td>
-                    </tr>
-                  </table>
-                  
-                  <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;" >
-                     <tr>
-                       <td width="30"><img src="img/social-twitter-box-blue-icon.png" width="25" height="25" /></td>
-                       <td width="70"><strong><a class="LinkFuncionalidad" href="http://twitter.com/hispamercado" target="_blank">Twitter</a></strong></td>
-                     </tr>
-                   </table>
-                   
-                   <table width="100" border="0" cellspacing="0" cellpadding="0" style="float:left;">
-                     <tr>
-                       <td width="30"><img src="img/Email-icon.png" width="25" height="25"></td>
-                       <td width="70"><strong><a class="LinkFuncionalidad" href="mailto:info@hispamercado.com.ve">E-mail</a></strong></td>
-                     </tr>
-                   </table>
-	
+    	<div id="footer" >
+        <? echo footer() ?> 
+	</div>
 </div>
-<div style="margin:0 auto 0 auto; width:1000px; padding-left:40px; padding-right:40px; padding-top:10px; border-top:1px solid #77773C; clear:both; text-align:justify;"class="arial11Gris">
- <strong>En Hispamercado creemos que la compra y venta de productos y servicios es una experiencia social. Cuando queremos comprar o vender un producto solemos pedir la opini&oacute;n de amigos o familiares que pueden tener mas conocimientos sobre el tema. Con Hispamercado queremos llevar esa experiencia a Internet, no pretendemos ser un simple portal de clasificados en l&iacute;nea, queremos construir una comunidad de usuarios que interactuen alrededor de los anuncios. Anunciate en Hispamercado y comparte tus opiniones y dudas con la comunidad.</strong>
- </div>
+
+
+
 
 
 </body>
