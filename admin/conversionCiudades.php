@@ -2,7 +2,7 @@
 	include "../lib/class.php";
 	
 	
-	$query=operacionSQL("SELECT DISTINCT(ciudad) FROM Anuncio WHERE status_general='Activo'");
+	$query=operacionSQL("SELECT DISTINCT(ciudad) AS ciudad FROM Anuncio WHERE status_general='Activo' ORDER BY ciudad ASC");
 	
 	
 	
