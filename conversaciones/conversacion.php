@@ -182,11 +182,11 @@ jQuery(document).ready(function($) {
 <div align="center" style="margin-top:50px;">
 <table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
       <tr>
-        <td width="973" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; <a href="/" class="LinkFuncionalidad15"><b>Conversaciones</b></a><? $arbol=$cate->arbolDeHoja();
+        <td width="973" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; <a href="index.php" class="LinkFuncionalidad15"><b>Conversaciones</b></a><? $arbol=$cate->arbolDeHoja();
 		
 			for ($i=count($arbol)-1;$i>=0;$i--)
 			{
-				echo ' &raquo; <a href="" class="LinkFuncionalidad15"><b>'.$arbol[$i]['nombre'].'</b></a>';
+				echo ' &raquo; <a href="index.php?id_cat='.$arbol[$i]['id'].'" class="LinkFuncionalidad15"><b>'.$arbol[$i]['nombre'].'</b></a>';
 				
 				//echo $arbol[$i]['nombre']." - ";
 			}
