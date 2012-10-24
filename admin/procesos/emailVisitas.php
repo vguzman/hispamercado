@@ -38,11 +38,11 @@
 		
 		$mensaje='
 		<p>Hola fulano,</p>
-		<p>Este es el comportamiento de tus anuncios durante esta ultima semana:</p>
-			<table width="600" border="0" cellspacing="0" cellpadding="0" style="font-size:14px">
+		<p>Este es el comportamiento de tus anuncios durante esta ultima semana.</p>
+		<p><strong>Ahora Hispamercado te ofrece una nueva funcionalidad para que tengas una Tienda en linea y puedas promocionar tus productos y servicios de una manera mas efectiva.</strong></p>
+<table width="600" border="0" cellspacing="0" cellpadding="0" style="font-size:14px">
 			%anuncios%
 			</table>
-			<p>Recuerda que si tienes muchos productos o servicios que ofrecer puedes crear una Tienda en nuestro sitio.</p>
 			<p>  Muchas gracias por usar Hispamercado! </p>
 			<p>&nbsp;</p>
 			<p>----<br />
