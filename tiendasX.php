@@ -5,11 +5,11 @@
 	
 	
 	//PRIMERO SACO LOS USUARIOS DE LAS TIENDAS ACTIVAS
-	$query=operacionSQL("SELECT id_usuario FROM Tienda WHERE status=1");
+	/*$query=operacionSQL("SELECT id_usuario FROM Tienda WHERE status=1");
 	$user_sql="(";
 	for ($i=0;$i<mysql_num_rows($query);$i++)
 		$user_sql.="id_usuario=".mysql_result($query,$i,0)." OR ";
-	$user_sql.="id_usuario=0)";
+	$user_sql.="id_usuario=0)";*/
 	
 	
 	
@@ -176,7 +176,7 @@
     
     <div style="border:#999 1px solid; width:258px; border-top:0px; padding:10px; background-color:#F4F9E8;">
 	<?
-			$padres=array();
+			/*$padres=array();
 			
 			$query=operacionSQL("SELECT id FROM Categoria WHERE id_categoria IS NULL");
 			for ($i=0;$i<mysql_num_rows($query);$i++)
@@ -245,9 +245,7 @@
 					
 					
 				}
-				
-				
-			}
+			}*/
 
 			
 	
@@ -258,7 +256,7 @@
     
     	<?
 		
-				if (isset($_GET['cat']))
+				/*if (isset($_GET['cat']))
 				{
 					$cate_anuncio=new Categoria($_GET['cat']);
 					$hijos=$cate_anuncio->hijos();
@@ -315,7 +313,7 @@
 						
 					
 				
-				}
+				}*/
 			
 		
 		?>
