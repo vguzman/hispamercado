@@ -1,8 +1,11 @@
 <?
+	set_time_limit(0);
+	
 	include "../../lib/class.php";
 	
 	
-	$z=0;	$datos=array();
+	$z=0;	
+	$datos=array();
 	$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita GROUP BY id_anuncio ORDER BY C DESC");
 	for ($i=0;$i<mysql_num_rows($query);$i++)
 	{
@@ -13,19 +16,18 @@
 		if ($cuenta<5)
 			break;
 		
-		
-		
 		$query2=operacionSQL("SELECT id FROM Anuncio WHERE id=".$id_anuncio);
 		if (mysql_num_rows($query2)>0)
 		{
 			
 			$anuncio=new Anuncio($id_anuncio);
+			$email=strtolower(trim($anuncio->anunciante_email));
 			
-			if (validarEmail($anuncio->anunciante_email)==1)
-				if (isset($datos[$anuncio->anunciante_email])==false)
-					$datos[$anuncio->anunciante_email]=$cuenta;
+			if (validarEmail($email)==1)
+				if (isset($datos[$email])==false)
+					$datos[$email]=$cuenta;
 				else
-					$datos[$anuncio->anunciante_email]=$datos[$anuncio->anunciante_email]+$cuenta;
+					$datos[$email]=$datos[$email]+$cuenta;
 		}
 		
 	}
@@ -33,11 +35,10 @@
 	$z=1;
 	foreach ( $datos as $doc => $docinfo )
 	{	
-		//echo $z.") ".$doc." - ".$docinfo."<br>";
 		$z++;
+		echo $z.") ".$doc." - ".$docinfo."<br>";
 		
-		$mensaje='
-		<p>Hola fulano,</p>
+		$mensaje='p>Hola fulano,</p>
 		<p>Este es el comportamiento de tus anuncios durante esta ultima semana.</p>
 		<p><strong>Ahora Hispamercado te ofrece una nueva funcionalidad para que tengas una Tienda en linea y puedas promocionar tus productos y servicios de una manera mas efectiva.</strong></p>
 <table width="600" border="0" cellspacing="0" cellpadding="0" style="font-size:14px">
@@ -51,7 +52,7 @@
 		
 		
 		
-		$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND trim(B.anunciante_email)='".trim($doc)."' GROUP BY id_anuncio ORDER BY C DESC");
+		$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND LOWER(trim(B.anunciante_email))='".$doc."' GROUP BY id_anuncio ORDER BY C DESC");
 		$texto='';
 		for ($i=0;$i<mysql_num_rows($query);$i++)
 		{
@@ -66,9 +67,14 @@
 		$mensaje=str_replace("fulano",$anuncio->anunciante_nombre,$mensaje);
 		$mensaje=str_replace("%anuncios%",$texto,$mensaje);
 		
-		email("Hispamercado","info@hispamercado.com.ve",$anuncio->anunciante_nombre,$anuncio->anunciante_email,"Has recibido ".$docinfo." visitas esta semana en tus anuncios",$mensaje);
-		/*if ($z>20)
-			break;*/
+		
+		echo $mensaje;
+		echo "<br><br><br><br>";
+		
+		
+		//echo $anuncio->anunciante_email."<br>";
+		
+		//email("Hispamercado","info@hispamercado.com.ve",$anuncio->anunciante_nombre,$doc,"Has recibido ".$docinfo." visitas esta semana en tus anuncios",$mensaje);*/
 		
 	}
 	
