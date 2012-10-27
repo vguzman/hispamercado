@@ -5,11 +5,11 @@
 	
 	
 	//PRIMERO SACO LOS USUARIOS DE LAS TIENDAS ACTIVAS
-	/*$query=operacionSQL("SELECT id_usuario FROM Tienda WHERE status=1");
+	$query=operacionSQL("SELECT id_usuario FROM Tienda WHERE status=1");
 	$user_sql="(";
 	for ($i=0;$i<mysql_num_rows($query);$i++)
 		$user_sql.="id_usuario=".mysql_result($query,$i,0)." OR ";
-	$user_sql.="id_usuario=0)";*/
+	$user_sql.="id_usuario=0)";
 	
 	
 	
@@ -169,94 +169,105 @@
 <div style="margin-top:30px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
-    <td width="300" valign="top">
+    <td width="300" valign="top"><?
 	
-	<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:273px; border:#999 1px solid; border-bottom:0px;"><strong><span class="arial15Negro">Categor&iacute;as</span></strong></div>
-	
-    
-    <div style="border:#999 1px solid; width:258px; border-top:0px; padding:10px; background-color:#F4F9E8;">
-	<?
-			/*$padres=array();
+	if (isset($_GET['cat'])==false)
+	{
+		echo '<div style="margin-bottom:30px; width:280px;">
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Categor&iacute;as</strong></div>
+			<div style="border:#999 1px solid; border-top:0px; background-color:#F4F9E8; padding-top:10px; padding-left:10px;">';
+		
+		$query=operacionSQL("SELECT id FROM Categoria WHERE id_categoria IS NULL ORDER BY orden ASC");
+		for ($i=0;$i<mysql_num_rows($query);$i++)
+		{
+			$cate=new Categoria(mysql_result($query,$i,0));
 			
-			$query=operacionSQL("SELECT id FROM Categoria WHERE id_categoria IS NULL");
-			for ($i=0;$i<mysql_num_rows($query);$i++)
-				$padres[mysql_result($query,$i,0)]=0;			
+			$hijos=$cate->hijos();
+				
+			$aux="SELECT COUNT(*) FROM Anuncio WHERE status_general='Activo' AND (";
+			for ($e=0;$e<count($hijos);$e++)
+				if ((count($hijos)-1)==$e)
+					$aux.="id_categoria=".$hijos[$e].") ";
+				else
+					$aux.="id_categoria=".$hijos[$e]." OR ";
+			$aux.=" AND ".$user_sql;
 			
 			
-			$aux="SELECT id_categoria FROM Anuncio WHERE status_general='Activo' AND ".$user_sql;
-			//echo "<br><br>";
-			$query=operacionSQL($aux);
-			for ($i=0;$i<mysql_num_rows($query);$i++)
+			
+			//echo $aux."<br><br><br>";
+			
+			
+			$query2=operacionSQL($aux);
+			if (mysql_result($query2,0,0)!="0")
+				echo '<div style="margin-bottom:5px; ">&raquo; <a href="tiendas/'.$cate->id.'/" class="LinkFuncionalidad12">'.$cate->nombre.'</a></div>';
+			
+		}
+		
+		echo '</div></div>';
+		
+		
+		
+	}
+	else
+	{
+		$cate1=new Categoria($_GET['cat']);
+		
+		if ($cate1->esPadre()==false)	
+			$url="tiendas/".$cate1->padre()."/";
+		else
+			$url="tiendas/";
+		
+		
+		echo '<div style="margin-bottom:20px; width:280px;" class="arial12Gris">
+				<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid;" class="arial15Negro"><strong></strong>';
+				
+		echo "<strong>Categor&iacute;a: ".$cate1->nombre." <a href='".$url."'><img src='../img/delete-icon.png' width='15' height='15' alt='Eliminar filtro' border='0'></a></strong></div></div>";
+				
+		
+		
+		
+		if ($cate1->esHoja()==false)
+		{
+			echo '<div style="margin-bottom:30px; width:280px;">
+			<div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; border:#999 1px solid; border-bottom:0px;" class="arial15Negro"><strong>Categor&iacute;as</strong></div>
+			<div style="border:#999 1px solid; border-top:0px; padding:10px; background-color:#F4F9E8;">';
+			
+			$inmediatos=$cate1->hijosInmediatos();
+			
+			
+			for ($i=0;$i<count($inmediatos);$i++)
 			{
-				$cate=new Categoria(mysql_result($query,$i,0));
-				$padres[$cate->patriarca()]=$padres[$cate->patriarca()]+1;
+				
+				$cate=new Categoria($inmediatos[$i]);			
+				$hijos=$cate->hijos();
+					
+				$aux="SELECT COUNT(*) FROM Anuncio WHERE status_general='Activo' AND (";
+				for ($e=0;$e<count($hijos);$e++)
+					if ((count($hijos)-1)==$e)
+						$aux.="id_categoria=".$hijos[$e].") ";
+					else
+						$aux.="id_categoria=".$hijos[$e]." OR ";
+				$aux.=" AND ".$user_sql;
+				
+				$query2=operacionSQL($aux);
+				if (mysql_result($query2,0,0)!="0")
+					echo '<div style="margin-bottom:5px;">&raquo; <a href="tiendas/'.$cate->id.'/" class="LinkFuncionalidad12">'.$cate->nombre.'</a></div>';
 			}
-			
-			arsort($padres);
-			foreach($padres as $indice => $valor) 
-			{
-				$cate=new Categoria($indice);
-				if ($valor>0)
-					if (isset($_GET['cat']))
-						if ($_GET['cat']==$cate->id)
-							echo "<div style='padding-bottom:5px; padding-top:5px;' class='arial13Negro'><strong>".$cate->nombre." (".$valor.")</strong></div>";
-						else
-							echo "<div style='padding-bottom:5px; padding-top:5px;'><a href='tiendas/".$cate->id."/' class='LinkFuncionalidad13'><strong>".$cate->nombre." (".$valor.")</strong></a></div>";
-					else
-						echo "<div style='padding-bottom:5px; padding-top:5px;'><a href='tiendas/".$cate->id."/' class='LinkFuncionalidad13'><strong>".$cate->nombre." (".$valor.")</strong></a></div>";
-			
-			
 				
-				$hijos=$cate->hijosInmediatos();
-				
-				for ($i=0;$i<count($hijos);$i++)
-				{
-					$subcate=new Categoria($hijos[$i]);
-					if ($subcate->esHoja()==true)
-					{
-						$query=operacionSQL("SELECT count(*) FROM Anuncio WHERE status_general='Activo' AND id_categoria=".$subcate->id." AND ".$user_sql);
-						$suma=mysql_result($query,0,0);
-						
-						
-					
-					
-					}
-					else
-					{
-						$subhijos=$subcate->hijosInmediatos();
-						$suma=0;
-						for ($e=0;$e<count($subhijos);$e++)
-						{
-							$query=operacionSQL("SELECT count(*) FROM Anuncio WHERE status_general='Activo' AND id_categoria=".$subhijos[$e]." AND ".$user_sql);
-							$suma=$suma+mysql_result($query,0,0);
-						}
-					}
-					
-					
-					if ($suma>0)
-						if (isset($_GET['cat']))
-							if ($_GET['cat']==$subcate->id)
-								echo '<div style="padding-left:10px; padding-bottom:5px; padding-top:5px;">&raquo; <span class="arial13Negro">'.$subcate->nombre.' ('.$suma.')</span></div>';
-							else			
-								echo '<div style="padding-left:10px; padding-bottom:5px; padding-top:5px;">&raquo; <a href="tiendas/'.$subcate->id.'/" class="LinkFuncionalidad13">'.$subcate->nombre.' ('.$suma.')</a></div>';
-							else
-								echo '<div style="padding-left:10px; padding-bottom:5px; padding-top:5px;">&raquo; <a href="tiendas/'.$subcate->id.'/" class="LinkFuncionalidad13">'.$subcate->nombre.' ('.$suma.')</a></div>';
-					
-					
-					
-				}
-			}*/
+			echo '</div></div>';
+		}
+		
+		
+	}
 
-			
-	
-	?>
-    </div>
-    </td>
+
+
+?></td>
     <td width="700" valign="top">
     
     	<?
 		
-				/*if (isset($_GET['cat']))
+				if (isset($_GET['cat']))
 				{
 					$cate_anuncio=new Categoria($_GET['cat']);
 					$hijos=$cate_anuncio->hijos();
@@ -292,8 +303,7 @@
 					$tienda=new Tienda(mysql_result($query2,0,0));
 					
 					
-					echo '
-				<div style="margin-bottom:20px;">
+					echo '<div style="margin-bottom:20px;">
 					<div class="arial15Negro" style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:15px; padding-right:15px; border:#999 1px solid; border-bottom:0px;">
 							<strong>'.$tienda->nombre.'</strong>
 							
@@ -308,12 +318,11 @@
 						  </tr>
 						</table>       
 					</div>
-				</div>	
-					';
+				</div>';
 						
 					
 				
-				}*/
+				}
 			
 		
 		?>
