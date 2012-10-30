@@ -1,9 +1,15 @@
 <?
 	set_time_limit(0);
 	
+	if ($_GET['hash']!="conejitoblanco")
+		exit;
+	
+	
 	include "../../lib/class.php";
 	
+	email("Hispamercado","info@hispamercado.com.ve","Victor Guzman","vmgafrm@gmail.com","Ejecutando email de visitas","Hola mundo!");
 	
+	/*
 	$z=0;	
 	$datos=array();
 	$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita GROUP BY id_anuncio ORDER BY C DESC");
@@ -38,7 +44,7 @@
 		$z++;
 		echo $z.") ".$doc." - ".$docinfo."<br>";
 		
-		$mensaje='p>Hola fulano,</p>
+		$mensaje='<p>Hola fulano,</p>
 		<p>Este es el comportamiento de tus anuncios durante esta ultima semana.</p>
 		<p><strong>Ahora Hispamercado te ofrece una nueva funcionalidad para que tengas una Tienda en linea y puedas promocionar tus productos y servicios de una manera mas efectiva.</strong></p>
 <table width="600" border="0" cellspacing="0" cellpadding="0" style="font-size:14px">
@@ -76,7 +82,9 @@
 		
 		//email("Hispamercado","info@hispamercado.com.ve",$anuncio->anunciante_nombre,$doc,"Has recibido ".$docinfo." visitas esta semana en tus anuncios",$mensaje);*/
 		
-	}
+	//}
+	
+	
 	
 	
 ?>

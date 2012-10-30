@@ -5,7 +5,9 @@
 	
 	$pre_email="";
 	$pre_nombre="";
-	//CASOS USUARIO REGISTRADO
+	
+	
+	/*//CASOS USUARIO REGISTRADO
 	if ($sesion!=false)
 	{
 		$usuario=new Usuario($sesion);
@@ -21,7 +23,7 @@
 			</SCRIPT>";
 		
 		exit;
-	}
+	}*/
 	
 	
 	$pre_titulo="";
@@ -221,7 +223,50 @@ jQuery(document).ready(function($) {
 
 <div style=" margin-top:40px;">
 <form name="Forma" method="post" action="publicar2.php">
-  <div style="border:#999 1px solid; width:970px; margin:0 auto 0 auto; padding:15px; background-color:#F4F9E8;">
+
+ <? 
+ 
+ 
+ $display_conversacion="";
+ $display_registro="";
+ if ($sesion!=false) 
+ {
+	$display_registro='display:none' ;
+ 	$display_conversacion="";
+ }
+else
+{
+	$display_conversacion='display:none' ;
+	$display_registro="";
+}
+ 
+ ?>
+
+
+<div style="border:#999 1px solid; width:970px; margin:0 auto 0 auto; padding:15px; background-color:#F4F9E8; <? echo $display_registro ?>">
+<table width="900" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td width="688" class="arial15Negro">Estimado usuario, para iniciar una conversación necesitas estar registrado en Hispamercado<br>
+    Para registrarte  solo debes acceder a tu cuenta Facebook. Te tomará menos de 1 minuto!</td>
+    <td width="212">
+    
+    	<div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat; " align="left">
+          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
+        </div>
+        <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
+    
+    </td>
+  </tr>
+</table>
+
+</div>
+
+
+
+
+
+
+  <div style="border:#999 1px solid; width:970px; margin:0 auto 0 auto; padding:15px; background-color:#F4F9E8; <? echo $display_conversacion ?>">
     
     
     
