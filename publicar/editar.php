@@ -219,6 +219,7 @@
 
 	
 	$anuncio->metainformacion();
+	$anuncio->revisarCiudad();
 	
 	
 	echo "<script type='text/javascript'>

@@ -753,6 +753,26 @@ class Anuncio
 		operacionSQL("UPDATE Anuncio_Info SET fecha_inactivo=CURDATE() WHERE id_anuncio=".$this->id);
 		operacionSQL("UPDATE Anuncio SET status_general='Inactivo', status_revision='".$revision."' WHERE id=".$this->id);
 	}
+	
+	
+	
+	
+	function revisarCiudad()
+	{
+		$ciudad=$this->ciudad;
+		
+		
+		$aux="SELECT ciudad FROM ConfigListaCiudades WHERE trim(ciudad)='".trim($ciudad)."'";
+		$query=operacionSQL($aux);
+		if (mysql_num_rows($query)==0)
+		{
+			operacionSQL("UPDATE Anuncio SET status_general='Int_Ciu' WHERE id=".$this->id);
+		}
+	}
+	
+	
+	
+	
 }
 
 

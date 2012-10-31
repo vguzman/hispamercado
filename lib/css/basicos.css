@@ -142,3 +142,9 @@ a.LinkmiCuentaMenu:hover {font-family: Arial, Helvetica, sans-serif; font-size:1
 
 .LinkMostaza15 {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#77773C; text-decoration:none;}
 a.LinkMostaza15:hover {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#77773C; text-decoration:underline;}
+
+.LinkMostaza13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#77773C; text-decoration:none;}
+a.LinkMostaza13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#F90;}
+
+.LinkRojo13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#F00; text-decoration:none;}
+a.LinkRojo13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#F90; text-decoration:none;}

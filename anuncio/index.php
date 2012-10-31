@@ -32,9 +32,17 @@
 	$id_anuncio=$_GET['id'];	
 	$anuncio=new Anuncio($id_anuncio);
 	
-	
-	if (($anuncio->status_general!="Activo")&&($anuncio->status_general!="Verificar"))
+	if ($anuncio->status_general=="Inactivo")
 		echo "<SCRIPT LANGUAGE='JavaScript'>		
+					document.location.href='../index.php';			
+				</SCRIPT>";
+	if ($anuncio->status_general=="Verificar")
+		echo "<SCRIPT LANGUAGE='JavaScript'>
+					document.location.href='../index.php';			
+				</SCRIPT>";
+	if ($anuncio->status_general=="Int_Ciu")
+		echo "<SCRIPT LANGUAGE='JavaScript'>
+					window.alert('Este anuncio se encuentra bajo revision');		
 					document.location.href='../index.php';			
 				</SCRIPT>";
 	

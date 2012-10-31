@@ -174,6 +174,16 @@
             <input name="email" type="text" id="email" size="60" style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">  <input type="button" name="Submit2" value="Gestionar anuncios" style="font-family:Arial, Helvetica, sans-serif; font-size:13px;" onClick="procesar()">
           </td>
 	</tr>
+	<?
+      		if ($sesion==false)
+				echo '
+				<tr>
+	  <td align="center" class="arial13Negro" style="padding:15px; border-top-width:1px; border-top-style:dashed; border-color:#999;">
+				<a href="beneficiosRegistro.php?state='.$_SESSION['state'].'" rel="facebox" class="LinkRojo13"><strong>Conoce los beneficios de registrarte en Hispamercado</strong></a>
+				</td>
+	  </tr>';
+	  ?>
+	  
 </table>
 </form>
 </div>

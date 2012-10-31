@@ -310,6 +310,10 @@
 	
 	
 	$enlace="http://www.hispamercado.com.ve/".$anuncio->armarEnlace();
+	
+	
+	
+	$anuncio->revisarCiudad();
 
 ?>
 

@@ -593,6 +593,9 @@ theme_advanced_resizing : true,
 			
 			
 			}
+			else
+				if ($sesion==false)
+					echo '<a href="../beneficiosRegistro.php?state='.$_SESSION['state'].'" rel="facebox" class="LinkRojo13"><strong>Conoce los beneficios de registrarte en Hispamercado</strong></a>';
 		?>
         
         
