@@ -61,14 +61,14 @@
 		
 	}
 	
-	if (isset($_POST['titulo_conversacion']))
+	if (isset($_GET['titulo_conversacion']))
 	{
-		$pre_titulo=$_POST['titulo_conversacion'];
+		$pre_titulo=$_GET['titulo_conversacion'];
 		
-		$categoria_conversacion=new Categoria($_POST['categoria_conversacion']);
+		$categoria_conversacion=new Categoria($_GET['categoria_conversacion']);
 		
 		if ($categoria_conversacion->esHoja()==true)
-			$pre_cate='onLoad="armarCategoria('.$_POST['categoria_conversacion'].')"';
+			$pre_cate='onLoad="armarCategoria('.$_GET['categoria_conversacion'].')"';
 	}
 	
 	
@@ -247,7 +247,7 @@ else
 <table width="900" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
     <td width="688" class="arial15Negro">Estimado usuario, para iniciar una conversación necesitas estar registrado en Hispamercado<br>
-    Para registrarte  solo debes acceder a tu cuenta Facebook. Te tomará menos de 1 minuto!</td>
+    Puedes registrarte usando tu cuenta de Facebook. Te tomará menos de 1 minuto!</td>
     <td width="212">
     
     	<div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat; " align="left">
@@ -305,11 +305,11 @@ else
     <tr>
       <td align="left" class="arial13Negro"> T&iacute;tulo <span class="arial13Rojo">*</span></td>
       <td align="left"><input name="titulo" type="text" id="titulo" value="<? echo $pre_titulo ?>" size="100" maxlength="150" ><br />
-        <span class="arial13Gris">¡Haz una pregunta o una afirmación sobre el tema de tu inter&eacute;s!</span></td>
+        <span class="arial13Gris">¡Haz una pregunta o comentario sobre el tema de tu inter&eacute;s!</span></td>
     </tr>
     <tr>
       <td width="154" align="left" valign="top" class="arial13Negro">Descripci&oacute;n (<em>opcional</em>)</td>
-      <td width="776" align="left"><textarea name="content" cols="77" rows="5" id="content"><? echo $pre_descripcion ?></textarea><br />
+      <td width="776" align="left"><textarea name="content" cols="77" rows="3" id="content"><? echo $pre_descripcion ?></textarea><br />
 	  <span class="arial13Gris">Si con el título de la conversación se entiende tu idea puedes dejar este campo vacío</span></td>
     </tr>
     </table>

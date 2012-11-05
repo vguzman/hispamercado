@@ -1285,17 +1285,17 @@
         <? 
 				if (isset($_GET['id_cat']))
 				{
-					$leyenda="¿Tienes algo que preguntar o decir sobre ".$categoria->nombre."?";
+					$leyenda="Pregunta o comparte con nuestra comunidad sobre ".$categoria->nombre;
 				}
 				else
-					$leyenda="¿Tienes algo que preguntar o decir?";
+					$leyenda="Comparte con nuestra comunidad sobre el tema que quieras";
 		
 		?>
 	
     
-    	<form name="form1" method="post" action="conversaciones/publicar.php">
+    	<form name="form1" method="get" action="conversaciones/publicar.php">
     
-	 <input name="titulo_conversacion" type="text" id="titulo_conversacion" maxlength="150" class="arial15Mostaza" style="width:440px; " value="<? echo $leyenda ?>" onFocus="manejoConversa(this,'adentro','<? echo $leyenda ?>')" onBlur="manejoConversa(this,'afuera','<? echo $leyenda ?>')" > <input type="submit" name="button3" id="button3" value="Iniciar Conversación" class="arial15Negro" style="font-weight:bold;">
+	 <input name="titulo_conversacion" class="arial15Negro" type="text" id="titulo_conversacion" maxlength="150" value="<? echo $leyenda ?>" onFocus="manejoConversa(this,'adentro','<? echo $leyenda ?>')" onBlur="manejoConversa(this,'afuera','<? echo $leyenda ?>')" style="width:520px; font-weight:bold;" > <input type="submit" name="button3" id="button3" value="Compartir" class="arial15Negro" style="font-weight:bold;">
      
      <input type="hidden" name="categoria_conversacion" id="categoria_conversacion" value="<? echo $categoria->id ?>">
     	</form>
