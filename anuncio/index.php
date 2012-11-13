@@ -603,7 +603,7 @@ jQuery(document).ready(function($) {
 			if ((($anuncio->id_categoria>=3)&&($anuncio->id_categoria<=10))||($anuncio->id_categoria==3794))
 				$ciudad=$anuncio->ciudad;
 			else
-				$ciudad=="NO";
+				$ciudad="NO";
 			
 			$resul=buscarSphinx($anuncio->titulo,$anuncio->id_categoria,"NO",$ciudad,"NO","NO","NO","NO","NO","ANY","REL");
 			$anuncios=$resul['anuncios'];
