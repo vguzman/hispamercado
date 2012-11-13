@@ -2,6 +2,8 @@
 
 function operacionSQL($aux)
 {
+	//echo "<br><br>".$aux."<br><br>";
+	
 	$link=mysql_connect ("localhost","hispamercado","h1sp@merc@do") or die ('I cannot connect to the database because: ' . mysql_error());
 	mysql_select_db ("hispamercado"); 
 	

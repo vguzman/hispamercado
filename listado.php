@@ -288,7 +288,7 @@
 			$anio="NO";
 			
 			
-		$resul=buscarSphinx(trim($_GET['buscar']),$cat_busqueda,$tipo,$ciudad,$m2,$hab,$marca,$modelo,$anio,"ALL");			
+		$resul=buscarSphinx(trim($_GET['buscar']),$cat_busqueda,$tipo,$ciudad,$m2,$hab,$marca,$modelo,$anio,"ALL","ORG");			
 		
 		$anuncios=$resul['anuncios'];
 		

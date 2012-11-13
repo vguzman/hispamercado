@@ -597,79 +597,54 @@ jQuery(document).ready(function($) {
       </td>
       <td width="300" valign="top">
       
-      <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Conversaciones mas activas</span></strong></div>
+      <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Anuncios relacionados</span></strong></div>
       <div style="width:300px; margin-left:20px; ">
       	<?
-				$cate=new Categoria($anuncio->id_categoria);
-				$hijos=$cate->hijos();
+			$resul=buscarSphinx($anuncio->titulo,$anuncio->id_categoria,"NO","NO","NO","NO","NO","NO","NO","ANY","REL");
+			$anuncios=$resul['anuncios'];
 				
-				$bloque="(";
-				for ($i=0;$i<count($hijos);$i++)
-				{
-					if ((count($hijos)-1)==$i)
-						$bloque.="id_categoria=".$hijos[$i].") ";
-					else
-						$bloque.="id_categoria=".$hijos[$i]." OR ";
-				}
 				
-				$query=operacionSQL("SELECT id FROM Conversacion WHERE status=1 AND ".$bloque);
+			if (count($anuncios)>8)
+				$top=8;
+			else
+				$top=count($anuncios);
+			for ($i=0;$i<$top;$i++)
+			{
+				$anuncio_aux=new Anuncio($anuncios[$i]);
 				
-				$resul=array();
-				for ($i=0;$i<mysql_num_rows($query);$i++)
-				{
-					$conver=new Conversacion(mysql_result($query,$i,0));
-					$resul[$conver->id]=$conver->comentariosRecibidos();
-				}
+				if (($i%2)==0)
+					$colorete="#FFFFFF";			
+				else
+					$colorete="#F2F7E6";
 				
-				arsort($resul);
-			
-			$z=0;
-				foreach ($resul as $key => $val) 
-				{
-					$conver=new Conversacion($key);
-					$usuario=new Usuario($conver->id_usuario);
-					
-					if (($i%2)==0)
-						$colorete="#FFFFFF";			
-					else
-						$colorete="#F2F7E6";
-					
-					
-					echo '<table width="305" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#C8C8C8 1px solid; background-color:'.$colorete.'; ">
-						  <tr>
-							<td width="50" align="center">
-							<a href="../'.$conver->armarEnlace().'" target="_blank">
-								
-								<img src="https://graph.facebook.com/'.$usuario->fb_nick.'/picture" border=0 alt="'.$conver->titulo.'" title="'.$conver->titulo.'" width="30" heigth="30" /> 
-							</a>
-							</td>
-							<td width="255" style="padding-bottom:5px; padding-top:5px;">
-							
-							<div>
-								<a href="../'.$conver->armarEnlace().'" class="tituloAnuncioChico" target="_blank">'.(substr($conver->titulo,0,150)).'</a>
-							</div>
-							
-							<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
-								<em>'.$conver->comentariosRecibidos().' comentarios</em>
-							</div>
-							
-							</td>
-						  </tr>
-						</table>';
-					
-					$z++;
-					if ($z>6)
-						break;
-							
-				}
+				if ($anuncio_aux->id!=$anuncio->id)
+					echo '<table width="305" height="70" border="0" cellspacing="0" cellpadding="0" style="border-bottom:#C8C8C8 1px solid; background-color:'.$colorete.';">
+					  <tr>
+						<td width="78" align="center">
+						<a href="../'.$anuncio_aux->armarEnlace().'" target="_blank">
+							<img src="../lib/img.php?tipo=mini&anuncio='.$anuncio_aux->id.'&foto=1" border=0 alt="'.$anuncio_aux->titulo.'" title="'.$anuncio_aux->titulo.'"> </img>
+						</a>
+						</td>
+						<td width="227" style="padding-bottom:5px; padding-top:5px;">
+						
+						<div>
+							<a href="../'.$anuncio_aux->armarEnlace().'" class="tituloAnuncioChico" target="_blank">'.ucwords(strtolower(substr($anuncio_aux->titulo,0,150))).'</a>
+						</div>
+						
+						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
+							<em>'.$anuncio_aux->visitas().' visitas</em>
+						</div>
+						
+						</td>
+					  </tr>
+					</table>';		
+				
+			}	
+				
+				
 				
 		?>
-        <table width="305" border="0" cellspacing="0" cellpadding="0" style="background-color:#F2F7E6; border-bottom:#C8C8C8 1px solid;">
-	<tr>
-		<td align="center" style="padding-bottom:10px; padding-top:10px; "><a href="../conversaciones/publicar.php" class="LinkFuncionalidad17" target="_blank">
-        <strong><< Iniciar Conversación >></strong></a></td>
-	</tr>
-	</table>
+        
       </div>
       
       </td>

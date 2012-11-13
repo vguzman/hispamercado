@@ -264,7 +264,7 @@ jQuery(document).ready(function($) {
 <div style="border-left:#999 1px solid; border-right:#999 1px solid;">
         
         <?
-			$resul=buscarSphinx($conver->titulo,$conver->id_categoria,"NO","NO","NO","NO","NO","NO","NO","ANY");
+			$resul=buscarSphinx($conver->titulo,$conver->id_categoria,"NO","NO","NO","NO","NO","NO","NO","ANY","REL");
 			$anuncios=$resul['anuncios'];
 				
 			if (count($resul)==0)
@@ -317,7 +317,7 @@ jQuery(document).ready(function($) {
 						</div>
 						
 						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
-							<em>'.mysql_result($query,$i,1).' visitas</em>
+							<em>'.$anuncio->visitas.' visitas</em>
 						</div>
 						
 						</td>

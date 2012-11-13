@@ -4,17 +4,19 @@
 	
 	
 	
-	function buscarSphinx($criterio,$categoria,$tipo_categoria,$ciudad,$superficie,$habitacion,$marca,$modelo,$anio,$match)
+	function buscarSphinx($criterio,$categoria,$tipo_categoria,$ciudad,$superficie,$habitacion,$marca,$modelo,$anio,$match,$tipo)
 	{
 		
 		$tiempo_inicio = microtime(true);
 		
 		//GUARDANDO INFO DE BUSQUEDA
-		$sesion=session_id();
-		$query=operacionSQL("SELECT * FROM Busqueda WHERE id_sesion='".$sesion."' AND termino_busqueda='".trim($criterio)."'");
-		if (mysql_num_rows($query)==0)
-			operacionSQL("INSERT INTO Busqueda VALUES ('".$sesion."','".trim($criterio)."',NOW())");
-		
+		if ($tipo!="REL")
+		{
+			$sesion=session_id();
+			$query=operacionSQL("SELECT * FROM Busqueda WHERE id_sesion='".$sesion."' AND termino_busqueda='".trim($criterio)."'");
+			if (mysql_num_rows($query)==0)
+				operacionSQL("INSERT INTO Busqueda VALUES ('".$sesion."','".trim($criterio)."',NOW())");
+		}
 		
 		
 		//PREPARANDO EL TERMINO PARA LA BUSQUEDA
