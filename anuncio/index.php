@@ -293,7 +293,7 @@ jQuery(document).ready(function($) {
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
 
     <tr>
-      <td width="700">
+      <td width="700" valign="top">
       
       		  <table width="700" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:0px; margin-top:40px;">
       <tr>
