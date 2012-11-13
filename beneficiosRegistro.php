@@ -26,25 +26,25 @@
       <td>Podrás editar/eliminar tus anuncios y conversaciones de una manera mas cómoda y fácil</td>
     </tr>
     <tr>
-      <td align="center"><img src="http://www.hispamercado.com.ve/img/beneficio_anuncio.jpg" width="357" height="272" /></td>
+      <td align="center">&nbsp;</td>
     </tr>
     <tr>
       <td style="padding-top:10px;">Podrás registrar una tienda en Hispamercado con tu propia direccion Web para que tus clientes accedan facilmente a todos tus anuncions</td>
     </tr>
     <tr>
-      <td align="center"><img src="http://www.hispamercado.com.ve/img/beneficio_tienda.jpg" width="359" height="266" /></td>
+      <td align="center">&nbsp;</td>
     </tr>
     <tr>
       <td style="padding-top:10px;">Podrás configurar tu cuenta para que todos los anuncios o conversaciones que publiques se conpartan automáticamente en tu cuenta de Facebook</td>
     </tr>
     <tr>
-      <td style="padding-top:10px;" align="center"><img src="http://www.hispamercado.com.ve/img/beneficio_social.jpg" width="359" height="133" /></td>
+      <td style="padding-top:10px;" align="center">&nbsp;</td>
     </tr>
     <tr>
       <td style="padding-top:10px;">Si te molesta escribir una y otra vez tus datos de contacto cuando publicas un anuncion, podrás configurar tu cuenta para que esos datos se carguen de forma automática en el formulario de publicación</td>
     </tr>
     <tr>
-      <td style="padding-top:10px;" align="center"><img src="http://www.hispamercado.com.ve/img/beneficio_predatos.jpg" width="358" height="211" /></td>
+      <td style="padding-top:10px;" align="center">&nbsp;</td>
     </tr>
     <tr>
       <td style="padding-top:20px;" align="center">
