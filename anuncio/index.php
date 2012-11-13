@@ -600,7 +600,12 @@ jQuery(document).ready(function($) {
       <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Anuncios relacionados</span></strong></div>
       <div style="width:300px; margin-left:20px; ">
       	<?
-			$resul=buscarSphinx($anuncio->titulo,$anuncio->id_categoria,"NO","NO","NO","NO","NO","NO","NO","ANY","REL");
+			if ((($anuncio->id_categoria>=3)&&($anuncio->id_categoria<=10))||($anuncio->id_categoria==3794))
+				$ciudad=$anuncio->ciudad;
+			else
+				$ciudad=="NO";
+			
+			$resul=buscarSphinx($anuncio->titulo,$anuncio->id_categoria,"NO",$ciudad,"NO","NO","NO","NO","NO","ANY","REL");
 			$anuncios=$resul['anuncios'];
 				
 				

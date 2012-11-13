@@ -272,7 +272,7 @@ else
     
     <div style="width:920px; margin:0 auto 0 auto; padding:15px;" class="arial13Negro"><em>
     
-    Crea una conversación para interactuar con la comunidad Hispamercado sobre cualquier tema de tu interés. Haz una pregunta o comparte una idea. Una conversación tambien puede ser una forma de incrementar las visitas a tus anuncios, desde cada conversación se enlazaran a los anuncios relacionados con la tematica de la conversaci&oacute;n.   
+    Crea una conversación para interactuar con la comunidad Hispamercado sobre cualquier tema de tu interés. <strong>Haz una pregunta o comparte una idea</strong>. Una conversación tambien puede ser una forma de incrementar las visitas a tus anuncios, desde cada conversación se enlazaran a los anuncios relacionados con la tematica de la conversaci&oacute;n.   
     </em></div>
     
     <table width="950" border="0" align="center" cellpadding="2" cellspacing="4">
