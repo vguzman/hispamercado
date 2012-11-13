@@ -609,8 +609,8 @@ jQuery(document).ready(function($) {
 			$anuncios=$resul['anuncios'];
 				
 				
-			if (count($anuncios)>8)
-				$top=8;
+			if (count($anuncios)>10)
+				$top=10;
 			else
 				$top=count($anuncios);
 			for ($i=0;$i<$top;$i++)
