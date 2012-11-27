@@ -32,7 +32,7 @@
 	$id_anuncio=$_GET['id'];	
 	$anuncio=new Anuncio($id_anuncio);
 	
-	if ($anuncio->status_general=="Inactivo")
+	if (($anuncio->status_general=="Inactivo")&&(!session_is_registered('nick_gestion')))
 		echo "<SCRIPT LANGUAGE='JavaScript'>		
 					document.location.href='../index.php';			
 				</SCRIPT>";
@@ -105,6 +105,18 @@
 
 
 <SCRIPT LANGUAGE="JavaScript">
+
+
+function bloquearUsuario(codigo)
+{
+	var dec=window.confirm("¿Segudo de bloquear este usuario?");
+	if (dec==true)
+	{
+		var dec=window.confirm("¿Segudo de bloquear este usuario?");
+			if (dec==true)
+				document.location.href='http://www.hispamercado.com.ve/anuncio/adminGestion.php?codigo='+codigo+'&accion=bloquear';
+	}		
+}
 
 
 function validando(e,path) {
@@ -245,6 +257,18 @@ jQuery(document).ready(function($) {
         </div></td>
       </tr>
     </table>
+  </div>
+  
+  
+  <div style="margin:0 auto 0 auto; width:800px; margin-top:30px; margin-bottom:30px; <? if (isset($_SESSION['nick_gestion'])) echo ""; else echo "display:none;"; ?> ">
+    <p><strong>Super gestion: <? echo "<em>".$anuncio->status_general." (".$anuncio->status_revision.")</em>" ?></strong></p>
+    <p>
+    
+    	<a href="adminGestion.php?codigo=<? echo $anuncio->id ?>&accion=inactivar" class="LinkFuncionalidad13">Inactivar anuncio</a><br>
+        <a href="adminGestion.php?codigo=<? echo $anuncio->id ?>&accion=editar" class="LinkFuncionalidad13">Editar anuncio</a><br>
+        <a href="javascript:bloquearUsuario(<? echo $anuncio->id ?>)" class="LinkFuncionalidad13">Bloquear usuario</a>
+    
+    </p>
   </div>
   
   
