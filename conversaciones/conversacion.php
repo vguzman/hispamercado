@@ -281,7 +281,7 @@ jQuery(document).ready(function($) {
 						$bloque.="id_categoria=".$hijos[$i]." OR ";
 				}
 					
-				$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND ".$bloque." AND (B.id_categoria<>3820 AND B.id_categoria<>164 AND B.id_categoria<>165) GROUP BY id_anuncio ORDER BY C DESC LIMIT 5");
+				$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND ".$bloque." AND (B.id_categoria<>3820 AND B.id_categoria<>164 AND B.id_categoria<>165) AND B.status_general='Activo' GROUP BY id_anuncio ORDER BY C DESC LIMIT 5");
 					
 				$anuncios=array();
 				for ($i=0;$i<mysql_num_rows($query);$i++)
@@ -317,7 +317,7 @@ jQuery(document).ready(function($) {
 						</div>
 						
 						<div class=" arial11Negro" align="right" style="padding-right:5px; margin-top:10px;">
-							<em>'.$anuncio->visitas.' visitas</em>
+							<em>'.$anuncio->visitas().' visitas</em>
 						</div>
 						
 						</td>

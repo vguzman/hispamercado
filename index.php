@@ -326,7 +326,7 @@ jQuery(document).ready(function($) {
         <div>
         
         <?
-			$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND (B.id_categoria<>3820 AND B.id_categoria<>164 AND B.id_categoria<>165) GROUP BY id_anuncio ORDER BY C DESC LIMIT 5");
+			$query=operacionSQL("SELECT id_anuncio,COUNT(*) AS C FROM AnuncioVisita A, Anuncio B WHERE A.id_anuncio=B.id AND (B.id_categoria<>3820 AND B.id_categoria<>164 AND B.id_categoria<>165) AND B.status_general='Activo' GROUP BY id_anuncio ORDER BY C DESC LIMIT 5");
 			for ($i=0;$i<mysql_num_rows($query);$i++)
 			{
 				$anuncio=new Anuncio(mysql_result($query,$i,0));
