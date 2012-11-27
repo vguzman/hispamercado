@@ -36,7 +36,7 @@
 		echo "<SCRIPT LANGUAGE='JavaScript'>		
 					document.location.href='../index.php';			
 				</SCRIPT>";
-	if ($anuncio->status_general=="Verificar")
+	if (($anuncio->status_general=="Verificar")&&(!session_is_registered('nick_gestion')))
 		echo "<SCRIPT LANGUAGE='JavaScript'>
 					document.location.href='../index.php';			
 				</SCRIPT>";
