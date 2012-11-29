@@ -17,7 +17,7 @@
 			$enlace=$anuncio->armarEnlace();
 			echo "<url><loc>http://www.hispamercado.com.ve/".$enlace."</loc></url>\n";
 		}
-		//URLS DE CONVERSACIONES
+		/*//URLS DE CONVERSACIONES
 		$query=operacionSQL("SELECT id FROM Conversacion WHERE status=1");
 		for ($i=0;$i<mysql_num_rows($query);$i++)
 		{
@@ -48,6 +48,6 @@
 			$ciudad=limpiar_acentos($ciudad);
 			$ciudad=limpiarEnies($ciudad);
 			echo "<url><loc>http://www.hispamercado.com.ve/ciudad-".$ciudad."/</loc></url>\n";
-		}
+		}*/
 	?>   
   </urlset>
