@@ -1,5 +1,9 @@
 RewriteEngine On
 
+RewriteCond %{HTTP_HOST} ^hispamercado\.com\.ve
+RewriteRule ^(.*)$ http://www.hispamercado.com.ve/$1 [R=permanent,L] 
+
+
 RewriteRule   ^$                index.php               [L]
 
 
