@@ -11,7 +11,7 @@
     <? 
 		//URLS DE ANUNCIOS
 		$query=operacionSQL("SELECT id FROM Anuncio WHERE status_general='Activo'");
-		for ($i=0;$i<100;$i++)
+		for ($i=0;$i<mysql_num_rows($query);$i++)
 		{
 			$anuncio=new Anuncio(mysql_result($query,$i,0));
 			$enlace=$anuncio->armarEnlace();
