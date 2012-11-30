@@ -74,4 +74,3 @@
 <?
 echo utf8_encode('</trovit>');
 ?>
-    
