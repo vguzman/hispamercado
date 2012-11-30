@@ -60,6 +60,19 @@
 <script src="../lib/js/ajax.js" type="text/javascript"></script>
 <SCRIPT LANGUAGE="JavaScript">
 
+function bloquearUsuario(codigo)
+{
+	var dec=window.confirm("¿Segudo de bloquear este usuario?");
+	if (dec==true)
+	{
+		var dec=window.confirm("¿Segudo de bloquear este usuario?");
+			if (dec==true)
+				document.location.href='http://www.hispamercado.com.ve/conversaciones/adminGestion.php?codigo='+codigo+'&accion=bloquear';
+	}		
+}
+
+
+
 jQuery(document).ready(function($) {
       $('a[rel*=facebox]').facebox({
         loadingImage : '../lib/facebox/src/loading.gif',
@@ -198,6 +211,19 @@ jQuery(document).ready(function($) {
       </tr>
   </table>
 </div>
+
+
+<div style="margin:0 auto 0 auto; width:800px; margin-top:30px; margin-bottom:30px; <? if (isset($_SESSION['nick_gestion'])) echo ""; else echo "display:none;"; ?> ">
+    <p><strong>Super gestion: <? echo "<em>".$conver->status."</em>" ?></strong></p>
+    <p>
+    
+    	<a href="adminGestion.php?codigo=<? echo $conver->id ?>&accion=inactivar" class="LinkFuncionalidad13">Inactivar conversación</a><br>
+        <a href="adminGestion.php?codigo=<? echo $conver->id ?>&accion=editar" class="LinkFuncionalidad13">Editar conversación</a><br>
+        <a href="javascript:bloquearUsuario(<? echo $conver->id ?>)" class="LinkFuncionalidad13">Bloquear usuario</a>
+    
+    </p>
+  </div>
+
 
 <div style="width:1000px; margin:60px auto 0 auto">
 
