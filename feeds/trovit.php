@@ -1,9 +1,7 @@
-<? 
-	include "../lib/class.php";
-	
-	echo utf8_encode('<?xml version="1.0" encoding="UTF-8"?>
-	<trovit>');
-	
+<? set_time_limit(0); ?>
+<? include "../lib/class.php"; echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+<trovit>
+<?
 	
 	//BUSCANDO APARTAMENTOS Y CASAS
 	$query=operacionSQL("SELECT id FROM Anuncio WHERE (id_categoria=4 OR id_categoria=3) AND status_general='Activo' LIMIT 5");
@@ -71,7 +69,4 @@
 	}
 	 
 ?>
-<?
-echo utf8_encode('</trovit>');
-?>
-    
+</trovit>
