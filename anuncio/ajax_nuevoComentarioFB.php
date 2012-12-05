@@ -104,7 +104,7 @@
 				<p>Para ver y responder a todos tus comentarios ve directamente a link de tu anuncio</p>
 				<p><a href="http://www.hispamercado.com.ve/'.$anuncio->armarEnlace().'">http://www.hispamercado.com.ve/'.$anuncio->armarEnlace().'</a></p>
 				<p>Gracias por usar Hispamercado!</p>';
-		email("Hispamercado","info@hispamercado.com.ve",$anuncio->anunciante_nombre,$anuncio->anunciante_email,utf8_decode("Has recibido un nuevo comentario en tu anuncio"),$mensaje);
+		email("Hispamercado","no-responder@hispamercado.com.ve",$anuncio->anunciante_nombre,$anuncio->anunciante_email,utf8_decode("Has recibido un nuevo comentario en tu anuncio"),$mensaje);
 	
 	
 

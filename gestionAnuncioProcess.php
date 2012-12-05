@@ -42,7 +42,7 @@
 				
 		
 		
-		email("Hispamercado","info@hispamercado.com.ve","",trim($_POST['email']),"Tus anuncios en Hispamercado",$contenido);
+		email("Hispamercado","no-responder@hispamercado.com.ve","",trim($_POST['email']),"Tus anuncios en Hispamercado",$contenido);
 		
 		
 		

@@ -107,7 +107,7 @@
 				<p>Para ver y responder a todos tus comentarios ve directamente a link de la conversacion que te dejamos a continuacion</p>
 				<p><a href="http://www.hispamercado.com.ve/'.$conversacion->armarEnlace().'">http://www.hispamercado.com.ve/'.$conversacion->armarEnlace().'</a></p>
 				<p>Gracias por usar Hispamercado!</p>';
-		email("Hispamercado","info@hispamercado.com.ve",$usuario2->nombre,$usuario2->email,utf8_decode("Has recibido un nuevo comentario en tu conversación"),$mensaje);
+		email("Hispamercado","no-responder@hispamercado.com.ve",$usuario2->nombre,$usuario2->email,utf8_decode("Has recibido un nuevo comentario en tu conversación"),$mensaje);
 	}
 	
 

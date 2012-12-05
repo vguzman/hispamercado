@@ -6,7 +6,7 @@
 	
 	$contenido="<a href='http://www.hispamercado.com.ve/".$anuncio->armarEnlace()."'>http://www.hispamercado.com.ve/".$anuncio->armarEnlace()."</a><br><br>".$_POST['porque']."<br><br>".$_POST['comentario'];
 	
-	email("Hispamercado","info@hispamercado.com.ve","Victor","vmgafrm@gmail.com","Anuncio denunciado",$contenido);
+	email("Hispamercado","no-responder@hispamercado.com.ve","Victor","vmgafrm@gmail.com","Anuncio denunciado",$contenido);
 	
 	
 	echo "<script type='text/javascript'>

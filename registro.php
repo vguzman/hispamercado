@@ -60,7 +60,7 @@
 				
 				
 				
-				$resul=email("Hispamercado","info@hispamercado.com.ve",$nombre,$email,"Bienvenido a Hispamercado","<p>Hola ".$nombre.", Bienvenido a Hispamercado!</p><p>A partir de ahora podras disfrutar de los beneficios de pertenecer a la comunidad Hispamercado.</p><p>----------------<br>Hispamercado</p>");	
+				$resul=email("Hispamercado","no-responder@hispamercado.com.ve",$nombre,$email,"Bienvenido a Hispamercado","<p>Hola ".$nombre.", Bienvenido a Hispamercado!</p><p>A partir de ahora podras disfrutar de los beneficios de pertenecer a la comunidad Hispamercado.</p><p>----------------<br>Hispamercado</p>");	
 			}
 			else
 			{

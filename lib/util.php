@@ -168,7 +168,7 @@ function email($de_nombre,$de_mail,$para_nombre,$para_mail,$asunto,$contenido)
 	 
 	$mail-> AddAmazonSESKey("AKIAIKJEDZCR36P7J6VQ", "XBjhARZ9sLz9Z+1vTMrfvuizt+/ECDY+/rVaZmXk");
 	 
-	$mail-> From = "info@hispamercado.com.ve";
+	$mail-> From = "no-responder@hispamercado.com.ve";
 	$mail-> FromName = "Hispamercado";
 	 
 	$mail-> AddAddress($para_mail, utf8_encode($para_nombre));

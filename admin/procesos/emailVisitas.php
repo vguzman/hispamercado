@@ -7,7 +7,7 @@
 	
 	include "../../lib/class.php";
 	
-	email("Hispamercado","info@hispamercado.com.ve","Victor Guzman","vmgafrm@gmail.com","Ejecutando email de visitas","Hola mundo!");
+	email("Hispamercado","no-responder@hispamercado.com.ve","Victor Guzman","vmgafrm@gmail.com","Ejecutando email de visitas","Hola mundo!");
 	
 	/*
 	$z=0;	

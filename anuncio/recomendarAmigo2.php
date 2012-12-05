@@ -9,7 +9,7 @@
 	$contenido="Saludos,<br><br>Tu amigo ".$_POST['tu_nombre']." te recomienda que le des un vistazo al siguiente anuncio: <a href='http://".$_SERVER['HTTP_HOST']."/anuncio/?id=".$id_anuncio."'>".$anuncio->titulo."</a><br><br>_______<br><a href='http://".$_SERVER['HTTP_HOST']."'>Hispamercado ".$pais->nombre."</a><br>¡Tu Clasificado GRATIS en 1 minuto!";
 	
 	
-	$resul=email("Hispamercado ".$pais->nombre,"info@hispamercado.com","",$_POST['email_amigo'],"Tu amigo ".$_POST['tu_nombre']." te recomienda este anuncio",$contenido);
+	$resul=email("Hispamercado","no-responder@hispamercado.com","",$_POST['email_amigo'],"Tu amigo ".$_POST['tu_nombre']." te recomienda este anuncio",$contenido);
 	
 	if ($resul==1)
 		echo "<script type='text/javascript'>

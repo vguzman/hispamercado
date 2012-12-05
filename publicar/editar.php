@@ -111,7 +111,7 @@
 		$headers .= "From: Hispamercado <admin@hispamercado.com.ve>\n";
 		$headers .= "Reply-To: admin@hispamercado.com.ve";
 		
-		email("Hispamercado","info@hispamercado.com",$_POST['nombre'],$email,"Tu e-mail ha sido bloqueado en Hispamercado",$contenido);
+		email("Hispamercado","no-responder@hispamercado.com",$_POST['nombre'],$email,"Tu e-mail ha sido bloqueado en Hispamercado",$contenido);
 		
 		
 		echo "<script type='text/javascript'>
