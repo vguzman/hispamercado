@@ -36,10 +36,10 @@
 		echo "<SCRIPT LANGUAGE='JavaScript'>		
 					document.location.href='../index.php';			
 				</SCRIPT>";
-	if (($anuncio->status_general=="Verificar")&&(!session_is_registered('nick_gestion')))
+	/*if (($anuncio->status_general=="Verificar")&&(!session_is_registered('nick_gestion')))
 		echo "<SCRIPT LANGUAGE='JavaScript'>
 					document.location.href='../index.php';			
-				</SCRIPT>";
+				</SCRIPT>";*/
 	if ($anuncio->status_general=="Int_Ciu")
 		echo "<SCRIPT LANGUAGE='JavaScript'>
 					window.alert('Este anuncio se encuentra bajo revision');		
