@@ -460,7 +460,14 @@ class Anuncio
 
 
 
-
+	function destacado()
+	{
+		$query=operacionSQL("SELECT id_anuncio FROM AnuncioDestacado WHERE id_anuncio=".$this->id);
+		if (mysql_num_rows($query)>0)
+			return true;
+		else
+			return false;	
+	}
 
 
 	function numeroFotos()
@@ -770,6 +777,24 @@ class Anuncio
 		}
 	}
 	
+	function destacar()
+	{
+		$query=operacionSQL("SELECT * FROM AnuncioDestacado WHERE id_anuncio=".$this->id);
+		if (mysql_num_rows($query)>0)
+			return 0;
+		
+		
+		$query=operacionSQL("SELECT MAX(posicion) FROM AnuncioDestacado");
+		$pos=mysql_result($query,0,0)+1;
+		
+		$query=operacionSQL("SELECT MAX(visualizaciones) FROM AnuncioDestacado");
+		$vis=mysql_result($query,0,0)+1;
+		
+		operacionSQL("INSERT INTO AnuncioDestacado VALUES (".$this->id.",NOW(),(NOW() + INTERVAL 2 WEEK),".$pos.",".$vis.")");
+		return 1;
+		
+	}
+	
 	
 	
 	
@@ -1070,6 +1095,38 @@ class Usuario
 		
 		return $resul;
 	}
+	
+	
+	
+	function puntosOperacion($tipo,$id_referencia,$puntos_mas,$puntos_menos)
+	{
+		operacionSQL("INSERT INTO UsuarioPuntos VALUES (null,".$this->id.",'".$tipo."',".$id_referencia.",NOW(),".$puntos_mas.",".$puntos_menos.")");
+	}
+	
+	function puntos()
+	{
+		$query=operacionSQL("SELECT SUM(puntos_mas)-SUM(puntos_menos) FROM UsuarioPuntos WHERE id_usuario=".$this->id);
+		
+		return mysql_result($query,0,0);
+	}
+	
+	function listaPuntos()
+	{
+		$arreglo=array();
+		$aux="SELECT * FROM UsuarioPuntos WHERE id_usuario=".$this->id." ORDER BY fecha DESC";
+		$query=operacionSQL($aux);
+		
+		for ($i=0;$i<mysql_num_rows($query);$i++)
+		{
+			$arreglo[$i]['fecha']=mysql_result($query,$i,4);
+			$arreglo[$i]['tipo']=mysql_result($query,$i,2);
+			$arreglo[$i]['id_referencia']=mysql_result($query,$i,3);
+			$arreglo[$i]['puntos_mas']=mysql_result($query,$i,5);
+			$arreglo[$i]['puntos_menos']=mysql_result($query,$i,6);
+		}
+		return $arreglo;
+	}
+	
 }
 
 

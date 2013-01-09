@@ -449,6 +449,25 @@ theme_advanced_resizing : true,
 
 
 })
+
+
+
+
+
+
+
+function SimularClick(idObjete){
+ 
+var nouEvent = document.createEvent("MouseEvents");
+nouEvent.initMouseEvent("click", true, true, window,0, 0, 0, 0, 0, false, false, false, false, 0, null);
+ 
+var objecte = document.getElementById(idObjete);
+var canceled = !objecte.dispatchEvent(nouEvent);
+}
+
+
+
+
 </script>
 
 <style>
@@ -466,38 +485,41 @@ theme_advanced_resizing : true,
 
 <div id="wrapper">
  <div id="header">
- 
- 
-<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="..//"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0" /></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
-    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
-      <?
+   <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+     <tr>
+       <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="..//"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0" /></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
+       <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+         <?
 	
 	if ($sesion!=false)
 		$user=new Usuario($sesion);
 	
 	
 	 ?>
-      <table width="270" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="../cuenta/index.php?d=<? echo time() ?>&amp;path=../" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
-        </tr>
-      </table>
-    </div>
-      <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
-        <div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
-          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
-        </div>
-        <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
-      </div></td>
-  </tr>
-</table>
-<div style="margin-top:50px;">
+         <table width="270" border="0" cellspacing="0" cellpadding="0">
+           <tr>
+             <td width="40" align="left"><? if (isset($user)) echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
+             <td width="230" align="left" ><strong><? if (isset($user)) echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="../cuenta/index.php?d=<? echo time() ?>&amp;path=../" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+           </tr>
+         </table>
+         <table width="270" border="0" cellspacing="0" cellpadding="0">
+           <tr>
+             <td  align="right" class="arial11Mostaza" style=" padding-right:38px;">&iexcl;Tienes <? if (isset($user)) echo $user->puntos() ?> puntos acumulados!</td>
+           </tr>
+         </table>
+       </div>
+         <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
+           <div style="width:210px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
+             <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede/Reg&iacute;strate con Facebook</a></div>
+           </div>
+           <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
+         </div></td>
+     </tr>
+   </table>
+   <div style="margin-top:50px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="../gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="../gestionAnuncio.php" class="LinkFuncionalidad17">Mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../tiendas/" class="LinkFuncionalidad17">Tiendas</a>&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="../programa-de-puntos.php" class="LinkNaranja15">Programa de puntos</a></strong></td>
     </tr>
   </table>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -571,6 +593,8 @@ theme_advanced_resizing : true,
         <td width="347" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; <? if (isset($anuncio)) echo "Editar anuncio #".$anuncio->id; else echo "Publicar anuncio"; ?> </td>
         <td width="653" align="right" valign="bottom">
         
+        
+        
         <?
 			if (isset($anuncio))
 			{	
@@ -595,7 +619,7 @@ theme_advanced_resizing : true,
 			}
 			else
 				if ($sesion==false)
-					echo '<a href="../beneficiosRegistro.php?state='.$_SESSION['state'].'" rel="facebox" class="LinkRojo13"><strong>Conoce los beneficios de registrarte en Hispamercado</strong></a>';
+					echo '<a href="../beneficiosRegistro.php?state='.$_SESSION['state'].'&time='.time().'" rel="facebox" class="LinkNaranja13"><img src="../img/Apps-kmymoney-icon.png" width="30" height="30" border="0"><strong>Regístrate y gana 5 puntos por publicar un anuncio</strong></a>';
 		?>
         
         
@@ -697,7 +721,7 @@ theme_advanced_resizing : true,
     <tr>
       <td width="150" align="left" class="arial13Negro">Ciudad</td>
       <td width="830" align="left" style="padding-top:8px;"><div  class="autocomplete" style="margin:0px; padding:0px;">
-        <input name="ciudad" type="text" id="ciudad" size="40" maxlength="255" value="<? echo $pre_ciudad ?>"  data-source="suggest/search.php?search=">
+        <input name="ciudad" type="text" id="ciudad" size="40" maxlength="255" value="<? echo $pre_ciudad ?>"  data-source="suggest/search.php?search=" autocomplete="off">
       </div>
         <div class="arial11Gris">Si la ciudad introducida es distinta a cualquiera de las sugeridas el anuncio sera revisado antes de su activacion</div></td>
     </tr>

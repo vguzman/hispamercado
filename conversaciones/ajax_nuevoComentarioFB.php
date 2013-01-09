@@ -54,9 +54,22 @@
 		//PRIMERO COMRUEBO QUE NO SE HAYA CARGADO
 		$query=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$fb_id."'");
 		if (mysql_num_rows($query)==0)
+		{
 			operacionSQL("INSERT INTO ConversacionComentario VALUES (null,".$conversacion->id.",'".$fb_id."',".$id_usuario.",NULL,('".$hora."' - INTERVAL 270 MINUTE),'".$mensaje."','".$de_nombre."','".$de_id."',1)");
-		
-		
+			
+			
+			//ANOTANDO PUNTO DE COMENTARIO
+			if ($id_usuario!="NULL")
+			{
+				$query_comentario=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$fb_id."'");
+				$id_comentario=mysql_result($query_comentario,0,0);
+						
+				$usuario->puntosOperacion("comentario_conversacion",$id_comentario,2,0);
+			}
+			
+			
+			
+		}
 		if (isset($comentarios[$i]->comments->data))
 		{
 			$subcomentarios=$comentarios[$i]->comments->data;
@@ -91,7 +104,21 @@
 				//PRIMERO COMRUEBO QUE NO SE HAYA CARGADO
 				$query=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$fb_id."'");
 				if (mysql_num_rows($query)==0)
+				{
 					operacionSQL("INSERT INTO ConversacionComentario VALUES (null,".$conversacion->id.",'".$fb_id."',".$id_usuario.",".$id_padre.",('".$hora."' - INTERVAL 270 MINUTE),'".$mensaje."','".$de_nombre."','".$de_id."',1)");
+					
+					
+					//ANOTANDO PUNTO DE COMENTARIO
+					if ($id_usuario!="NULL")
+					{
+						$query_comentario=operacionSQL("SELECT id FROM ConversacionComentario WHERE id_fb='".$fb_id."'");
+						$id_comentario=mysql_result($query_comentario,0,0);
+								
+						$usuario->puntosOperacion("comentario_conversacion",$id_comentario,2,0);
+					}
+					
+					
+				}
 				
 			}
 			

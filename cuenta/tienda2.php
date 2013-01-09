@@ -10,7 +10,14 @@
 	
 	$query=operacionSQL("SELECT * FROM Tienda WHERE id_usuario=".$user->id);
 	if (mysql_num_rows($query)==0)
-		operacionSQL("INSERT INTO Tienda VALUES (null,".$user->id.",'".strtolower(trim($_POST['nick']))."','".trim($_POST['nombre'])."','".trim($_POST['descripcion'])."','".$_POST['logo']."',1)");
+	{
+		$query_max=operacionSQL("SELECT MAX(id) FROM Tienda");
+		$nuevo_id=mysql_result($query_max,0,0)+1;
+		
+		operacionSQL("INSERT INTO Tienda VALUES (".$nuevo_id.",".$user->id.",'".strtolower(trim($_POST['nick']))."','".trim($_POST['nombre'])."','".trim($_POST['descripcion'])."','".$_POST['logo']."',1)");
+		
+		$user->puntosOperacion("tienda",$nuevo_id,10,0);
+	}
 	else
 	{
 		operacionSQL("UPDATE Tienda SET nick='".strtolower(trim($_POST['nick']))."', nombre='".trim($_POST['nombre'])."', descripcion='".trim($_POST['descripcion'])."', logo='".$_POST['logo']."' WHERE id_usuario=".$user->id);

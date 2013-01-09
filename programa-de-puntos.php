@@ -50,21 +50,9 @@
 
 
 
-<title>Gestionar mis anuncios clasificados</title>
+<title>Gana puntos por interactuar y cambialos por destacar tus anuncios</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-
-<body onLoad="<?
-if (isset($_SESSION['puntos'])) 
-{
-	echo "callFaceboxPuntos('../puntosGanados.php?puntos=".$_SESSION['puntos']."&tipo=".$_SESSION['puntos_tipo']."')";
-	unset($_SESSION['puntos']);
-	unset($_SESSION['puntos_tipo']);
-}
-?>">
-<div id="hidden_clicker" style="display:none;"> 
-	<a id="hiddenclicker" href="http://asdf.com" rel="facebox" >Hidden Clicker</a>
-</div> 
+<body>
 
 <div id="wrapper">
  <div id="header">
@@ -173,39 +161,43 @@ if (isset($_SESSION['puntos']))
 <div align="center" style="margin-top:50px;">
 <table width="1000" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse:collapse; border-bottom:#C8C8C8 1px solid; ">
       <tr>
-        <td width="220" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; Gestionar mis anuncios</td>
+        <td width="220" align="left" valign="bottom" class="arial15Negro"><a href="/" class="LinkFuncionalidad15"><b>Inicio </b></a>&raquo; Programa de puntos</td>
         <td width="580" align="right" valign="bottom">&nbsp;</td>
       </tr>
     </table>
  
 </div>
-
-
-<div style="margin-top:50px;">
-<form name="Forma" method="post" action="gestionAnuncioProcess.php">
-
-<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style=" border-style:solid; border-color:#999; border-width:1px;" >
-	<tr>
-	  <td align="left" class="arial13Negro" style="padding:15px;">Te enviaremos a tu e-mail los enlaces para que puedas gestionar todos los anuncios que hayas publicado en Hispamercado</td>
-	  </tr>
-	<tr>
-          <td align="left" class="arial13Negro" style="padding:15px; border-top-width:1px; border-top-style:dashed; border-color:#999;"><strong>Ingresa el e-mail que utilizaste para publicar tus anuncios     </strong>
-            <input name="email" type="text" id="email" size="60" style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">  <input type="button" name="Submit2" value="Gestionar anuncios" style="font-family:Arial, Helvetica, sans-serif; font-size:13px;" onClick="procesar()">
-          </td>
-	</tr>
-	<?
-      		if ($sesion==false)
-				echo '
-				<tr>
-	  <td align="center" class="arial13Negro" style="padding:15px; border-top-width:1px; border-top-style:dashed; border-color:#999;">
-				<a href="beneficiosRegistro.php?state='.$_SESSION['state'].'" rel="facebox" class="LinkRojo13"><strong>Conoce los beneficios de registrarte en Hispamercado</strong></a>
-				</td>
-	  </tr>';
-	  ?>
-	  
-</table>
-</form>
+<div id="detalles_puntos" style="margin-top:50px;">
+  <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td width="128" align="center"><img src="img/Apps-kmymoney-icon.png" width="128" height="128"></td>
+      <td width="399">
+      
+      <span class="arial15Mostaza"><strong>Gana puntos cuando...</strong></span>
+      <ul class="arial13Mostaza" >
+      	<li style="padding-bottom:5px;"><strong>Te registras en Hispamercado:</strong> 5 puntos</li>
+        <li style="padding-bottom:5px;"><strong>Publicas un anuncio</strong>: 5 puntos</li>
+        <li style="padding-bottom:5px;"><strong>Inicias una conversación:</strong> 5 puntos</li>
+        <li style="padding-bottom:5px;"><strong>Creas una tienda:</strong> 10 puntos</li>
+        <li style="padding-bottom:5px;"><strong>Haces un comentario o envias un mensaje en un anuncio o conversación</strong>: 2 puntos</li>
+        </ul>
+      <p class="arial11Rojo" align="center">
+      
+      ** Solo se acreditar&aacute;n los puntos si te encuentres logueado dentro del sitio
+      
+      </p></td>
+      <td width="134"><img src="img/pie-chart-icon.png" width="128" height="128"></td>
+      <td width="339" valign="top">
+      
+      <span class="arial15Mostaza"><strong>Cambia tus puntos...</strong></span>
+        <p class="arial13Mostaza" style="text-align:center"><strong>Destaca tus anuncios por dos semanas: -15 puntos</strong>
+        </p>
+        <p class="arial13Mostaza" style="text-align:center">Tus anuncios se mostrar&aacute;n en la pagina principal y en los primeros lugares de los listados durante 2 semanas</p></td>
+    </tr>
+  </table>
 </div>
+
+<div style="margin-top:50px;"></div>
 
 
 </div>

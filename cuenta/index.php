@@ -27,6 +27,7 @@
     <li style="width:80px;" class="miCuentaMenuNoSeleccion" id="menu3"><a href="<? echo $path ?>cuenta/tienda.php" class="LinkmiCuentaMenu" target="iframe" onclick="selecMenu('menu3')" id="menu3_link"><strong>Tienda</strong></a></li>
     <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu4"><a href="<? echo $path ?>cuenta/sociales.php" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu4')" id="menu4_link"><strong>Sociales</strong></a></li>
     <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu5"><a href="<? echo $path ?>cuenta/generales.php" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu5')" id="menu5_link"><strong>Generales</strong></a></li>
+    <li style="width:90px;" class="miCuentaMenuNoSeleccion" id="menu6"><a href="<? echo $path ?>cuenta/puntos.php" class="LinkmiCuentaMenu"  target="iframe" onclick="selecMenu('menu6')" id="menu6_link"><strong>Mis puntos</strong></a></li>
 
 </ul>
 

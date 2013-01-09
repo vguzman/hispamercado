@@ -59,6 +59,19 @@
 			
 			$cl->SetFilter('categoria_index',$filtro);
 		}
+		else
+		{
+			$cat=new Categoria(160);
+			$hijos=$cat->hijos();
+			
+			$filtro=array();
+			
+			for ($i=0;$i<count($hijos);$i++)
+				array_push($filtro,$hijos[$i]);
+				
+			
+			$cl->SetFilter('categoria_index',$filtro,true);
+		}
 		
 		//------CASO TIPO CATEGORIA
 		if ($tipo_categoria!="NO")

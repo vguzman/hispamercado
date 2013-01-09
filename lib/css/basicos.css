@@ -2,7 +2,7 @@
 
 html,
 body {
-    margin:0;
+	margin-bottom:0px;
     padding:0;
     height:100%;
 }
@@ -79,6 +79,7 @@ a.tituloAnuncioChico:hover {font-family: Arial, Helvetica, sans-serif; font-size
 .arial15Rojo {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#FF0000; text-decoration:none}
 .arial15RojoPrecio {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#E60000; text-decoration:none}
 .arial15Mostaza {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#77773C; text-decoration:none}
+.arial15Verde {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#006400; text-decoration:none}
 
 
 
@@ -126,6 +127,11 @@ a.LinkRojo11:hover {font-family: Arial, Helvetica, sans-serif; font-size:11px; c
 
 .LinkRojo13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:none}
 a.LinkRojo13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FF0000; text-decoration:underline}
+
+.LinkNaranja15 {font-family: Arial, Helvetica, sans-serif; font-size:15px; color:#F60; text-decoration:none}
+
+.LinkNaranja13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#F60; text-decoration:none}
+
 
 .LinkBlanco13 {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:none}
 a.LinkBlanco13:hover {font-family: Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; text-decoration:underline;}

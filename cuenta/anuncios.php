@@ -16,6 +16,19 @@
 
 <script language="javascript" type="text/javascript">
 
+	function destacarAnuncio(id_anuncio,hash)
+	{
+		var puntos=document.getElementById("puntos_actuales").value;
+		if (puntos<15)
+			window.alert("Necesitas 15 puntos para destacar un anuncio, actualmente tienes "+puntos+". Sigue publicando y comentando en hispamercado para que ganes mas puntos");
+		else
+		{
+			var dec=window.confirm("Destacar este anuncio te costara 15 puntos. Tu anuncio se ubicará en los primeros lugares de los listados y en la pagina principal del sitio durante 2 semanas. Estas de acuerdo?");
+			if (dec==true)
+				document.location.href="anuncioDestacar.php?hash="+hash;
+		}
+	}
+
 	function accionAnuncio(accion,code)
 	{
 		if (accion=="finalizar")
@@ -45,6 +58,8 @@
 
 
 
+
+<input name="puntos_actuales" id="puntos_actuales" type="hidden" value="<? echo $user->puntos() ?>" />
 
 
 
@@ -79,10 +94,26 @@
 		
 		
 		if ($anuncio->status_general=="Activo")
+		{	
 			$accion='<a href="javascript:accionAnuncio('.chr(39).'finalizar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad13"><img src="../img/delete-icon.png" width="19" height="19" border="0" /> Finalizar</a>';
-		if ($anuncio->status_general=="Inactivo")
-			$accion='<a href="javascript:accionAnuncio('.chr(39).'reactivar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad13"><img src="../img/activate-icon.png" width="19" height="19" border="0" /> Reactivar</a>';
 			
+			
+			if ($anuncio->destacado()==false)
+			{
+				$accion.=' &nbsp;&nbsp;&nbsp;  <a href="javascript:destacarAnuncio('.$anuncio->id.','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad13"><img src="../img/chart-icon.png" width="19" height="19" border="0" />Destacar</a>';
+				$leyenda_destacado='';
+			}
+			else
+				$leyenda_destacado='<img src="../img/chart-icon.png" width="19" height="19" border="0" /> <strong>Anuncio destacado</strong>';
+			
+			
+			
+		}
+		if ($anuncio->status_general=="Inactivo")
+		{
+			$accion='<a href="javascript:accionAnuncio('.chr(39).'reactivar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad13"><img src="../img/activate-icon.png" width="19" height="19" border="0" /> Reactivar</a>';
+			$leyenda_destacado='';
+		}
 			
 		
 		echo '<table width="650" border="0" cellspacing="0" cellpadding="0" align="center" style="clear:both; border-bottom:#C8C8C8 1px solid; background-color:'.$colorete.';">
@@ -99,7 +130,10 @@
 				
 				<div style="margin-top:30px;">
 				
-				<a href="../publicar/index.php?edit='.$anuncio->codigo_verificacion.'&d='.time().'" class="LinkFuncionalidad13" target="_blank"><img src="../img/edit-icon.png" width="19" height="19" border="0" />Editar</a>&nbsp;&nbsp;&nbsp; '.$accion.' &nbsp;&nbsp;&nbsp;  <a href="" class="LinkFuncionalidad13"><img src="../img/chart-icon.png" width="19" height="19" border="0" /> Destacar</a>
+				<a href="../publicar/index.php?edit='.$anuncio->codigo_verificacion.'&d='.time().'" class="LinkFuncionalidad13" target="_blank"><img src="../img/edit-icon.png" width="19" height="19" border="0" />Editar</a>&nbsp;&nbsp;&nbsp; '.$accion.'
+				
+				
+				<div style=" float:right;display:block;" class="arial13Mostaza">'.$leyenda_destacado.'</div>
 					
 				</div>
 				

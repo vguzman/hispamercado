@@ -222,10 +222,13 @@
 	}	
 	
 	
+	//echo "<br><br><br>".$aux."<br><br><br>";
+	
+	if (isset($_GET['id_cat'])==false)
+		$aux=str_replace("ORDER BY","AND (id_categoria<>160 AND id_categoria<>164  AND id_categoria<>165  AND id_categoria<>3820) ORDER BY ",$aux);
 	
 	
-	
-	
+	//echo "<br><br><br>".$aux."<br><br><br>";
 	
 	$query=operacionSQL($aux);
 	//METIENDO TODOS LOS ANUNCIOS EN UN VECTOR
@@ -393,41 +396,60 @@
 
 </SCRIPT>
 </head>
-<body>
+
+
+<body onLoad="<?
+if (isset($_SESSION['puntos'])) 
+{
+	echo "callFaceboxPuntos('../puntosGanados.php?puntos=".$_SESSION['puntos']."&tipo=".$_SESSION['puntos_tipo']."')";
+	unset($_SESSION['puntos']);
+	unset($_SESSION['puntos_tipo']);
+}
+?>">
+<div id="hidden_clicker" style="display:none;"> 
+	<a id="hiddenclicker" href="http://asdf.com" rel="facebox" >Hidden Clicker</a>
+</div>
 
 <div id="wrapper">
  <div id="header">
-
-<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="/"><img src="img/logo_original.jpg" alt="" width="360" height="58" border="0"></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span> </div></td>
-    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
-      <?
+   <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+     <tr>
+       <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="/"><img src="img/logo_original.jpg" alt="" width="360" height="58" border="0" /></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
+       <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+         <?
 	
 	if ($sesion!=false)
 		$user=new Usuario($sesion);
-	
-	
+		
 	 ?>
-      <table width="270" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="cuenta/index.php?d=<? echo time() ?>" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
-        </tr>
-      </table>
-    </div>
-      <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
-        <div style="width:160px; height:26px; float:right; background-image:url(img/fondo_fb.png); background-repeat:repeat;" align="left">
-          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
-        </div>
-        <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
-      </div></td>
-  </tr>
-</table>
-<div style="margin-top:50px;">
+         <table width="270" border="0" cellspacing="0" cellpadding="0">
+           <tr>
+             <td width="40" align="left"><? if (isset($user)) echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
+             <td width="230" align="left" ><strong>
+               <? if (isset($user)) echo $user->nombre ?>
+               &nbsp;&nbsp;&nbsp;</strong><a href="cuenta/index.php?d=<? echo time() ?>" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+           </tr>
+         </table>
+         <table width="270" border="0" cellspacing="0" cellpadding="0">
+           <tr>
+             <td  align="right" class="arial11Mostaza" style=" padding-right:38px;">&iexcl;Tienes
+               <? if (isset($user)) echo $user->puntos() ?>
+               puntos acumulados!</td>
+           </tr>
+         </table>
+       </div>
+         <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
+           <div style="width:210px; height:26px; float:right; background-image:url(img/fondo_fb.png); background-repeat:repeat;" align="left">
+             <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede/Reg&iacute;strate con Facebook</a></div>
+           </div>
+           <div style="width:26px; height:26px; float:right; background-image:url(img/icon_facebook.png); background-repeat:no-repeat;"></div>
+         </div></td>
+     </tr>
+   </table>
+   <div style="margin-top:50px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="gestionAnuncio.php" class="LinkFuncionalidad17">Mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tiendas/" class="LinkFuncionalidad17">Tiendas</a>&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="programa-de-puntos.php" class="LinkNaranja15">Programa de puntos</a></strong><a href="tiendas/" class="LinkNaranja15"> </a></td>
     </tr>
   </table>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -519,7 +541,7 @@
     </tr>
   </table>
 </div>
-<div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1000px; display:table;">
+<div id="contenedor_contenido" style="margin:0 auto 0 auto; margin-top:40px; width:1030px; display:table;">
   
   
   
@@ -1252,7 +1274,7 @@
 
   </div>
 
-<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:650px; float:left; display:table;">
+<div id="contenedor_anuncios" style="margin:0 auto 0 auto; width:680px; float:left; display:table;">
   
   		
     
@@ -1261,50 +1283,151 @@
         
         
         <div align="right" style="margin-bottom:5px; padding-right:15px;" class="arial13Negro">
+        
+        
   		  <?
 		  
-	if (isset($anuncios))
+		  
+		  
+		  if (isset($anuncios))
+			{
+			
+				$primero=$factor*($parte-1);
+				$ultimo=$primero+$factor;
+				
+				if ($ultimo>count($anuncios))
+					$ultimo=count($anuncios);	
+					
+					
+				echo ($primero+1)." - ".$ultimo. " de ".count($anuncios);
+			
+			}
+			
+			//echo "****".$primero."***";
+		  
+		  
+		  
+	if ((isset($anuncios))&&($primero==0))
 	{
-	
-		$primero=$factor*($parte-1);
-		$ultimo=$primero+$factor;
-		
-		if ($ultimo>count($anuncios))
-			$ultimo=count($anuncios);	
+		$z=0;
+		$destacados=array();
+		$query=operacionSQL("SELECT id_anuncio FROM AnuncioDestacado WHERE NOW()<fecha_hasta ORDER BY visualizaciones ASC");
+		 for ($i=0;$i<mysql_num_rows($query);$i++)
+		 {
+			 
+			 $elemento=mysql_result($query,$i,0);
+			 $buscar=array_search($elemento,$anuncios);
 			
-			
-		echo ($primero+1)." - ".$ultimo. " de ".count($anuncios);
+			 if ($buscar!=NULL)
+			 {
+				$destacados[$z]=$elemento;
+			 	$z++;
+				
+				
+				unset($anuncios[$buscar]);	
+			 }
+			 
+			 if ($anuncios[0]==$elemento)
+			 {
+				$destacados[$z]=$elemento;
+			 	$z++;
+				
+				
+				unset($anuncios[0]);				
+				$anuncios=array_values($anuncios);
+			 }
+			 
+			 if ($z==5)
+			 	break;
+				 
+				 
+		}		
 	
+	
+	if ($z<5)
+	{
+		$query=operacionSQL("SELECT id_anuncio FROM AnuncioVisitaResumen ORDER BY cuenta DESC");
+		for ($i=0;$i<mysql_num_rows($query);$i++)
+		{
+			$elemento=mysql_result($query,$i,0);
+			$buscar=array_search($elemento,$anuncios);
+			
+			if ($buscar!=NULL)
+			 {
+				$destacados[$z]=$elemento;
+			 	$z++;
+				
+				unset($anuncios[$buscar]);	
+			 }
+			 
+			 if ($anuncios[0]==$elemento)
+			 {
+				$destacados[$z]=$elemento;
+			 	$z++;
+				
+				unset($anuncios[0]);	
+				$anuncios=array_values($anuncios);
+			 }
+			 
+			 if ($z==5)
+			 	break;
+			
+		}		
 	}
+		  
+			$anuncios=array_values($anuncios);
+	}  
+		  
+	
 	?>
   		</div>
         
+        <div <? if (!((isset($anuncios))&&($primero==0))) echo 'style=" display:none;"'; ?>>
+        <div style="margin:0 auto 0 auto; width:642px; padding:8px; height:20px; background-color:#D8E8AE;" class="arial15Negro">
         
-        <div style="padding:8px; background-color:#D8E8AE;" align="left">
-        
-        <? 
-				if (isset($_GET['id_cat']))
-				{
-					$leyenda="Pregunta o comparte con nuestra comunidad sobre ".$categoria->nombre;
+        	<span style="float:left;"><strong>Anuncios mas destacados</strong></span>         
+        	<span style="float:right;"><a href="programa-de-puntos.php" class="LinkFuncionalidad15"><strong>¿Quieres destacar tus anuncios?</strong></a></span>
+            
+            
+        </div>   
+  
+  		 <div style=" margin:0 auto 0 auto; border-width:4px; border-style:solid; border-color:#D8E8AE; border-top:0px; margin-bottom:30px; width:650px; clear:both;">
+         
+         <?
+			
+			if (isset($anuncios))
+			{
+				for ($i=0;$i<count($destacados);$i++)
+				{		
+					if (($i%2)==0)
+						$colorete="#F2F7E6";			
+					else
+						$colorete="#FFFFFF";
+					
+					$anuncio=new Anuncio($destacados[$i]);
+					$contenido=$anuncio->armarAnuncio($colorete);
+					
+					
+					
+					echo $contenido;
+					
+					
+					operacionSQL("UPDATE AnuncioDestacado SET visualizaciones=visualizaciones+1 WHERE id_anuncio=".$anuncio->id);	
 				}
-				else
-					$leyenda="Comparte con nuestra comunidad sobre el tema que quieras";
-		
-		?>
-	
-    
-    	<form name="form1" method="get" action="conversaciones/publicar.php">
-    
-	 <input name="titulo_conversacion" class="arial15Negro" type="text" id="titulo_conversacion" maxlength="150" value="<? echo $leyenda ?>" onFocus="manejoConversa(this,'adentro','<? echo $leyenda ?>')" onBlur="manejoConversa(this,'afuera','<? echo $leyenda ?>')" style="width:520px; font-weight:bold;" > <input type="submit" name="button3" id="button3" value="Compartir" class="arial15Negro" style="font-weight:bold;">
-     
-     <input type="hidden" name="categoria_conversacion" id="categoria_conversacion" value="<? echo $categoria->id ?>">
-    	</form>
-
-</div>   
+			}
+			
+			
+			?>
+         
+         </div>
+         </div>
+         
+  			
   
         <div>  
           <?
-            
+		  	
+			
 			if (isset($anuncios))
 			{
 				$medio=intval(31/2);

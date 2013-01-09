@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<form name="form1" method="post" action="recomendarAmigo2.php">
+<form name="Forma_Contacto" method="post" action="recomendarAmigo2.php">
 
 <table width="350" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-bottom:15px; margin-top:20px; border-bottom-style:solid; border-bottom-color:#CCC; border-bottom-width:1px;">
     <tr>
@@ -25,12 +25,12 @@
     </tr>
     <tr>
       <td align="left" class="arial13Negro">E-mail de tu amigo: </td>
-      <td><input name="email_amigo" type="text" size="30" id="email_amigo"></td>
+      <td><input name="tu_email" type="text" size="30" id="tu_email"></td>
     </tr>
   </table>
   <table width="350" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:5px;">
     <tr>
-      <td style="padding-top:5px;" align="left"><input type="submit" name="Submit" value="Enviar recomendaci&oacute;n"></td>
+      <td style="padding-top:5px;" align="left"><input type="button" name="button" value="Enviar recomendaci&oacute;n" id="button"  onClick="validarRecomendacion()"></td>
     </tr>
   </table>
 </form>

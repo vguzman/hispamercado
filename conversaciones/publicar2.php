@@ -32,6 +32,11 @@
 		
 		$aux="INSERT INTO Conversacion VALUES (".$id_nuevo.",'".$verificacion."',".$id_usuario.",".trim($_POST['categoria']).",NOW(),'".trim($_POST['titulo'])."','".trim($_POST['content'])."',".$noti.",1)";
 		operacionSQL($aux);
+		
+		$usuario_aux=new Usuario($id_usuario);
+		$usuario_aux->puntosOperacion("conversacion",$id_nuevo,5,0);
+		
+		
 	}
 	else
 	{

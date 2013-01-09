@@ -302,9 +302,15 @@
 			'/me/feed/', 'post' ,
 			array('access_token' => $usuario->fb_token, 'message' => "Mira el anuncio que acabo de publicar en Hispamercado!" , 'link' => 'http://www.hispamercado.com.ve/'.$anuncio->armarEnlace() , 'picture' => 'http://www.hispamercado.com.ve/lib/img.php?tipo=real&anuncio='.$anuncio->id.'&foto=1' ) 
 			);
-		
-		
 		}
+		
+		
+		//CREANDO LOS PUNTOS
+		$usuario->puntosOperacion("anuncio",$anuncio->id,5,0);
+	
+	
+	
+	
 	}
 	
 	
@@ -314,6 +320,8 @@
 	
 	
 	$anuncio->revisarCiudad();
+	
+	
 
 ?>
 
@@ -331,6 +339,7 @@
 <LINK REL="stylesheet" TYPE="text/css" href="../lib/css/basicos.css">
 
 <link href="../lib/facebox/src/facebox.css" media="screen" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="../lib/js/basicos.js"> </script>
 <script src="../lib/facebox/lib/jquery.js" type="text/javascript"></script>
 <script src="../lib/facebox/src/facebox.js" type="text/javascript"></script>
 
@@ -351,41 +360,49 @@ jQuery(document).ready(function($) {
 
 <title>Publicar anuncio clasificado gratis en Venezuela</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<body>
+<body onLoad="<? if ($id_usuario!="NULL") echo "callFaceboxPuntos('../puntosGanados.php?puntos=5')" ?>">
 
 <div id="wrapper">
  <div id="header">
-
-<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="..//"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0" /></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
-    <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
-      <?
+   <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+     <tr>
+       <td width="730" align="left" valign="top" ><div style="width:100%;"> <a href="..//"><img src="../img/logo_original.jpg" alt="" width="360" height="58" border="0" /></a> <span class="arial15Mostaza"><strong><em>Anuncios Clasificados en Venezuela</em></strong></span></div></td>
+       <td width="270" valign="top" align="right"><div class="arial13Negro" <? if ($sesion==false) echo 'style="display:none"' ?>>
+         <?
 	
 	if ($sesion!=false)
 		$user=new Usuario($sesion);
 	
 	
 	 ?>
-      <table width="270" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="40" align="left"><? echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
-          <td width="230" align="left" ><strong><? echo $user->nombre ?>&nbsp;&nbsp;&nbsp;</strong><a href="../cuenta/index.php?d=<? echo time() ?>&amp;path=../" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
-        </tr>
-      </table>
-    </div>
-      <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
-        <div style="width:160px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
-          <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede con Facebook</a></div>
-        </div>
-        <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
-      </div></td>
-  </tr>
-</table>
-<div style="margin-top:50px;">
+         <table width="270" border="0" cellspacing="0" cellpadding="0">
+           <tr>
+             <td width="40" align="left"><? if (isset($user)) echo "<img src='https://graph.facebook.com/".$user->fb_nick."/picture' width='30' heigth='30' />" ?></td>
+             <td width="230" align="left" ><strong>
+               <? if (isset($user)) echo $user->nombre ?>
+               &nbsp;&nbsp;&nbsp;</strong><a href="../cuenta/index.php?d=<? echo time() ?>&amp;path=../" rel="facebox" class="LinkFuncionalidad13">Mi cuenta</a>&nbsp;&nbsp;<a href="../closeSession.php" class="LinkFuncionalidad13">Salir</a></td>
+           </tr>
+         </table>
+         <table width="270" border="0" cellspacing="0" cellpadding="0">
+           <tr>
+             <td  align="right" class="arial11Mostaza" style=" padding-right:38px;">&iexcl;Tienes
+               <? if (isset($user)) echo $user->puntos() ?>
+               puntos acumulados!</td>
+           </tr>
+         </table>
+       </div>
+         <div <? if ($sesion!=false) echo 'style="display:none"' ?>>
+           <div style="width:210px; height:26px; float:right; background-image:url(../img/fondo_fb.png); background-repeat:repeat;" align="left">
+             <div style="margin-top:5px; margin-left:8px;"><a href="javascript:loginFB(<? echo "'https://www.facebook.com/dialog/oauth?client_id=119426148153054&redirect_uri=".urlencode("http://www.hispamercado.com.ve/registro.php")."&scope=email,publish_stream&state=".$_SESSION['state']."&display=popup'" ?>)" class="LinkBlanco13">Accede/Reg&iacute;strate con Facebook</a></div>
+           </div>
+           <div style="width:26px; height:26px; float:right; background-image:url(../img/icon_facebook.png); background-repeat:no-repeat;"></div>
+         </div></td>
+     </tr>
+   </table>
+   <div style="margin-top:50px;">
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="../gestionAnuncio.php" class="LinkFuncionalidad17">Gestionar mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../tiendas/" class="LinkFuncionalidad17">Tiendas</a></td>
+      <td align="right" valign="bottom" class="arial13Gris" style="padding:3px;"><a href="../gestionAnuncio.php" class="LinkFuncionalidad17">Mis anuncios</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../conversaciones/" class="LinkFuncionalidad17">Conversaciones</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../tiendas/" class="LinkFuncionalidad17">Tiendas</a>&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="../programa-de-puntos.php" class="LinkNaranja15">Programa de puntos</a></strong></td>
     </tr>
   </table>
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -448,6 +465,10 @@ jQuery(document).ready(function($) {
 
 <div id="content">
 
+<div id="hidden_clicker" style="display:none;"> 
+	<a id="hiddenclicker" href="http://asdf.com" rel="facebox" >Hidden Clicker</a>
+</div> 
+
 
 <div style="visibility:hidden; display:none;"> <img src="../img/bigrotation2.gif" width="32" height="32" ></div>
 <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F4F9E8" style=" border-style:solid; border-color:#999; border-width:1px; margin-top:50px;" >
@@ -455,7 +476,11 @@ jQuery(document).ready(function($) {
           <td align="left" class="arial13Negro" style="padding:15px;">
           
           <p><strong>&iexcl;Felicidades!</strong> <strong>Tu anuncio fue recibido correctamente</strong>
-          <? if (($id_usuario=="NULL")&&(mysql_num_rows($query9)==0)) echo "<br>Ahora solo debes activarlo ingresando al link que enviamos a tu e-mail</p>" ?>
+          <? if (($id_usuario=="NULL")&&(mysql_num_rows($query9)==0)) echo "<br>Ahora solo debes activarlo ingresando al link que enviamos a tu e-mail</p>";
+		  		
+			 
+			 
+		?>
             
           <p>Podras ver publicado tu anuncio en el siguiente link: <a href="http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?>">http://www.hispamercado.com.ve/anuncio/?id=<? echo $id_anuncio ?></a></p>
           

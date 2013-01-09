@@ -1,7 +1,13 @@
 <?
-	session_start();
-	
 	include "../lib/class.php";	
+
+	$sesion=checkSession();
+	if ($sesion!=false)
+		$id_usuario=$sesion;
+	else
+		$id_usuario="NULL";
+	
+	
 	
 	$id_anuncio=$_POST['id_anuncio'];
 	$anuncio=new Anuncio($id_anuncio);
@@ -33,22 +39,30 @@
 	
 	_______<br><a href='http://".$_SERVER['HTTP_HOST']."'>Hispamercado ".$pais->nombre."</a><br>¡Tu Clasificado GRATIS en 1 minuto!";
 	
-	$resul=email("Hispamercado",$_POST['tu_email'],$anuncio->anunciante_nombre,$anuncio->anunciante_email,"Has recibido un mensaje sobre tu anuncio",$contenido);
+	email("Hispamercado",$_POST['tu_email'],$anuncio->anunciante_nombre,$anuncio->anunciante_email,"Has recibido un mensaje sobre tu anuncio",$contenido);
 
+	$query=operacionSQL("SELECT MAX(id) FROM AnuncioMensaje");
+	$nuevo_id=mysql_result($query,0,0)+1;
 
+	operacionSQL("INSERT INTO AnuncioMensaje VALUES (".$nuevo_id.",".$id_anuncio.",'".$_POST['tu_nombre']."','".$_POST['tu_email']."','".$_POST['comentario']."',NOW())");
+	
+	//SACANDO ID DE NUEVO COMENTARIO
+	if ($id_usuario!="NULL")
+	{
+		$usuario_aux=new Usuario($id_usuario);
+		$usuario_aux->puntosOperacion("mensaje_anuncio",$nuevo_id,2,0);
+		
+		$_SESSION['puntos']=2;
+		$_SESSION['puntos_tipo']="mensaje";
+	}
+	
+	
 
-	operacionSQL("INSERT INTO AnuncioMensaje VALUES (null,".$id_anuncio.",'".$_POST['tu_nombre']."','".$_POST['tu_email']."','".$_POST['comentario']."',NOW())");
-
-	if ($resul==1)
-		echo "<script type='text/javascript'>
+	echo "<script type='text/javascript'>
 			window.alert('Tu mensaje ha sido enviado exitosamente');
 			document.location.href='index.php?id=".$id_anuncio."';
 		</script>";
-	else
-		echo "<script type='text/javascript'>
-			window.alert('Ha ocurrido un problema, intente mas tarde');
-			document.location.href='index.php?id=".$id_anuncio."';
-		</script>";
+	
 
 ?>
 
