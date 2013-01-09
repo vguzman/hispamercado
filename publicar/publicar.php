@@ -127,7 +127,8 @@
 	}
 	
 	
-	
+	$_SESSION['puntos']=5;
+	$_SESSION['puntos_tipo']=5;
 	
 	
 	$precio=str_replace(",",".",$precio);
@@ -360,7 +361,20 @@ jQuery(document).ready(function($) {
 
 <title>Publicar anuncio clasificado gratis en Venezuela</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<body onLoad="<? if ($id_usuario!="NULL") echo "callFaceboxPuntos('../puntosGanados.php?puntos=5')" ?>">
+
+
+<body onLoad="<?
+if (isset($_SESSION['puntos'])) 
+{
+	echo "callFaceboxPuntos('../puntosGanados.php?puntos=".$_SESSION['puntos']."&tipo=".$_SESSION['puntos_tipo']."')";
+	unset($_SESSION['puntos']);
+	unset($_SESSION['puntos_tipo']);
+}
+?>">
+<div id="hidden_clicker" style="display:none;"> 
+	<a id="hiddenclicker" href="http://asdf.com" rel="facebox" >Hidden Clicker</a>
+</div> 
+
 
 <div id="wrapper">
  <div id="header">
