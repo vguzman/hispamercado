@@ -128,7 +128,7 @@
 	
 	
 	$_SESSION['puntos']=5;
-	$_SESSION['puntos_tipo']=5;
+	$_SESSION['puntos_tipo']="anuncio";
 	
 	
 	$precio=str_replace(",",".",$precio);
