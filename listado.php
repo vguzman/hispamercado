@@ -1288,26 +1288,7 @@ if (isset($_SESSION['puntos']))
   		  <?
 		  
 		  
-		  
-		  if (isset($anuncios))
-			{
-			
-				$primero=$factor*($parte-1);
-				$ultimo=$primero+$factor;
-				
-				if ($ultimo>count($anuncios))
-					$ultimo=count($anuncios);	
-					
-					
-				echo ($primero+1)." - ".$ultimo. " de ".count($anuncios);
-			
-			}
-			
-			//echo "****".$primero."***";
-		  
-		  
-		  
-	if ((isset($anuncios))&&($primero==0))
+	if ((isset($anuncios))&&($parte==1))
 	{
 		$z=0;
 		$destacados=array();
@@ -1324,7 +1305,8 @@ if (isset($_SESSION['puntos']))
 			 	$z++;
 				
 				
-				unset($anuncios[$buscar]);	
+				unset($anuncios[$buscar]);
+				$anuncios=array_values($anuncios);	
 			 }
 			 
 			 if ($anuncios[0]==$elemento)
@@ -1357,7 +1339,8 @@ if (isset($_SESSION['puntos']))
 				$destacados[$z]=$elemento;
 			 	$z++;
 				
-				unset($anuncios[$buscar]);	
+				unset($anuncios[$buscar]);
+				$anuncios=array_values($anuncios);
 			 }
 			 
 			 if ($anuncios[0]==$elemento)
@@ -1377,6 +1360,21 @@ if (isset($_SESSION['puntos']))
 		  
 			$anuncios=array_values($anuncios);
 	}  
+	
+	
+	if (isset($anuncios))
+	{
+			
+		$primero=$factor*($parte-1);
+		$ultimo=$primero+$factor;
+				
+		if ($ultimo>count($anuncios))
+			$ultimo=count($anuncios);	
+					
+					
+		echo ($primero+1)." - ".$ultimo. " de ".count($anuncios);
+			
+	}
 		  
 	
 	?>
