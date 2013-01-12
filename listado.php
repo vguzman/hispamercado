@@ -1411,7 +1411,7 @@ if (isset($_SESSION['puntos']))
         <div <? if (!((isset($anuncios))&&($primero==0))) echo 'style=" display:none;"'; ?>>
         <div style="margin:0 auto 0 auto; width:642px; padding:8px; height:20px; background-color:#D8E8AE;" class="arial15Negro">
         
-        	<span style="float:left;"><strong>Anuncios mas destacados</strong></span>         
+        	<span style="float:left;"><strong>Anuncios  destacados</strong></span>         
         	<span style="float:right;"><a href="programa-de-puntos.php" class="LinkFuncionalidad15"><strong>¿Quieres destacar tus anuncios?</strong></a></span>
             
             

@@ -98,15 +98,15 @@
 			$accion='<a href="javascript:accionAnuncio('.chr(39).'finalizar'.chr(39).','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad13"><img src="../img/delete-icon.png" width="19" height="19" border="0" /> Finalizar</a>';
 			
 			
-			if ($anuncio->destacado()==false)
+			$leyenda_destacado='';
+			if (($anuncio->destacado()==false)&&(($anuncio->id_categoria!=160)&&($anuncio->id_categoria!=164)&&($anuncio->id_categoria!=165)&&($anuncio->id_categoria!=3820)))
 			{
 				$accion.=' &nbsp;&nbsp;&nbsp;  <a href="javascript:destacarAnuncio('.$anuncio->id.','.chr(39).$anuncio->codigo_verificacion.chr(39).')" class="LinkFuncionalidad13"><img src="../img/chart-icon.png" width="19" height="19" border="0" />Destacar</a>';
 				$leyenda_destacado='';
 			}
-			else
+			if ($anuncio->destacado()==true)
 				$leyenda_destacado='<img src="../img/chart-icon.png" width="19" height="19" border="0" /> <strong>Anuncio destacado</strong>';
-			
-			
+					
 			
 		}
 		if ($anuncio->status_general=="Inactivo")
