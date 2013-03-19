@@ -49,6 +49,11 @@ Este anuncio carece de sentido</span></td>
       <label for="comentario"></label>
       <textarea name="comentario" cols="40" rows="3" id="comentario"></textarea></td>
   </tr>
+  <tr>
+    <td class="arial13Negro" style="padding:10px;">C&oacute;digo anti-spam<br><img id="captcha" src="../lib/securimage/securimage_show.php" alt="Codigo de validacion" /> <br>
+      <input type="text" name="captcha_code" size="10" maxlength="6" />
+      <a href="#" onclick="document.getElementById('captcha').src = '../lib/securimage/securimage_show.php?' + Math.random(); return false"><img src="../img/refresh_captcha.gif" alt="Refrescar imagen" border="0" /></a></td>
+  </tr>
 </table>
 <table width="350" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:5px;">
     <tr>

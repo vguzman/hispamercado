@@ -2,6 +2,30 @@
 	session_start();
 	include "../lib/class.php";	
 	
+	
+	
+	
+	
+	$id_anuncio=$_POST['id_anuncio'];
+	
+	
+	
+	
+	//VALIDACION DEL CAPTCHA
+	include_once '../lib/securimage/securimage.php';
+	$securimage = new Securimage();
+	if ($securimage->check($_POST['captcha_code']) == false)
+	{
+		echo "<script type='text/javascript'>
+			window.alert('El codigo de seguridad ingresado no es valido');
+			document.location.href='index.php?id=".$id_anuncio."';
+		</script>";
+		exit;
+	}
+	
+	
+	
+	
 	$anuncio=new Anuncio($_POST['id_anuncio']);
 	
 	$contenido="<a href='http://www.hispamercado.com.ve/".$anuncio->armarEnlace()."'>http://www.hispamercado.com.ve/".$anuncio->armarEnlace()."</a><br><br>".$_POST['porque']."<br><br>".$_POST['comentario'];
