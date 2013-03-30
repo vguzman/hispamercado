@@ -545,7 +545,7 @@ if (isset($_SESSION['puntos']))
   
   	<?
 	
-				/*if (((isset($_GET['id_cat']))&&($_GET['id_cat']!=160)&&($_GET['id_cat']!=164)&&($_GET['id_cat']!=165)&&($_GET['id_cat']!=3820))||(isset($_GET['id_cat'])==false))
+				if (((isset($_GET['id_cat']))&&($_GET['id_cat']!=160)&&($_GET['id_cat']!=164)&&($_GET['id_cat']!=165)&&($_GET['id_cat']!=3820))||(isset($_GET['id_cat'])==false))
 					echo '<div id="ad_top" style="margin:0 auto 0 auto; width:800px; margin-top:20px;">
 					<script type="text/javascript"><!--
 						google_ad_client = "ca-pub-8563690485788309";
@@ -557,7 +557,7 @@ if (isset($_SESSION['puntos']))
 						<script type="text/javascript"
 						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 						</script>
-					</div>';*/
+					</div>';
 	
 	
 	?>
