@@ -764,7 +764,22 @@ if (isset($_SESSION['puntos']))
 						<script type="text/javascript"
 						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 						</script>
-						</div>';		
+						</div>
+						
+						<div style="margin-top:20px; width:300px; margin-left:20px;">
+						<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8563690485788309";
+						/* Rectangulo para listado */
+						google_ad_slot = "3231821057";
+						google_ad_width = 300;
+						google_ad_height = 250;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
+					</div>
+						';		
 
 	
 	?>
