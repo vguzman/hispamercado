@@ -292,24 +292,7 @@ if (isset($_SESSION['puntos']))
   </div>
   
   
-  	<?
-	
-				if (($anuncio->id_categoria!=160)&&($anuncio->id_categoria!=164)&&($anuncio->id_categoria!=165)&&($anuncio->id_categoria!=3820))	
-					echo '<div id="ad_top" style="margin:0 auto 0 auto; width:800px; margin-top:20px;">
-					<script type="text/javascript"><!--
-						google_ad_client = "ca-pub-8563690485788309";
-						google_ad_slot = "3887529851";
-						google_ad_width = 728;
-						google_ad_height = 90;
-						//-->
-						</script>
-						<script type="text/javascript"
-						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-						</script>
-					</div>';
-
-	
-	?>
+  	
   
   
   
@@ -370,7 +353,33 @@ if (isset($_SESSION['puntos']))
 	  ?></td>
     </tr>
   </table>
+  
+  
+  
+  
   </div>
+  
+  
+  <?
+	
+				if (($anuncio->id_categoria!=160)&&($anuncio->id_categoria!=164)&&($anuncio->id_categoria!=165)&&($anuncio->id_categoria!=3820))	
+					echo '<div style="text-align:center; margin-top:40px;">
+					<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8563690485788309";
+						/* Banner Listado Y Anuncio Superior */
+						google_ad_slot = "9417955450";
+						google_ad_width = 728;
+						google_ad_height = 90;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script></div>';
+
+	
+	?>
+
+  
   <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top:25px;">
 
     <tr>
@@ -674,8 +683,12 @@ if (isset($_SESSION['puntos']))
     </tr>
     </table> 
 
-      
-      </td>
+     
+     
+     
+     
+     
+           </td>
       <td width="300" valign="top">
       
       <div style="background-color:#D8E8AE; padding-top:5px; padding-bottom:5px; padding-left:5px; width:300px; margin-left:20px; margin-top:60px;"><strong><span class="arial15Negro">Anuncios relacionados</span></strong></div>
@@ -690,8 +703,8 @@ if (isset($_SESSION['puntos']))
 			$anuncios=$resul['anuncios'];
 				
 				
-			if (count($anuncios)>10)
-				$top=10;
+			if (count($anuncios)>5)
+				$top=5;
 			else
 				$top=count($anuncios);
 			for ($i=0;$i<$top;$i++)
@@ -733,6 +746,28 @@ if (isset($_SESSION['puntos']))
         
       </div>
       
+      
+      
+      <?
+	
+				if (($anuncio->id_categoria!=160)&&($anuncio->id_categoria!=164)&&($anuncio->id_categoria!=165)&&($anuncio->id_categoria!=3820))	
+					echo '
+					<div style="margin-top:20px; width:300px; margin-left:20px;">
+					<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8563690485788309";
+						/* Links Texto barra vertical listado */
+						google_ad_slot = "4987755851";
+						google_ad_width = 300;
+						google_ad_height = 600;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
+						</div>';		
+
+	
+	?>
       </td>
     </tr>
   </table>
