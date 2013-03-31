@@ -752,21 +752,8 @@ if (isset($_SESSION['puntos']))
 	
 				if (($anuncio->id_categoria!=160)&&($anuncio->id_categoria!=164)&&($anuncio->id_categoria!=165)&&($anuncio->id_categoria!=3820))	
 					echo '
+					
 					<div style="margin-top:20px; width:300px; margin-left:20px;">
-					<script type="text/javascript"><!--
-						google_ad_client = "ca-pub-8563690485788309";
-						/* Links Texto barra vertical listado */
-						google_ad_slot = "4987755851";
-						google_ad_width = 300;
-						google_ad_height = 600;
-						//-->
-						</script>
-						<script type="text/javascript"
-						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-						</script>
-						</div>
-						
-						<div style="margin-top:20px; width:300px; margin-left:20px;">
 						<script type="text/javascript"><!--
 						google_ad_client = "ca-pub-8563690485788309";
 						/* Rectangulo para listado */
@@ -779,7 +766,21 @@ if (isset($_SESSION['puntos']))
 						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 						</script>
 					</div>
-						';		
+					
+					
+					<div style="margin-top:20px; width:300px; margin-left:20px;">
+					<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8563690485788309";
+						/* Links Texto barra vertical listado */
+						google_ad_slot = "4987755851";
+						google_ad_width = 300;
+						google_ad_height = 600;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
+						</div>';		
 
 	
 	?>
